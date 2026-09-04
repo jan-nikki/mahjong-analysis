@@ -1,8 +1,9 @@
+from copy import deepcopy
 from pathlib import Path
 
 import pytest
 
-from mahjong_analysis.mjai import load_mjai, split_kyoku
+from mahjong_analysis.mjai import filter_east_kyokus, load_mjai, split_kyoku
 
 
 TEST_DATA_DIR = Path(__file__).parent / "data"
@@ -157,3 +158,81 @@ def test_split_kyoku_rejects_game_boundary_inside_kyoku(
 def test_split_kyoku_rejects_non_game_event_outside_kyoku() -> None:
     with pytest.raises(ValueError, match="tsumo"):
         split_kyoku([{"type": "tsumo", "actor": 0, "pai": "1m"}])
+
+
+def artificial_kyoku(
+    bakaze: str,
+    kyoku: int,
+    honba: int = 0,
+) -> list[dict[str, object]]:
+    return [
+        {
+            "type": "start_kyoku",
+            "bakaze": bakaze,
+            "kyoku": kyoku,
+            "honba": honba,
+        },
+        {"type": "tsumo", "actor": 0, "pai": "1m"},
+        {"type": "end_kyoku"},
+    ]
+
+
+def test_filter_east_kyokus_returns_east_kyoku() -> None:
+    east = artificial_kyoku("E", 1)
+
+    assert filter_east_kyokus([east]) == [east]
+
+
+def test_filter_east_kyokus_excludes_south_kyoku() -> None:
+    south = artificial_kyoku("S", 1)
+
+    assert filter_east_kyokus([south]) == []
+
+
+def test_filter_east_kyokus_excludes_west_kyoku() -> None:
+    west = artificial_kyoku("W", 1)
+
+    assert filter_east_kyokus([west]) == []
+
+
+def test_filter_east_kyokus_includes_east_one_through_four() -> None:
+    east_kyokus = [artificial_kyoku("E", number) for number in range(1, 5)]
+
+    assert filter_east_kyokus(east_kyokus) == east_kyokus
+
+
+def test_filter_east_kyokus_includes_east_renchan() -> None:
+    renchan_kyokus = [artificial_kyoku("E", 2, honba) for honba in range(3)]
+
+    assert filter_east_kyokus(renchan_kyokus) == renchan_kyokus
+
+
+def test_filter_east_kyokus_preserves_kyoku_order() -> None:
+    east_four = artificial_kyoku("E", 4)
+    south_one = artificial_kyoku("S", 1)
+    east_two = artificial_kyoku("E", 2)
+    west_one = artificial_kyoku("W", 1)
+    east_three = artificial_kyoku("E", 3)
+
+    filtered = filter_east_kyokus(
+        [east_four, south_one, east_two, west_one, east_three]
+    )
+
+    assert filtered == [east_four, east_two, east_three]
+
+
+def test_filter_east_kyokus_does_not_change_kyoku_events() -> None:
+    east = artificial_kyoku("E", 1)
+    original_events = deepcopy(east)
+
+    filtered = filter_east_kyokus([east])
+
+    assert filtered[0] is east
+    assert filtered[0] == original_events
+
+
+def test_filter_east_kyokus_rejects_missing_bakaze() -> None:
+    kyoku = [[{"type": "start_kyoku"}, {"type": "end_kyoku"}]]
+
+    with pytest.raises(KeyError, match="bakaze"):
+        filter_east_kyokus(kyoku)
