@@ -4,6 +4,7 @@ from pathlib import Path
 import pytest
 
 from mahjong_analysis.mjai import (
+    classify_dealer_double_riichi_result,
     extract_rule_code,
     filter_east_kyokus,
     is_dealer_double_riichi,
@@ -358,6 +359,13 @@ def dealer_double_riichi_kyoku(
     ]
 
 
+def dealer_double_riichi_result_kyoku(
+    *result_events: dict[str, object],
+) -> list[dict[str, object]]:
+    kyoku = dealer_double_riichi_kyoku()
+    return [*kyoku[:-1], *result_events, kyoku[-1]]
+
+
 def test_is_dealer_double_riichi_accepts_first_tedashi() -> None:
     assert is_dealer_double_riichi(dealer_double_riichi_kyoku()) is True
 
@@ -539,3 +547,156 @@ def test_is_dealer_double_riichi_rejects_end_after_reach_dahai() -> None:
 
     with pytest.raises(ValueError, match="followed by an event"):
         is_dealer_double_riichi(kyoku)
+
+
+def test_classify_dealer_double_riichi_result_returns_dealer_win_for_tsumo(
+) -> None:
+    kyoku = dealer_double_riichi_result_kyoku(
+        {
+            "type": "hora",
+            "actor": 0,
+            "target": 0,
+            "deltas": [12000, -4000, -4000, -4000],
+        }
+    )
+
+    assert classify_dealer_double_riichi_result(kyoku) == "dealer_win"
+
+
+def test_classify_dealer_double_riichi_result_returns_dealer_win_for_ron(
+) -> None:
+    kyoku = dealer_double_riichi_result_kyoku(
+        {"type": "hora", "actor": 0, "target": 2}
+    )
+
+    assert classify_dealer_double_riichi_result(kyoku) == "dealer_win"
+
+
+def test_classify_dealer_double_riichi_result_returns_other_win_for_tsumo(
+) -> None:
+    kyoku = dealer_double_riichi_result_kyoku(
+        {"type": "hora", "actor": 1, "target": 1}
+    )
+
+    assert classify_dealer_double_riichi_result(kyoku) == "other_win"
+
+
+def test_classify_dealer_double_riichi_result_returns_other_win_for_dealer_deal_in(
+) -> None:
+    kyoku = dealer_double_riichi_result_kyoku(
+        {"type": "hora", "actor": 1, "target": 0}
+    )
+
+    assert classify_dealer_double_riichi_result(kyoku) == "other_win"
+
+
+def test_classify_dealer_double_riichi_result_returns_other_win_for_other_deal_in(
+) -> None:
+    kyoku = dealer_double_riichi_result_kyoku(
+        {
+            "type": "hora",
+            "actor": 1,
+            "target": 2,
+            "deltas": [0, 3900, -3900, 0],
+        }
+    )
+
+    assert classify_dealer_double_riichi_result(kyoku) == "other_win"
+
+
+def test_classify_dealer_double_riichi_result_returns_draw_for_ryukyoku() -> None:
+    kyoku = dealer_double_riichi_result_kyoku(
+        {"type": "ryukyoku", "deltas": [0, 0, 0, 0]}
+    )
+
+    assert classify_dealer_double_riichi_result(kyoku) == "draw"
+
+
+def test_classify_dealer_double_riichi_result_returns_other_win_for_multiple_hora(
+) -> None:
+    kyoku = dealer_double_riichi_result_kyoku(
+        {"type": "hora", "actor": 1, "target": 3},
+        {"type": "hora", "actor": 2, "target": 3},
+    )
+
+    assert classify_dealer_double_riichi_result(kyoku) == "other_win"
+
+
+def test_classify_dealer_double_riichi_result_checks_every_hora_for_dealer(
+) -> None:
+    kyoku = dealer_double_riichi_result_kyoku(
+        {"type": "hora", "actor": 1, "target": 2},
+        {"type": "hora", "actor": 0, "target": 2},
+    )
+
+    assert classify_dealer_double_riichi_result(kyoku) == "dealer_win"
+
+
+def test_classify_dealer_double_riichi_result_rejects_missing_result() -> None:
+    with pytest.raises(ValueError, match="no hora or ryukyoku"):
+        classify_dealer_double_riichi_result(dealer_double_riichi_kyoku())
+
+
+def test_classify_dealer_double_riichi_result_rejects_hora_and_ryukyoku() -> None:
+    kyoku = dealer_double_riichi_result_kyoku(
+        {"type": "hora", "actor": 0},
+        {"type": "ryukyoku"},
+    )
+
+    with pytest.raises(ValueError, match="cannot coexist"):
+        classify_dealer_double_riichi_result(kyoku)
+
+
+def test_classify_dealer_double_riichi_result_rejects_multiple_ryukyoku() -> None:
+    kyoku = dealer_double_riichi_result_kyoku(
+        {"type": "ryukyoku"},
+        {"type": "ryukyoku"},
+    )
+
+    with pytest.raises(ValueError, match="multiple ryukyoku"):
+        classify_dealer_double_riichi_result(kyoku)
+
+
+def test_classify_dealer_double_riichi_result_rejects_event_after_hora() -> None:
+    kyoku = dealer_double_riichi_result_kyoku(
+        {"type": "hora", "actor": 0},
+        {"type": "tsumo", "actor": 1, "pai": "3m"},
+    )
+
+    with pytest.raises(ValueError, match="contiguous"):
+        classify_dealer_double_riichi_result(kyoku)
+
+
+def test_classify_dealer_double_riichi_result_rejects_event_after_ryukyoku() -> None:
+    kyoku = dealer_double_riichi_result_kyoku(
+        {"type": "ryukyoku"},
+        {"type": "tsumo", "actor": 1, "pai": "3m"},
+    )
+
+    with pytest.raises(ValueError, match="contiguous"):
+        classify_dealer_double_riichi_result(kyoku)
+
+
+def test_classify_dealer_double_riichi_result_rejects_missing_end_kyoku() -> None:
+    kyoku = dealer_double_riichi_result_kyoku(
+        {"type": "hora", "actor": 0}
+    )
+    kyoku.pop()
+
+    with pytest.raises(ValueError, match="end_kyoku"):
+        classify_dealer_double_riichi_result(kyoku)
+
+
+def test_classify_dealer_double_riichi_result_accepts_contiguous_multiple_hora(
+) -> None:
+    kyoku = dealer_double_riichi_result_kyoku(
+        {"type": "hora", "actor": 2, "target": 3},
+        {"type": "hora", "actor": 1, "target": 3},
+    )
+
+    assert [event["type"] for event in kyoku[-3:]] == [
+        "hora",
+        "hora",
+        "end_kyoku",
+    ]
+    assert classify_dealer_double_riichi_result(kyoku) == "other_win"
