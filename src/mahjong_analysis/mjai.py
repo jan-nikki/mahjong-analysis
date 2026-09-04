@@ -1,8 +1,18 @@
 """MJAI log file loading utilities."""
 
 import json
+import re
 from os import PathLike
+from pathlib import Path
 from typing import Any
+
+
+_MJAI_FILENAME_PATTERN = re.compile(
+    r"^\d{10}gm-"
+    r"(?P<rule_code>[0-9a-f]{4})-"
+    r"(?P<room_code>[0-9a-f]{4})-"
+    r"(?P<game_id>[0-9a-f]{8})\.mjson$"
+)
 
 
 def load_mjai(path: str | PathLike[str]) -> list[dict[str, Any]]:
@@ -57,3 +67,37 @@ def filter_east_kyokus(
 ) -> list[list[dict[str, Any]]]:
     """Return east-round kyokus in their original order."""
     return [kyoku for kyoku in kyokus if kyoku[0]["bakaze"] == "E"]
+
+
+def extract_rule_code(path: str | PathLike[str]) -> str:
+    """Extract the rule code from a valid MJAI filename."""
+    filename = Path(path).name
+    match = _MJAI_FILENAME_PATTERN.fullmatch(filename)
+
+    if match is None:
+        raise ValueError(f"invalid MJAI filename: {filename}")
+
+    return match.group("rule_code")
+
+
+def is_target_game(
+    path: str | PathLike[str],
+    events: list[dict[str, Any]],
+) -> bool:
+    """Return whether an MJAI log is a target four-player red-five game."""
+    rule_code = extract_rule_code(path)
+
+    if not events:
+        raise ValueError("event list is empty")
+
+    start_game = events[0]
+    if start_game.get("type") != "start_game":
+        raise ValueError("first event must be start_game")
+    if "aka_flag" not in start_game:
+        raise ValueError("start_game is missing aka_flag")
+
+    aka_flag = start_game["aka_flag"]
+    if type(aka_flag) is not bool:
+        raise ValueError("start_game aka_flag must be bool")
+
+    return rule_code == "00a9" and aka_flag is True
