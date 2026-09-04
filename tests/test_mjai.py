@@ -3,10 +3,18 @@ from pathlib import Path
 
 import pytest
 
-from mahjong_analysis.mjai import filter_east_kyokus, load_mjai, split_kyoku
+from mahjong_analysis.mjai import (
+    extract_rule_code,
+    filter_east_kyokus,
+    is_target_game,
+    load_mjai,
+    split_kyoku,
+)
 
 
 TEST_DATA_DIR = Path(__file__).parent / "data"
+VALID_00A9_FILENAME = "2025010100gm-00a9-0000-1234abcd.mjson"
+VALID_00E1_FILENAME = "2025010100gm-00e1-0000-abcdef12.mjson"
 
 
 def test_load_mjai_preserves_event_order() -> None:
@@ -236,3 +244,94 @@ def test_filter_east_kyokus_rejects_missing_bakaze() -> None:
 
     with pytest.raises(KeyError, match="bakaze"):
         filter_east_kyokus(kyoku)
+
+
+def test_extract_rule_code_returns_00a9() -> None:
+    assert extract_rule_code(VALID_00A9_FILENAME) == "00a9"
+
+
+def test_extract_rule_code_returns_00e1() -> None:
+    assert extract_rule_code(VALID_00E1_FILENAME) == "00e1"
+
+
+def test_extract_rule_code_accepts_path_object() -> None:
+    path = Path("logs") / VALID_00A9_FILENAME
+
+    assert extract_rule_code(path) == "00a9"
+
+
+def test_extract_rule_code_rejects_invalid_filename() -> None:
+    with pytest.raises(ValueError, match="filename"):
+        extract_rule_code("invalid.mjson")
+
+
+def test_extract_rule_code_rejects_wrong_rule_code_length() -> None:
+    filename = "2025010100gm-0a9-0000-1234abcd.mjson"
+
+    with pytest.raises(ValueError, match="filename"):
+        extract_rule_code(filename)
+
+
+def test_extract_rule_code_rejects_extra_filename_component() -> None:
+    filename = "2025010100gm-00a9-extra-0000-1234abcd.mjson"
+
+    with pytest.raises(ValueError, match="filename"):
+        extract_rule_code(filename)
+
+
+def test_is_target_game_accepts_00a9_with_red_fives() -> None:
+    events = [{"type": "start_game", "aka_flag": True}]
+
+    assert is_target_game(VALID_00A9_FILENAME, events) is True
+
+
+def test_is_target_game_rejects_00e1() -> None:
+    events = [{"type": "start_game", "aka_flag": True}]
+
+    assert is_target_game(VALID_00E1_FILENAME, events) is False
+
+
+def test_is_target_game_rejects_game_without_red_fives() -> None:
+    events = [{"type": "start_game", "aka_flag": False}]
+
+    assert is_target_game(VALID_00A9_FILENAME, events) is False
+
+
+def test_is_target_game_rejects_empty_events() -> None:
+    with pytest.raises(ValueError, match="empty"):
+        is_target_game(VALID_00A9_FILENAME, [])
+
+
+def test_is_target_game_rejects_first_event_other_than_start_game() -> None:
+    events = [{"type": "start_kyoku", "aka_flag": True}]
+
+    with pytest.raises(ValueError, match="start_game"):
+        is_target_game(VALID_00A9_FILENAME, events)
+
+
+def test_is_target_game_rejects_missing_aka_flag() -> None:
+    events = [{"type": "start_game"}]
+
+    with pytest.raises(ValueError, match="aka_flag"):
+        is_target_game(VALID_00A9_FILENAME, events)
+
+
+def test_is_target_game_rejects_string_aka_flag() -> None:
+    events = [{"type": "start_game", "aka_flag": "true"}]
+
+    with pytest.raises(ValueError, match="bool"):
+        is_target_game(VALID_00A9_FILENAME, events)
+
+
+def test_is_target_game_rejects_integer_aka_flag() -> None:
+    events = [{"type": "start_game", "aka_flag": 1}]
+
+    with pytest.raises(ValueError, match="bool"):
+        is_target_game(VALID_00A9_FILENAME, events)
+
+
+def test_is_target_game_validates_aka_flag_for_non_target_rule() -> None:
+    events = [{"type": "start_game", "aka_flag": "true"}]
+
+    with pytest.raises(ValueError, match="bool"):
+        is_target_game(VALID_00E1_FILENAME, events)
