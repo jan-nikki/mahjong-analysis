@@ -50,3 +50,10 @@ def split_kyoku(
         raise ValueError("input ended before the current kyoku reached end_kyoku")
 
     return kyokus
+
+
+def filter_east_kyokus(
+    kyokus: list[list[dict[str, Any]]],
+) -> list[list[dict[str, Any]]]:
+    """Return east-round kyokus in their original order."""
+    return [kyoku for kyoku in kyokus if kyoku[0]["bakaze"] == "E"]
