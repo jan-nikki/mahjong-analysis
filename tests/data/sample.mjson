@@ -1,0 +1,4 @@
+{"type":"start_game","names":["テスト東家","テスト南家","テスト西家","テスト北家"]}
+{"type":"start_kyoku","bakaze":"E","kyoku":1,"honba":0,"kyotaku":0,"oya":0}
+{"type":"tsumo","actor":0,"pai":"1m"}
+{"type":"dahai","actor":0,"pai":"1m","tsumogiri":true}
