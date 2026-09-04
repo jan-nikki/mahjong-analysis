@@ -6,6 +6,7 @@ import pytest
 from mahjong_analysis.mjai import (
     extract_rule_code,
     filter_east_kyokus,
+    is_dealer_double_riichi,
     is_target_game,
     load_mjai,
     split_kyoku,
@@ -335,3 +336,206 @@ def test_is_target_game_validates_aka_flag_for_non_target_rule() -> None:
 
     with pytest.raises(ValueError, match="bool"):
         is_target_game(VALID_00E1_FILENAME, events)
+
+
+def dealer_double_riichi_kyoku(
+    *,
+    tsumogiri: bool = False,
+    bakaze: str = "E",
+) -> list[dict[str, object]]:
+    return [
+        {"type": "start_kyoku", "bakaze": bakaze, "oya": 0},
+        {"type": "tsumo", "actor": 0, "pai": "1m"},
+        {"type": "reach", "actor": 0},
+        {
+            "type": "dahai",
+            "actor": 0,
+            "pai": "1m" if tsumogiri else "2m",
+            "tsumogiri": tsumogiri,
+        },
+        {"type": "reach_accepted", "actor": 0},
+        {"type": "end_kyoku"},
+    ]
+
+
+def test_is_dealer_double_riichi_accepts_first_tedashi() -> None:
+    assert is_dealer_double_riichi(dealer_double_riichi_kyoku()) is True
+
+
+def test_is_dealer_double_riichi_accepts_first_tsumogiri() -> None:
+    kyoku = dealer_double_riichi_kyoku(tsumogiri=True)
+
+    assert is_dealer_double_riichi(kyoku) is True
+
+
+def test_is_dealer_double_riichi_rejects_dealer_later_reach() -> None:
+    kyoku = [
+        {"type": "start_kyoku", "oya": 0},
+        {"type": "tsumo", "actor": 0, "pai": "1m"},
+        {"type": "dahai", "actor": 0, "pai": "1m", "tsumogiri": True},
+        {"type": "tsumo", "actor": 0, "pai": "2m"},
+        {"type": "reach", "actor": 0},
+        {"type": "dahai", "actor": 0, "pai": "3m", "tsumogiri": False},
+        {"type": "reach_accepted", "actor": 0},
+        {"type": "end_kyoku"},
+    ]
+
+    assert is_dealer_double_riichi(kyoku) is False
+
+
+def test_is_dealer_double_riichi_rejects_child_first_reach() -> None:
+    kyoku = [
+        {"type": "start_kyoku", "oya": 0},
+        {"type": "tsumo", "actor": 0, "pai": "1m"},
+        {"type": "dahai", "actor": 0, "pai": "1m", "tsumogiri": True},
+        {"type": "tsumo", "actor": 1, "pai": "2m"},
+        {"type": "reach", "actor": 1},
+        {"type": "dahai", "actor": 1, "pai": "3m", "tsumogiri": False},
+        {"type": "reach_accepted", "actor": 1},
+        {"type": "end_kyoku"},
+    ]
+
+    assert is_dealer_double_riichi(kyoku) is False
+
+
+def test_is_dealer_double_riichi_rejects_ankan_before_reach() -> None:
+    kyoku = [
+        {"type": "start_kyoku", "oya": 0},
+        {"type": "tsumo", "actor": 0, "pai": "1m"},
+        {"type": "ankan", "actor": 0, "consumed": ["9m"] * 4},
+        {"type": "dora", "dora_marker": "1s"},
+        {"type": "tsumo", "actor": 0, "pai": "2m"},
+        {"type": "reach", "actor": 0},
+        {"type": "dahai", "actor": 0, "pai": "2m", "tsumogiri": True},
+        {"type": "reach_accepted", "actor": 0},
+        {"type": "end_kyoku"},
+    ]
+
+    assert is_dealer_double_riichi(kyoku) is False
+
+
+def test_is_dealer_double_riichi_rejects_unaccepted_reach_with_hora() -> None:
+    kyoku = [
+        {"type": "start_kyoku", "oya": 0},
+        {"type": "tsumo", "actor": 0, "pai": "1m"},
+        {"type": "reach", "actor": 0},
+        {"type": "dahai", "actor": 0, "pai": "2m", "tsumogiri": False},
+        {"type": "hora", "actor": 1, "target": 0},
+        {"type": "end_kyoku"},
+    ]
+
+    assert is_dealer_double_riichi(kyoku) is False
+
+
+def test_is_dealer_double_riichi_rejects_kyoku_without_dealer_reach() -> None:
+    kyoku = [
+        {"type": "start_kyoku", "oya": 0},
+        {"type": "tsumo", "actor": 0, "pai": "1m"},
+        {"type": "dahai", "actor": 0, "pai": "1m", "tsumogiri": True},
+        {"type": "end_kyoku"},
+    ]
+
+    assert is_dealer_double_riichi(kyoku) is False
+
+
+def test_is_dealer_double_riichi_ignores_chi_after_acceptance() -> None:
+    kyoku = dealer_double_riichi_kyoku()
+    kyoku.insert(
+        -1,
+        {"type": "chi", "actor": 2, "target": 1, "pai": "3m"},
+    )
+
+    assert is_dealer_double_riichi(kyoku) is True
+
+
+def test_is_dealer_double_riichi_ignores_pon_after_acceptance() -> None:
+    kyoku = dealer_double_riichi_kyoku()
+    kyoku.insert(
+        -1,
+        {"type": "pon", "actor": 2, "target": 1, "pai": "3m"},
+    )
+
+    assert is_dealer_double_riichi(kyoku) is True
+
+
+def test_is_dealer_double_riichi_rejects_event_between_reach_and_dahai() -> None:
+    kyoku = [
+        {"type": "start_kyoku", "oya": 0},
+        {"type": "reach", "actor": 0},
+        {"type": "tsumo", "actor": 1, "pai": "1m"},
+        {"type": "end_kyoku"},
+    ]
+
+    with pytest.raises(ValueError, match="followed by dahai"):
+        is_dealer_double_riichi(kyoku)
+
+
+def test_is_dealer_double_riichi_rejects_dahai_actor_mismatch() -> None:
+    kyoku = [
+        {"type": "start_kyoku", "oya": 0},
+        {"type": "reach", "actor": 0},
+        {"type": "dahai", "actor": 1, "pai": "1m", "tsumogiri": True},
+        {"type": "reach_accepted", "actor": 0},
+        {"type": "end_kyoku"},
+    ]
+
+    with pytest.raises(ValueError, match="dahai actors"):
+        is_dealer_double_riichi(kyoku)
+
+
+def test_is_dealer_double_riichi_rejects_accepted_actor_mismatch() -> None:
+    kyoku = [
+        {"type": "start_kyoku", "oya": 0},
+        {"type": "reach", "actor": 0},
+        {"type": "dahai", "actor": 0, "pai": "1m", "tsumogiri": True},
+        {"type": "reach_accepted", "actor": 1},
+        {"type": "end_kyoku"},
+    ]
+
+    with pytest.raises(ValueError, match="reach_accepted actors"):
+        is_dealer_double_riichi(kyoku)
+
+
+def test_is_dealer_double_riichi_returns_false_for_ryukyoku_after_later_reach() -> None:
+    kyoku = [
+        {"type": "start_kyoku", "oya": 0},
+        {"type": "tsumo", "actor": 0, "pai": "1m"},
+        {"type": "dahai", "actor": 0, "pai": "1m", "tsumogiri": True},
+        {"type": "tsumo", "actor": 0, "pai": "2m"},
+        {"type": "reach", "actor": 0},
+        {"type": "dahai", "actor": 0, "pai": "3m", "tsumogiri": False},
+        {"type": "ryukyoku", "deltas": [0, 0, 0, 0]},
+        {"type": "end_kyoku"},
+    ]
+
+    assert is_dealer_double_riichi(kyoku) is False
+
+
+def test_is_dealer_double_riichi_does_not_filter_by_bakaze() -> None:
+    kyoku = dealer_double_riichi_kyoku(bakaze="S")
+
+    assert is_dealer_double_riichi(kyoku) is True
+
+
+def test_is_dealer_double_riichi_rejects_tsumo_after_reach_dahai() -> None:
+    kyoku = [
+        {"type": "start_kyoku", "oya": 0},
+        {"type": "reach", "actor": 0},
+        {"type": "dahai", "actor": 0, "pai": "1m", "tsumogiri": True},
+        {"type": "tsumo", "actor": 1, "pai": "2m"},
+        {"type": "end_kyoku"},
+    ]
+
+    with pytest.raises(ValueError, match="reach_accepted, hora, or ryukyoku"):
+        is_dealer_double_riichi(kyoku)
+
+
+def test_is_dealer_double_riichi_rejects_end_after_reach_dahai() -> None:
+    kyoku = [
+        {"type": "start_kyoku", "oya": 0},
+        {"type": "reach", "actor": 0},
+        {"type": "dahai", "actor": 0, "pai": "1m", "tsumogiri": True},
+    ]
+
+    with pytest.raises(ValueError, match="followed by an event"):
+        is_dealer_double_riichi(kyoku)

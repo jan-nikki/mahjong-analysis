@@ -69,6 +69,50 @@ def filter_east_kyokus(
     return [kyoku for kyoku in kyokus if kyoku[0]["bakaze"] == "E"]
 
 
+def is_dealer_double_riichi(kyoku: list[dict[str, Any]]) -> bool:
+    """Return whether the dealer completed riichi on their first discard."""
+    dealer = kyoku[0]["oya"]
+    dealer_has_discarded = False
+    ankan_occurred = False
+
+    for index, event in enumerate(kyoku):
+        event_type = event["type"]
+
+        if event_type == "ankan":
+            ankan_occurred = True
+        elif event_type == "dahai" and event["actor"] == dealer:
+            dealer_has_discarded = True
+        elif event_type == "reach" and event["actor"] == dealer:
+            if index + 1 >= len(kyoku) or kyoku[index + 1]["type"] != "dahai":
+                raise ValueError("dealer reach must be followed by dahai")
+
+            dahai = kyoku[index + 1]
+            if dahai.get("actor") != dealer:
+                raise ValueError("dealer reach and dahai actors do not match")
+
+            if index + 2 >= len(kyoku):
+                raise ValueError("dealer reach dahai must be followed by an event")
+
+            event_after_dahai = kyoku[index + 2]
+            if event_after_dahai["type"] == "reach_accepted":
+                reach_accepted = event_after_dahai
+                if reach_accepted.get("actor") != dealer:
+                    raise ValueError(
+                        "dealer reach and reach_accepted actors do not match"
+                    )
+                return not dealer_has_discarded and not ankan_occurred
+
+            if event_after_dahai["type"] in {"hora", "ryukyoku"}:
+                return False
+
+            raise ValueError(
+                "dealer reach dahai must be followed by "
+                "reach_accepted, hora, or ryukyoku"
+            )
+
+    return False
+
+
 def extract_rule_code(path: str | PathLike[str]) -> str:
     """Extract the rule code from a valid MJAI filename."""
     filename = Path(path).name
