@@ -4,7 +4,7 @@ import json
 import re
 from os import PathLike
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 
 _MJAI_FILENAME_PATTERN = re.compile(
@@ -111,6 +111,44 @@ def is_dealer_double_riichi(kyoku: list[dict[str, Any]]) -> bool:
             )
 
     return False
+
+
+def classify_dealer_double_riichi_result(
+    kyoku: list[dict[str, Any]],
+) -> Literal["dealer_win", "other_win", "draw"]:
+    """Classify the result of an established dealer double-riichi kyoku."""
+    if not kyoku or kyoku[-1]["type"] != "end_kyoku":
+        raise ValueError("kyoku must end with end_kyoku")
+
+    dealer = kyoku[0]["oya"]
+    result_events: list[dict[str, Any]] = []
+    result_started = False
+
+    for event in kyoku[:-1]:
+        if event["type"] in {"hora", "ryukyoku"}:
+            result_events.append(event)
+            result_started = True
+        elif result_started:
+            raise ValueError(
+                "result events must be contiguous immediately before end_kyoku"
+            )
+
+    horas = [event for event in result_events if event["type"] == "hora"]
+    ryukyokus = [
+        event for event in result_events if event["type"] == "ryukyoku"
+    ]
+
+    if not result_events:
+        raise ValueError("kyoku has no hora or ryukyoku result")
+    if horas and ryukyokus:
+        raise ValueError("hora and ryukyoku cannot coexist in one kyoku")
+    if len(ryukyokus) > 1:
+        raise ValueError("kyoku cannot contain multiple ryukyoku events")
+    if ryukyokus:
+        return "draw"
+    if any(hora["actor"] == dealer for hora in horas):
+        return "dealer_win"
+    return "other_win"
 
 
 def extract_rule_code(path: str | PathLike[str]) -> str:
