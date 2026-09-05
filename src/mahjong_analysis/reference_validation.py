@@ -1,5 +1,6 @@
 """Independent reference implementation for dealer double-riichi validation."""
 
+import gzip
 import json
 from collections import defaultdict
 from dataclasses import dataclass
@@ -10,6 +11,7 @@ from typing import Any, Literal
 
 RoundResult = Literal["dealer_win", "other_win", "draw"]
 _HEX_DIGITS = frozenset("0123456789abcdef")
+_REFERENCE_GZIP_MAGIC = b"\x1f\x8b"
 
 
 @dataclass(frozen=True, order=True)
@@ -295,7 +297,7 @@ def _analyze_east_kyoku(
 def analyze_reference_mjai(
     path: str | PathLike[str],
 ) -> ReferenceGameResult:
-    """Analyze one MJAI file without using the production MJAI implementation."""
+    """Independently analyze one plain or gzip-compressed MJAI file."""
     rule_code = _reference_rule_code(path)
     target_game: bool | None = None
     current_kyoku: list[_LocatedEvent] | None = None
@@ -303,7 +305,15 @@ def analyze_reference_mjai(
     candidates: list[CandidateRound] = []
     reach_audits: list[ReachAuditRecord] = []
 
-    with open(path, encoding="utf-8") as file:
+    with open(path, "rb") as file:
+        is_gzip = file.read(2) == _REFERENCE_GZIP_MAGIC
+
+    if is_gzip:
+        text_file = gzip.open(path, mode="rt", encoding="utf-8")
+    else:
+        text_file = open(path, encoding="utf-8")
+
+    with text_file as file:
         for line_number, line in enumerate(file, 1):
             event = _read_event(path, line_number, line)
 

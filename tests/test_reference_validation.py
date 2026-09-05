@@ -1,4 +1,5 @@
 import ast
+import gzip
 import json
 from dataclasses import replace
 from pathlib import Path
@@ -55,17 +56,27 @@ def _write_game(
     *,
     aka_flag: object = True,
     include_end_game: bool = True,
+    compressed: bool = False,
+    start_game_fields: dict[str, object] | None = None,
 ) -> Path:
-    events = [{"type": "start_game", "aka_flag": aka_flag}]
+    start_game = {"type": "start_game", "aka_flag": aka_flag}
+    if start_game_fields is not None:
+        start_game.update(start_game_fields)
+    events = [start_game]
     for round_events in rounds:
         events.extend(round_events)
     if include_end_game:
         events.append({"type": "end_game"})
 
-    path.write_text(
-        "".join(json.dumps(event) + "\n" for event in events),
-        encoding="utf-8",
+    path.parent.mkdir(parents=True, exist_ok=True)
+    content = "".join(
+        json.dumps(event, ensure_ascii=False) + "\n" for event in events
     )
+    if compressed:
+        with gzip.open(path, mode="wt", encoding="utf-8") as file:
+            file.write(content)
+    else:
+        path.write_text(content, encoding="utf-8")
     return path
 
 
@@ -124,6 +135,49 @@ def test_reference_detects_established_dealer_first_reach_with_line_numbers(
     assert result.candidates[0].start_kyoku_line == 2
     assert result.candidates[0].reach_line == 4
     assert result.candidates[0].result == "dealer_win"
+
+
+def test_reference_plain_and_gzip_results_are_identical(tmp_path: Path) -> None:
+    filename = "2025010100gm-00a9-0000-00000011.mjson"
+    rounds = [
+        _round(
+            [
+                *_established_reach(),
+                {"type": "hora", "actor": 0, "target": 0},
+            ]
+        )
+    ]
+    start_game_fields = {"names": ["東家", "南家", "西家", "北家"]}
+    plain_path = _write_game(
+        tmp_path / "2009" / filename,
+        rounds,
+        compressed=False,
+        start_game_fields=start_game_fields,
+    )
+    gzip_path = _write_game(
+        tmp_path / "2025" / filename,
+        rounds,
+        compressed=True,
+        start_game_fields=start_game_fields,
+    )
+
+    plain_result = analyze_reference_mjai(plain_path)
+    gzip_result = analyze_reference_mjai(gzip_path)
+
+    assert gzip_path.suffix == ".mjson"
+    assert plain_path.read_bytes()[:2] != b"\x1f\x8b"
+    assert gzip_path.read_bytes()[:2] == b"\x1f\x8b"
+    assert gzip_result == plain_result
+    assert gzip_result.candidates[0].start_kyoku_line == 2
+    assert gzip_result.candidates[0].reach_line == 4
+
+
+def test_reference_rejects_broken_gzip_with_magic(tmp_path: Path) -> None:
+    path = tmp_path / "2025010100gm-00a9-0000-00000012.mjson"
+    path.write_bytes(b"\x1f\x8b\x00broken gzip")
+
+    with pytest.raises((gzip.BadGzipFile, EOFError)):
+        analyze_reference_mjai(path)
 
 
 @pytest.mark.parametrize("terminal_type", ["hora", "ryukyoku"])
