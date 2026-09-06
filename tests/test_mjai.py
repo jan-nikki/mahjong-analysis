@@ -1,3 +1,5 @@
+import gzip
+import json
 from copy import deepcopy
 from pathlib import Path
 
@@ -19,6 +21,24 @@ VALID_00A9_FILENAME = "2025010100gm-00a9-0000-1234abcd.mjson"
 VALID_00E1_FILENAME = "2025010100gm-00e1-0000-abcdef12.mjson"
 
 
+def write_json_lines(
+    path: Path,
+    events: list[dict[str, object]],
+    *,
+    compressed: bool,
+) -> Path:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    content = "".join(
+        json.dumps(event, ensure_ascii=False) + "\n" for event in events
+    )
+    if compressed:
+        with gzip.open(path, mode="wt", encoding="utf-8") as file:
+            file.write(content)
+    else:
+        path.write_text(content, encoding="utf-8")
+    return path
+
+
 def test_load_mjai_preserves_event_order() -> None:
     events = load_mjai(TEST_DATA_DIR / "sample.mjson")
 
@@ -35,6 +55,79 @@ def test_load_mjai_preserves_event_order() -> None:
         "テスト北家",
     ]
     assert events[2] == {"type": "tsumo", "actor": 0, "pai": "1m"}
+
+
+def test_load_mjai_reads_plain_mjson(tmp_path: Path) -> None:
+    expected = [
+        {"type": "start_game", "names": ["東家", "南家", "西家", "北家"]},
+        {"type": "end_game"},
+    ]
+    path = write_json_lines(
+        tmp_path / "plain" / "sample.mjson",
+        expected,
+        compressed=False,
+    )
+
+    assert load_mjai(path) == expected
+
+
+def test_load_mjai_reads_gzip_compressed_mjson(tmp_path: Path) -> None:
+    expected = [{"type": "start_game"}, {"type": "end_game"}]
+    path = write_json_lines(
+        tmp_path / "gzip" / "sample.mjson",
+        expected,
+        compressed=True,
+    )
+
+    assert path.suffix == ".mjson"
+    assert path.read_bytes()[:2] == b"\x1f\x8b"
+    assert load_mjai(path) == expected
+
+
+def test_load_mjai_uses_magic_not_year_or_extension(tmp_path: Path) -> None:
+    expected = [
+        {"type": "start_game", "names": ["テスト東家"]},
+        {"type": "end_game"},
+    ]
+    plain_path = write_json_lines(
+        tmp_path / "2009" / "same.mjson",
+        expected,
+        compressed=False,
+    )
+    gzip_path = write_json_lines(
+        tmp_path / "2025" / "same.mjson",
+        expected,
+        compressed=True,
+    )
+
+    assert plain_path.read_bytes()[:2] != b"\x1f\x8b"
+    assert gzip_path.read_bytes()[:2] == b"\x1f\x8b"
+    assert load_mjai(plain_path) == load_mjai(gzip_path) == expected
+
+
+def test_load_mjai_rejects_invalid_plain_json(tmp_path: Path) -> None:
+    path = tmp_path / "invalid.mjson"
+    path.write_text('{"type":"start_game"}\n{invalid}\n', encoding="utf-8")
+
+    with pytest.raises(json.JSONDecodeError):
+        load_mjai(path)
+
+
+def test_load_mjai_rejects_invalid_json_inside_gzip(tmp_path: Path) -> None:
+    path = tmp_path / "invalid.mjson"
+    with gzip.open(path, mode="wt", encoding="utf-8") as file:
+        file.write('{"type":"start_game"}\n{invalid}\n')
+
+    with pytest.raises(json.JSONDecodeError):
+        load_mjai(path)
+
+
+def test_load_mjai_rejects_broken_gzip_with_magic(tmp_path: Path) -> None:
+    path = tmp_path / "broken.mjson"
+    path.write_bytes(b"\x1f\x8b\x00broken gzip")
+
+    with pytest.raises((gzip.BadGzipFile, EOFError)):
+        load_mjai(path)
 
 
 def artificial_game_events() -> list[dict[str, object]]:

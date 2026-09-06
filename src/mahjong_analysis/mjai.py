@@ -1,5 +1,6 @@
 """MJAI log file loading utilities."""
 
+import gzip
 import json
 import re
 from os import PathLike
@@ -13,13 +14,22 @@ _MJAI_FILENAME_PATTERN = re.compile(
     r"(?P<room_code>[0-9a-f]{4})-"
     r"(?P<game_id>[0-9a-f]{8})\.mjson$"
 )
+_GZIP_MAGIC = b"\x1f\x8b"
 
 
 def load_mjai(path: str | PathLike[str]) -> list[dict[str, Any]]:
-    """Load events from an uncompressed UTF-8 MJAI JSON Lines file."""
+    """Load events from a plain or gzip-compressed UTF-8 JSON Lines file."""
     events: list[dict[str, Any]] = []
 
-    with open(path, encoding="utf-8") as file:
+    with open(path, "rb") as file:
+        is_gzip = file.read(2) == _GZIP_MAGIC
+
+    if is_gzip:
+        text_file = gzip.open(path, mode="rt", encoding="utf-8")
+    else:
+        text_file = open(path, encoding="utf-8")
+
+    with text_file as file:
         for line in file:
             events.append(json.loads(line))
 
