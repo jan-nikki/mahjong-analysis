@@ -1,0 +1,15 @@
+{
+  "release_tag": "v2.0.0",
+  "years": [
+    {
+      "dealer_double_riichi": 702,
+      "dealer_win": 507,
+      "draw": 108,
+      "east_kyokus": 1028072,
+      "other_win": 87,
+      "scanned_files": 178888,
+      "target_games": 178887,
+      "year": 2025
+    }
+  ]
+}
