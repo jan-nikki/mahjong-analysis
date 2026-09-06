@@ -350,6 +350,36 @@ def test_cli_fails_when_known_2025_result_differs(tmp_path: Path) -> None:
     }
 
 
+def test_cli_automatically_checks_tracked_2009_known_result(
+    tmp_path: Path,
+) -> None:
+    raw_root = tmp_path / "raw"
+    (raw_root / "2009").mkdir(parents=True)
+    output_root = tmp_path / "outputs"
+
+    exit_code = validator.main(
+        [
+            "--year",
+            "2009",
+            "--raw-root",
+            str(raw_root),
+            "--output-root",
+            str(output_root),
+        ]
+    )
+
+    assert exit_code == 1
+    comparison = json.loads(
+        (output_root / "2009" / "comparison.json").read_text(encoding="utf-8")
+    )
+    assert comparison["known_result_checked"] is True
+    assert comparison["known_value_mismatches"]["scanned_files"] == {
+        "expected": 6_897,
+        "reference": 0,
+        "existing": 0,
+    }
+
+
 def test_cli_progress_includes_year_and_processed_count(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,

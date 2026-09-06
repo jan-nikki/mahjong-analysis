@@ -2,6 +2,16 @@
   "release_tag": "v2.0.0",
   "years": [
     {
+      "dealer_double_riichi": 23,
+      "dealer_win": 17,
+      "draw": 5,
+      "east_kyokus": 39778,
+      "other_win": 1,
+      "scanned_files": 6897,
+      "target_games": 6897,
+      "year": 2009
+    },
+    {
       "dealer_double_riichi": 702,
       "dealer_win": 507,
       "draw": 108,

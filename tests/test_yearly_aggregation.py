@@ -410,9 +410,19 @@ def test_tracked_dataset_summary_schema_and_file_counts() -> None:
     assert metadata.raw_file_counts == {2009: 6_897, 2025: 178_888}
 
 
-def test_known_results_manifest_contains_verified_2025_counts() -> None:
+def test_known_results_manifest_contains_verified_2009_and_2025_counts() -> None:
     known = load_known_results(KNOWN_RESULTS_PATH)
 
+    assert known[2009] == YearlyDealerDoubleRiichiResult(
+        year=2009,
+        scanned_files=6_897,
+        target_games=6_897,
+        east_kyokus=39_778,
+        dealer_double_riichi=23,
+        dealer_win=17,
+        other_win=1,
+        draw=5,
+    )
     assert known[2025] == YearlyDealerDoubleRiichiResult(
         year=2025,
         scanned_files=178_888,
@@ -423,6 +433,7 @@ def test_known_results_manifest_contains_verified_2025_counts() -> None:
         other_win=87,
         draw=108,
     )
+    assert known[2009].win_rate == 17 / 23
     assert known[2025].win_rate == 507 / 702
 
 
