@@ -1,0 +1,1422 @@
+{
+  "archive_hashes_verified": true,
+  "release_tag": "v2.0.0",
+  "repository": "NikkeTryHard/tenhou-to-mjai",
+  "selected_years": [
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "target_rule_code": "00a9",
+  "totals": {
+    "aka_flag_by_rule_code": {
+      "00a9": {
+        "false": 0,
+        "invalid": 0,
+        "missing": 0,
+        "true": 2500235,
+        "unavailable": 0
+      },
+      "00e1": {
+        "false": 0,
+        "invalid": 0,
+        "missing": 0,
+        "true": 1,
+        "unavailable": 0
+      }
+    },
+    "aka_flag_counts": {
+      "false": 0,
+      "invalid": 0,
+      "missing": 0,
+      "true": 2500236,
+      "unavailable": 0
+    },
+    "archive_entry_count_unavailable_years": 0,
+    "archive_mjson_entries": 2500236,
+    "compression_counts": {
+      "gzip": 2321348,
+      "plain": 178888,
+      "unknown": 0
+    },
+    "error_counts": {},
+    "filename_year_counts": {
+      "match": 2500236,
+      "mismatch": 0,
+      "unavailable": 0
+    },
+    "files_with_errors": 0,
+    "first_event_status_counts": {
+      "empty": 0,
+      "json_decode_error": 0,
+      "not_object": 0,
+      "not_start_game": 0,
+      "readable_start_game": 2500236,
+      "unreadable": 0
+    },
+    "invalid_filenames": 0,
+    "rule_code_counts": {
+      "00a9": 2500235,
+      "00e1": 1
+    },
+    "target_games": 2500235,
+    "total_mjson_files": 2500236,
+    "unexpected_archive_entries": 0,
+    "unexpected_raw_entries": {
+      "files": 0,
+      "subdirectories": 0
+    },
+    "valid_filenames": 2500236
+  },
+  "validation_failed": false,
+  "years": [
+    {
+      "archive": {
+        "expected_sha256": "8c4423b9abf80f6596ac9fe99db433de48602a654b824fa32f864cbf87ca8da0",
+        "expected_size_bytes": 31863271,
+        "filename": "2009.zip",
+        "observed_mjson_entries": 6897,
+        "observed_sha256": "8c4423b9abf80f6596ac9fe99db433de48602a654b824fa32f864cbf87ca8da0",
+        "observed_size_bytes": 31863271,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 6897,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 6897,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 6897,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 6897,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 6897
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 6897,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 6897
+        },
+        "target_games": 6897,
+        "total_mjson_files": 6897,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2009
+    },
+    {
+      "archive": {
+        "expected_sha256": "50654fb9dbdf1726bc94732279d3a5e8513ac3d2162a0d55bfd6462aa3b034d9",
+        "expected_size_bytes": 324180658,
+        "filename": "2010.zip",
+        "observed_mjson_entries": 70228,
+        "observed_sha256": "50654fb9dbdf1726bc94732279d3a5e8513ac3d2162a0d55bfd6462aa3b034d9",
+        "observed_size_bytes": 324180658,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 70228,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 70228,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 70228,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 70228,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 70228
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 70228,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 70228
+        },
+        "target_games": 70228,
+        "total_mjson_files": 70228,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2010
+    },
+    {
+      "archive": {
+        "expected_sha256": "5dc78f06830cc927cbf843fc566bfd2f710919bb989d09af2ef1f9886c784af4",
+        "expected_size_bytes": 468180607,
+        "filename": "2011.zip",
+        "observed_mjson_entries": 100814,
+        "observed_sha256": "5dc78f06830cc927cbf843fc566bfd2f710919bb989d09af2ef1f9886c784af4",
+        "observed_size_bytes": 468180607,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 100814,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 100814,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 100814,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 100814,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 100814
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 100814,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 100814
+        },
+        "target_games": 100814,
+        "total_mjson_files": 100814,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2011
+    },
+    {
+      "archive": {
+        "expected_sha256": "a66bc0bc3b224c44440748addbc604225da963faf04a1b182fd31b6167c105a3",
+        "expected_size_bytes": 542875951,
+        "filename": "2012.zip",
+        "observed_mjson_entries": 116985,
+        "observed_sha256": "a66bc0bc3b224c44440748addbc604225da963faf04a1b182fd31b6167c105a3",
+        "observed_size_bytes": 542875951,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 116985,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 116985,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 116985,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 116985,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 116985
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 116985,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 116985
+        },
+        "target_games": 116985,
+        "total_mjson_files": 116985,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2012
+    },
+    {
+      "archive": {
+        "expected_sha256": "2bfc5cb7d2eaec10cdb2defed525e6f55bd92ac1ef37847ba78f6f8348ff0834",
+        "expected_size_bytes": 610997282,
+        "filename": "2013.zip",
+        "observed_mjson_entries": 131838,
+        "observed_sha256": "2bfc5cb7d2eaec10cdb2defed525e6f55bd92ac1ef37847ba78f6f8348ff0834",
+        "observed_size_bytes": 610997282,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 131838,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 131838,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 131838,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 131838,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 131838
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 131838,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 131838
+        },
+        "target_games": 131838,
+        "total_mjson_files": 131838,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2013
+    },
+    {
+      "archive": {
+        "expected_sha256": "ccc7780c4d772cee19628e19ca5febec06f161318734c7e097b3e9212d5c550e",
+        "expected_size_bytes": 652891163,
+        "filename": "2014.zip",
+        "observed_mjson_entries": 141132,
+        "observed_sha256": "ccc7780c4d772cee19628e19ca5febec06f161318734c7e097b3e9212d5c550e",
+        "observed_size_bytes": 652891163,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 141132,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 141132,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 141132,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 141132,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 141132
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 141132,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 141132
+        },
+        "target_games": 141132,
+        "total_mjson_files": 141132,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2014
+    },
+    {
+      "archive": {
+        "expected_sha256": "f536d38cae3fef1707c44ed23d9abc80b5d6f67569be88b3b1520736b2360db8",
+        "expected_size_bytes": 702712411,
+        "filename": "2015.zip",
+        "observed_mjson_entries": 152278,
+        "observed_sha256": "f536d38cae3fef1707c44ed23d9abc80b5d6f67569be88b3b1520736b2360db8",
+        "observed_size_bytes": 702712411,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 152278,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 152278,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 152278,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 152278,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 152278
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 152278,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 152278
+        },
+        "target_games": 152278,
+        "total_mjson_files": 152278,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2015
+    },
+    {
+      "archive": {
+        "expected_sha256": "c15aa5e875d7cea0e1b6873919340b57d34766e7ae61625b42331c9343e1efc6",
+        "expected_size_bytes": 735390305,
+        "filename": "2016.zip",
+        "observed_mjson_entries": 159663,
+        "observed_sha256": "c15aa5e875d7cea0e1b6873919340b57d34766e7ae61625b42331c9343e1efc6",
+        "observed_size_bytes": 735390305,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 159663,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 159663,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 159663,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 159663,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 159663
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 159663,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 159663
+        },
+        "target_games": 159663,
+        "total_mjson_files": 159663,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2016
+    },
+    {
+      "archive": {
+        "expected_sha256": "0cfd6cb33b0bab623e5daad71e6e0d27fd549ec350637db78f9a735162e21d77",
+        "expected_size_bytes": 779600661,
+        "filename": "2017.zip",
+        "observed_mjson_entries": 169382,
+        "observed_sha256": "0cfd6cb33b0bab623e5daad71e6e0d27fd549ec350637db78f9a735162e21d77",
+        "observed_size_bytes": 779600661,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 169382,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 169382,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 169382,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 169382,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 169382
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 169382,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 169382
+        },
+        "target_games": 169382,
+        "total_mjson_files": 169382,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2017
+    },
+    {
+      "archive": {
+        "expected_sha256": "9b2b7768736ca989e1b5e16d449d043cea97c0685e16f8dd2010cac7fa64e726",
+        "expected_size_bytes": 797656187,
+        "filename": "2018.zip",
+        "observed_mjson_entries": 173546,
+        "observed_sha256": "9b2b7768736ca989e1b5e16d449d043cea97c0685e16f8dd2010cac7fa64e726",
+        "observed_size_bytes": 797656187,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 173546,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 173546,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 173546,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 173546,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 173546
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 173546,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 173546
+        },
+        "target_games": 173546,
+        "total_mjson_files": 173546,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2018
+    },
+    {
+      "archive": {
+        "expected_sha256": "f1039b5c6c4c78f1cdc5b00d88f27913e2d717468e889ae0e6578fe4c0b161fe",
+        "expected_size_bytes": 787452805,
+        "filename": "2019.zip",
+        "observed_mjson_entries": 171628,
+        "observed_sha256": "f1039b5c6c4c78f1cdc5b00d88f27913e2d717468e889ae0e6578fe4c0b161fe",
+        "observed_size_bytes": 787452805,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 171628,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 171628,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 171628,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 171628,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 171628
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 171628,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 171628
+        },
+        "target_games": 171628,
+        "total_mjson_files": 171628,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2019
+    },
+    {
+      "archive": {
+        "expected_sha256": "0d033dfcf4dd3a6a5630fe059775fbc19216882e247b4ad0c94fb8abb834bf61",
+        "expected_size_bytes": 1005453453,
+        "filename": "2020.zip",
+        "observed_mjson_entries": 218816,
+        "observed_sha256": "0d033dfcf4dd3a6a5630fe059775fbc19216882e247b4ad0c94fb8abb834bf61",
+        "observed_size_bytes": 1005453453,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 218816,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 218816,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 218816,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 218816,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 218816
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 218816,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 218816
+        },
+        "target_games": 218816,
+        "total_mjson_files": 218816,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2020
+    },
+    {
+      "archive": {
+        "expected_sha256": "54ea5d2840d93730012479dce6322446dc98c86709cc305b9adb2c5b4ca34488",
+        "expected_size_bytes": 860854423,
+        "filename": "2021.zip",
+        "observed_mjson_entries": 187313,
+        "observed_sha256": "54ea5d2840d93730012479dce6322446dc98c86709cc305b9adb2c5b4ca34488",
+        "observed_size_bytes": 860854423,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 187313,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 187313,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 187313,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 187313,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 187313
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 187313,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 187313
+        },
+        "target_games": 187313,
+        "total_mjson_files": 187313,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2021
+    },
+    {
+      "archive": {
+        "expected_sha256": "54b85ba8c71a2acd7c46edb95193fcc71b9f5ba9f65424a8df59af9a17385e95",
+        "expected_size_bytes": 1095888555,
+        "filename": "2022.zip",
+        "observed_mjson_entries": 167627,
+        "observed_sha256": "54b85ba8c71a2acd7c46edb95193fcc71b9f5ba9f65424a8df59af9a17385e95",
+        "observed_size_bytes": 1095888555,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 167627,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 167627,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 167627,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 167627,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 167627
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 167627,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 167627
+        },
+        "target_games": 167627,
+        "total_mjson_files": 167627,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2022
+    },
+    {
+      "archive": {
+        "expected_sha256": "b753be390408027d29ab37ed377fa1560a58b74fc5165568a8ff2f48ea70b2a8",
+        "expected_size_bytes": 1186502147,
+        "filename": "2023.zip",
+        "observed_mjson_entries": 168777,
+        "observed_sha256": "b753be390408027d29ab37ed377fa1560a58b74fc5165568a8ff2f48ea70b2a8",
+        "observed_size_bytes": 1186502147,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 168777,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 168777,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 168777,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 168777,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 168777
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 168777,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 168777
+        },
+        "target_games": 168777,
+        "total_mjson_files": 168777,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2023
+    },
+    {
+      "archive": {
+        "expected_sha256": "4c0bb20ebdc263ab5819d848b620f6bf36304ccb70914722fd89b524be3afa1f",
+        "expected_size_bytes": 1291439528,
+        "filename": "2024.zip",
+        "observed_mjson_entries": 184424,
+        "observed_sha256": "4c0bb20ebdc263ab5819d848b620f6bf36304ccb70914722fd89b524be3afa1f",
+        "observed_size_bytes": 1291439528,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 184424,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 184424,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 184424,
+          "plain": 0,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 184424,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 184424
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 184424,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 184424
+        },
+        "target_games": 184424,
+        "total_mjson_files": 184424,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2024
+    },
+    {
+      "archive": {
+        "expected_sha256": "0274e3f2a3b4ed32cd9af6d0f9895c061c5141e63bb6c90e561f349043b7a771",
+        "expected_size_bytes": 845438476,
+        "filename": "2025.zip",
+        "observed_mjson_entries": 178888,
+        "observed_sha256": "0274e3f2a3b4ed32cd9af6d0f9895c061c5141e63bb6c90e561f349043b7a771",
+        "observed_size_bytes": 845438476,
+        "sha256_matches": true,
+        "sha256_skipped": false,
+        "size_matches": true,
+        "unexpected_archive_entries": 0
+      },
+      "mjson_filename_set": {
+        "archive_only_count": 0,
+        "archive_only_samples": [],
+        "matches": true,
+        "raw_only_count": 0,
+        "raw_only_samples": []
+      },
+      "raw": {
+        "aka_flag_by_rule_code": {
+          "00a9": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 178887,
+            "unavailable": 0
+          },
+          "00e1": {
+            "false": 0,
+            "invalid": 0,
+            "missing": 0,
+            "true": 1,
+            "unavailable": 0
+          }
+        },
+        "aka_flag_counts": {
+          "false": 0,
+          "invalid": 0,
+          "missing": 0,
+          "true": 178888,
+          "unavailable": 0
+        },
+        "compression_counts": {
+          "gzip": 0,
+          "plain": 178888,
+          "unknown": 0
+        },
+        "filename_year": {
+          "match": 178888,
+          "mismatch": 0,
+          "unavailable": 0
+        },
+        "filenames": {
+          "invalid": 0,
+          "valid": 178888
+        },
+        "first_event_status_counts": {
+          "empty": 0,
+          "json_decode_error": 0,
+          "not_object": 0,
+          "not_start_game": 0,
+          "readable_start_game": 178888,
+          "unreadable": 0
+        },
+        "rule_code_counts": {
+          "00a9": 178887,
+          "00e1": 1
+        },
+        "target_games": 178887,
+        "total_mjson_files": 178888,
+        "unexpected_raw_entries": {
+          "files": 0,
+          "subdirectories": 0
+        },
+        "unexpected_raw_entry_samples": {}
+      },
+      "validation": {
+        "error_counts": {},
+        "error_samples": {},
+        "failed": false,
+        "files_with_errors": 0
+      },
+      "year": 2025
+    }
+  ]
+}
