@@ -222,6 +222,10 @@ riichi_discard_number
 赤5と通常5は、手牌状態を再生するときは異なる物理牌として保持し、
 完成形と待ち形を判定するときは同じ牌種として扱う。
 
+待ち判定層では赤5を通常5へ正規化して扱う。`5mr`、`5pr`、`5sr` が
+物理的に複数存在する等の不正MJAIの検査はこの層では行わず、後続の
+MJAI手牌再生層で生牌を保持した状態で行う。
+
 - `wait_tiles` に `5mr`、`5pr`、`5sr` は出力しない
 - 通常5と赤5を別の待ち種類として数えない
 - 5待ちは正規化後の `5m`、`5p`、`5s` 1種類とする
@@ -313,6 +317,13 @@ set(wait_tiles) == {detail.wait_tile for detail in wait_details}
   - 既に1対子があり、不足している1種だけを待つ国士無双
 - `kokushi_13men`
   - 13種を1枚ずつ持つ国士無双13面待ち
+
+`hand_type` と `wait_shape` の有効な組合せは次のとおりとし、これ以外は
+不正値として拒否する。
+
+- `standard`: `ryanmen`、`kanchan`、`penchan`、`shanpon`、`tanki`
+- `chiitoitsu`: `tanki`
+- `kokushi`: `kokushi_single`、`kokushi_13men`
 
 標準形では、和了牌を完成形の各分解に割り当てた全ての解釈を調べる。
 同一牌を順子側に割り当てる場合と雀頭側に割り当てる場合の両方が
@@ -477,7 +488,7 @@ is_multiwait = True
 concealed handは物理的に13枚である。
 
 `wait_details` の表記は `wait_tile / hand_type / wait_shape` とする。
-人工ケースはR1からR15までの15件とする。
+人工ケースはR1からR16までの16件とする。
 
 | ID | Concealed hand | 固定面子 | `wait_tiles` | `wait_details` |
 |---|---|---|---|---|
@@ -496,6 +507,7 @@ concealed handは物理的に13枚である。
 | R13 赤5を含む両面 | `123m 123p 789p EE 4s 5sr` | なし | `3s, 6s` | R1と同じ2detail |
 | R14 暗槓あり両面 | `123p 789p EE 45s` | `ankan: 9999m` | `3s, 6s` | `3s/standard/ryanmen`, `6s/standard/ryanmen` |
 | R15 両面＋シャンポン複合多面張 | `22234567m 22p 789s` | なし | `2m, 5m, 8m, 2p` | `2m/standard/ryanmen`, `2m/standard/shanpon`, `5m/standard/ryanmen`, `8m/standard/ryanmen`, `2p/standard/shanpon` |
+| R16 異なる完成分解の全探索 | `11122233m 456p EE` | なし | `3m, E` | `3m/standard/penchan`, `3m/standard/shanpon`, `E/standard/shanpon` |
 
 R12の期待値を省略せずに表すと、次のとおりである。
 
@@ -528,13 +540,14 @@ wait_details =
     6s/standard/ryanmen
 ```
 
-R6の`5m`では、和了牌を`345m`側または`567m`側へ割り当てる
-複数の完成分解があり、どちらも `5m/standard/ryanmen` となる。
-同様にR8の`4m`では、和了牌を`234m`側または`456m`側へ割り当てる
-複数の完成分解があり、どちらも `4m/standard/ryanmen` となる。
+R6の`5m`では、同一完成分解の`345m`側または`567m`側へ和了牌を
+割り当てられ、どちらも `5m/standard/ryanmen` となる。同様にR8の`4m`も、
+同一完成分解の`234m`側または`456m`側へ和了牌を割り当てられ、どちらも
+`4m/standard/ryanmen` となる。R6とR8は、主に同一完成分解内で和了牌を
+複数の構成要素へ割り当てるケースを検査する。
 
-これらは異なる完成分解として全て調べるが、同一の
-`wait_tile / hand_type / wait_shape` に到達した重複分解数は保存しない。
+これらの割り当ては全て調べるが、同一の
+`wait_tile / hand_type / wait_shape` に到達した重複数は保存しない。
 したがって、R6の`5m`とR8の`4m`は、それぞれ `wait_details` 上では
 1件へ重複排除する。
 
@@ -555,6 +568,17 @@ is_pure_ryanmen = False
 is_multiwait = True
 ```
 
+R16の`3m`では、次の異なる標準形の完成分解が成立する。
+
+```text
+111m + 222m + 333m + 456p + EE
+123m + 123m + 123m + 456p + EE
+```
+
+前者では追加した`3m`を刻子へ割り当てる `shanpon`、後者では順子へ
+割り当てる `penchan` となる。R16は、最初に見つかった完成分解で
+打ち切らず、異なる完成分解を最後まで探索することを直接検査する。
+
 各ケースで `wait_tiles` と `wait_details` の完全一致を検査する。
 部分集合の一致、待ち牌数だけの一致、`contains_ryanmen` だけの一致では
 テスト成功としない。
@@ -572,6 +596,7 @@ is_multiwait = True
 | R12 | `False` | `False` | `True` |
 | R13-R14 | `True` | `True` | `False` |
 | R15 | `True` | `False` | `True` |
+| R16 | `False` | `False` | `False` |
 
 ## 人工MJAIイベントの必須テストケース
 
