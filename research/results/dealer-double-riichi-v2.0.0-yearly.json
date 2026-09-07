@@ -1,0 +1,231 @@
+{
+  "analysis": {
+    "aka_flag": true,
+    "bakaze": "E",
+    "dealer_double_riichi": "established",
+    "rule_code": "00a9"
+  },
+  "dataset": {
+    "release_tag": "v2.0.0",
+    "repository": "NikkeTryHard/tenhou-to-mjai"
+  },
+  "schema_version": 1,
+  "selected_years": [
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "totals": {
+    "dealer_double_riichi": 9398,
+    "dealer_win": 6607,
+    "draw": 1600,
+    "east_kyokus": 14434809,
+    "other_win": 1191,
+    "scanned_files": 2500236,
+    "target_games": 2500235,
+    "win_rate": 0.7030219195573526
+  },
+  "years": [
+    {
+      "dealer_double_riichi": 23,
+      "dealer_win": 17,
+      "draw": 5,
+      "east_kyokus": 39778,
+      "other_win": 1,
+      "scanned_files": 6897,
+      "target_games": 6897,
+      "win_rate": 0.7391304347826086,
+      "year": 2009
+    },
+    {
+      "dealer_double_riichi": 255,
+      "dealer_win": 162,
+      "draw": 55,
+      "east_kyokus": 406075,
+      "other_win": 38,
+      "scanned_files": 70228,
+      "target_games": 70228,
+      "win_rate": 0.6352941176470588,
+      "year": 2010
+    },
+    {
+      "dealer_double_riichi": 377,
+      "dealer_win": 263,
+      "draw": 62,
+      "east_kyokus": 584216,
+      "other_win": 52,
+      "scanned_files": 100814,
+      "target_games": 100814,
+      "win_rate": 0.6976127320954907,
+      "year": 2011
+    },
+    {
+      "dealer_double_riichi": 441,
+      "dealer_win": 309,
+      "draw": 86,
+      "east_kyokus": 676220,
+      "other_win": 46,
+      "scanned_files": 116985,
+      "target_games": 116985,
+      "win_rate": 0.7006802721088435,
+      "year": 2012
+    },
+    {
+      "dealer_double_riichi": 508,
+      "dealer_win": 368,
+      "draw": 78,
+      "east_kyokus": 762016,
+      "other_win": 62,
+      "scanned_files": 131838,
+      "target_games": 131838,
+      "win_rate": 0.7244094488188977,
+      "year": 2013
+    },
+    {
+      "dealer_double_riichi": 545,
+      "dealer_win": 382,
+      "draw": 101,
+      "east_kyokus": 816663,
+      "other_win": 62,
+      "scanned_files": 141132,
+      "target_games": 141132,
+      "win_rate": 0.7009174311926606,
+      "year": 2014
+    },
+    {
+      "dealer_double_riichi": 570,
+      "dealer_win": 411,
+      "draw": 98,
+      "east_kyokus": 879557,
+      "other_win": 61,
+      "scanned_files": 152278,
+      "target_games": 152278,
+      "win_rate": 0.7210526315789474,
+      "year": 2015
+    },
+    {
+      "dealer_double_riichi": 597,
+      "dealer_win": 418,
+      "draw": 101,
+      "east_kyokus": 922805,
+      "other_win": 78,
+      "scanned_files": 159663,
+      "target_games": 159663,
+      "win_rate": 0.7001675041876047,
+      "year": 2016
+    },
+    {
+      "dealer_double_riichi": 615,
+      "dealer_win": 422,
+      "draw": 116,
+      "east_kyokus": 979969,
+      "other_win": 77,
+      "scanned_files": 169382,
+      "target_games": 169382,
+      "win_rate": 0.6861788617886179,
+      "year": 2017
+    },
+    {
+      "dealer_double_riichi": 667,
+      "dealer_win": 476,
+      "draw": 97,
+      "east_kyokus": 1002101,
+      "other_win": 94,
+      "scanned_files": 173546,
+      "target_games": 173546,
+      "win_rate": 0.7136431784107946,
+      "year": 2018
+    },
+    {
+      "dealer_double_riichi": 617,
+      "dealer_win": 441,
+      "draw": 91,
+      "east_kyokus": 990864,
+      "other_win": 85,
+      "scanned_files": 171628,
+      "target_games": 171628,
+      "win_rate": 0.7147487844408428,
+      "year": 2019
+    },
+    {
+      "dealer_double_riichi": 821,
+      "dealer_win": 577,
+      "draw": 139,
+      "east_kyokus": 1264594,
+      "other_win": 105,
+      "scanned_files": 218816,
+      "target_games": 218816,
+      "win_rate": 0.702801461632156,
+      "year": 2020
+    },
+    {
+      "dealer_double_riichi": 709,
+      "dealer_win": 489,
+      "draw": 123,
+      "east_kyokus": 1081656,
+      "other_win": 97,
+      "scanned_files": 187313,
+      "target_games": 187313,
+      "win_rate": 0.689703808180536,
+      "year": 2021
+    },
+    {
+      "dealer_double_riichi": 632,
+      "dealer_win": 436,
+      "draw": 120,
+      "east_kyokus": 967572,
+      "other_win": 76,
+      "scanned_files": 167627,
+      "target_games": 167627,
+      "win_rate": 0.689873417721519,
+      "year": 2022
+    },
+    {
+      "dealer_double_riichi": 641,
+      "dealer_win": 448,
+      "draw": 97,
+      "east_kyokus": 971994,
+      "other_win": 96,
+      "scanned_files": 168777,
+      "target_games": 168777,
+      "win_rate": 0.6989079563182528,
+      "year": 2023
+    },
+    {
+      "dealer_double_riichi": 678,
+      "dealer_win": 481,
+      "draw": 123,
+      "east_kyokus": 1060657,
+      "other_win": 74,
+      "scanned_files": 184424,
+      "target_games": 184424,
+      "win_rate": 0.7094395280235988,
+      "year": 2024
+    },
+    {
+      "dealer_double_riichi": 702,
+      "dealer_win": 507,
+      "draw": 108,
+      "east_kyokus": 1028072,
+      "other_win": 87,
+      "scanned_files": 178888,
+      "target_games": 178887,
+      "win_rate": 0.7222222222222222,
+      "year": 2025
+    }
+  ]
+}
