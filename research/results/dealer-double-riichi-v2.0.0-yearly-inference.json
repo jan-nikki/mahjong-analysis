@@ -1,0 +1,323 @@
+{
+  "confidence": {
+    "level": 0.95,
+    "method": "wilson_score",
+    "z_value": 1.9599639845400536
+  },
+  "heterogeneity": {
+    "applicable": true,
+    "asymptotic_conditions_met": true,
+    "cells_below_1": 0,
+    "cells_below_5": 0,
+    "cramers_v": 0.03573256758467581,
+    "degrees_of_freedom": 16,
+    "excluded_zero_observation_years": [],
+    "expected_counts": [
+      {
+        "dealer_not_win": 6.830495850180889,
+        "dealer_win": 16.16950414981911,
+        "year": 2009
+      },
+      {
+        "dealer_not_win": 75.72941051287508,
+        "dealer_win": 179.2705894871249,
+        "year": 2010
+      },
+      {
+        "dealer_not_win": 111.96073632687806,
+        "dealer_win": 265.0392636731219,
+        "year": 2011
+      },
+      {
+        "dealer_not_win": 130.96733347520748,
+        "dealer_win": 310.0326665247925,
+        "year": 2012
+      },
+      {
+        "dealer_not_win": 150.86486486486487,
+        "dealer_win": 357.13513513513516,
+        "year": 2013
+      },
+      {
+        "dealer_not_win": 161.85305384124283,
+        "dealer_win": 383.1469461587572,
+        "year": 2014
+      },
+      {
+        "dealer_not_win": 169.277505852309,
+        "dealer_win": 400.722494147691,
+        "year": 2015
+      },
+      {
+        "dealer_not_win": 177.29591402426047,
+        "dealer_win": 419.70408597573953,
+        "year": 2016
+      },
+      {
+        "dealer_not_win": 182.64151947222814,
+        "dealer_win": 432.35848052777186,
+        "year": 2017
+      },
+      {
+        "dealer_not_win": 198.08437965524578,
+        "dealer_win": 468.9156203447542,
+        "year": 2018
+      },
+      {
+        "dealer_not_win": 183.23547563311342,
+        "dealer_win": 433.7645243668866,
+        "year": 2019
+      },
+      {
+        "dealer_not_win": 243.81900404341349,
+        "dealer_win": 577.1809959565865,
+        "year": 2020
+      },
+      {
+        "dealer_not_win": 210.55745903383698,
+        "dealer_win": 498.442540966163,
+        "year": 2021
+      },
+      {
+        "dealer_not_win": 187.69014683975314,
+        "dealer_win": 444.30985316024686,
+        "year": 2022
+      },
+      {
+        "dealer_not_win": 190.36294956373698,
+        "dealer_win": 450.63705043626305,
+        "year": 2023
+      },
+      {
+        "dealer_not_win": 201.35113854011493,
+        "dealer_win": 476.6488614598851,
+        "year": 2024
+      },
+      {
+        "dealer_not_win": 208.47861247073845,
+        "dealer_win": 493.5213875292615,
+        "year": 2025
+      }
+    ],
+    "included_years": [
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "method": "pearson_chi_square",
+    "minimum_expected_count": 6.830495850180889,
+    "p_value": 0.7440127749090695,
+    "reason": null,
+    "statistic": 11.999520397445805,
+    "yates_correction": false
+  },
+  "observed_rate_range": 0.10383631713554986,
+  "overall": {
+    "dealer_not_win": 2791,
+    "dealer_win": 6607,
+    "observations": 9398,
+    "wilson_lower": 0.6937025029742695,
+    "wilson_upper": 0.7121754323976225,
+    "win_rate": 0.7030219195573526
+  },
+  "schema_version": 1,
+  "source": {
+    "analysis": {
+      "aka_flag": true,
+      "bakaze": "E",
+      "dealer_double_riichi": "established",
+      "rule_code": "00a9"
+    },
+    "dataset": {
+      "release_tag": "v2.0.0",
+      "repository": "NikkeTryHard/tenhou-to-mjai"
+    },
+    "result_file": "dealer-double-riichi-v2.0.0-yearly.json"
+  },
+  "years": [
+    {
+      "dealer_not_win": 6,
+      "dealer_win": 17,
+      "difference_from_overall": 0.036108515225256044,
+      "observations": 23,
+      "wilson_lower": 0.5352999516257463,
+      "wilson_upper": 0.8745138395501365,
+      "win_rate": 0.7391304347826086,
+      "year": 2009
+    },
+    {
+      "dealer_not_win": 93,
+      "dealer_win": 162,
+      "difference_from_overall": -0.06772780191029382,
+      "observations": 255,
+      "wilson_lower": 0.5746123935414825,
+      "wilson_upper": 0.6919600493522117,
+      "win_rate": 0.6352941176470588,
+      "year": 2010
+    },
+    {
+      "dealer_not_win": 114,
+      "dealer_win": 263,
+      "difference_from_overall": -0.0054091874618619196,
+      "observations": 377,
+      "wilson_lower": 0.6494483798280241,
+      "wilson_upper": 0.7417905374405694,
+      "win_rate": 0.6976127320954907,
+      "year": 2011
+    },
+    {
+      "dealer_not_win": 132,
+      "dealer_win": 309,
+      "difference_from_overall": -0.0023416474485090655,
+      "observations": 441,
+      "wilson_lower": 0.6563548105079625,
+      "wilson_upper": 0.7415397572988228,
+      "win_rate": 0.7006802721088435,
+      "year": 2012
+    },
+    {
+      "dealer_not_win": 140,
+      "dealer_win": 368,
+      "difference_from_overall": 0.02138752926154508,
+      "observations": 508,
+      "wilson_lower": 0.6839802506540594,
+      "wilson_upper": 0.7614701834028502,
+      "win_rate": 0.7244094488188977,
+      "year": 2013
+    },
+    {
+      "dealer_not_win": 163,
+      "dealer_win": 382,
+      "difference_from_overall": -0.0021044883646920143,
+      "observations": 545,
+      "wilson_lower": 0.6611805252011045,
+      "wilson_upper": 0.7378418089909395,
+      "win_rate": 0.7009174311926606,
+      "year": 2014
+    },
+    {
+      "dealer_not_win": 159,
+      "dealer_win": 411,
+      "difference_from_overall": 0.018030712021594786,
+      "observations": 570,
+      "wilson_lower": 0.6828488730720248,
+      "wilson_upper": 0.7562968110301436,
+      "win_rate": 0.7210526315789474,
+      "year": 2015
+    },
+    {
+      "dealer_not_win": 179,
+      "dealer_win": 418,
+      "difference_from_overall": -0.0028544153697479535,
+      "observations": 597,
+      "wilson_lower": 0.662229359396925,
+      "wilson_upper": 0.7355461211251729,
+      "win_rate": 0.7001675041876047,
+      "year": 2016
+    },
+    {
+      "dealer_not_win": 193,
+      "dealer_win": 422,
+      "difference_from_overall": -0.016843057768734737,
+      "observations": 615,
+      "wilson_lower": 0.6484438873389914,
+      "wilson_upper": 0.7216024253893086,
+      "win_rate": 0.6861788617886179,
+      "year": 2017
+    },
+    {
+      "dealer_not_win": 191,
+      "dealer_win": 476,
+      "difference_from_overall": 0.010621258853442006,
+      "observations": 667,
+      "wilson_lower": 0.6781895412884261,
+      "wilson_upper": 0.7466500333273346,
+      "win_rate": 0.7136431784107946,
+      "year": 2018
+    },
+    {
+      "dealer_not_win": 176,
+      "dealer_win": 441,
+      "difference_from_overall": 0.011726864883490173,
+      "observations": 617,
+      "wilson_lower": 0.6778772039611228,
+      "wilson_upper": 0.7489628471259534,
+      "win_rate": 0.7147487844408428,
+      "year": 2019
+    },
+    {
+      "dealer_not_win": 244,
+      "dealer_win": 577,
+      "difference_from_overall": -0.00022045792519664875,
+      "observations": 821,
+      "wilson_lower": 0.6706535990540733,
+      "wilson_upper": 0.733060346746011,
+      "win_rate": 0.702801461632156,
+      "year": 2020
+    },
+    {
+      "dealer_not_win": 220,
+      "dealer_win": 489,
+      "difference_from_overall": -0.0133181113768166,
+      "observations": 709,
+      "wilson_lower": 0.6547058511074654,
+      "wilson_upper": 0.7226571609219227,
+      "win_rate": 0.689703808180536,
+      "year": 2021
+    },
+    {
+      "dealer_not_win": 196,
+      "dealer_win": 436,
+      "difference_from_overall": -0.013148501835833604,
+      "observations": 632,
+      "wilson_lower": 0.6527555959981368,
+      "wilson_upper": 0.7246969854128522,
+      "win_rate": 0.689873417721519,
+      "year": 2022
+    },
+    {
+      "dealer_not_win": 193,
+      "dealer_win": 448,
+      "difference_from_overall": -0.004113963239099849,
+      "observations": 641,
+      "wilson_lower": 0.66229683924627,
+      "wilson_upper": 0.7331491987090932,
+      "win_rate": 0.6989079563182528,
+      "year": 2023
+    },
+    {
+      "dealer_not_win": 197,
+      "dealer_win": 481,
+      "difference_from_overall": 0.006417608466246172,
+      "observations": 678,
+      "wilson_lower": 0.6741604874985833,
+      "wilson_upper": 0.7423586260372869,
+      "win_rate": 0.7094395280235988,
+      "year": 2024
+    },
+    {
+      "dealer_not_win": 195,
+      "dealer_win": 507,
+      "difference_from_overall": 0.019200302664869606,
+      "observations": 702,
+      "wilson_lower": 0.6879477381686387,
+      "wilson_upper": 0.7540778698500279,
+      "win_rate": 0.7222222222222222,
+      "year": 2025
+    }
+  ]
+}
