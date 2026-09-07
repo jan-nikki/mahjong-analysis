@@ -7,6 +7,7 @@ from os import PathLike
 from pathlib import Path
 from typing import Any, Literal
 
+from mahjong_analysis.tiles import normalize_tile
 
 _MJAI_FILENAME_PATTERN = re.compile(
     r"^\d{10}gm-"
@@ -79,6 +80,153 @@ def filter_east_kyokus(
     return [kyoku for kyoku in kyokus if kyoku[0]["bakaze"] == "E"]
 
 
+def match_reach_sequence(
+    kyoku: list[dict[str, Any]],
+    reach_event_index: int,
+    *,
+    context: str = "reach",
+) -> tuple[int, int, int, int] | None:
+    """Validate a reach/dahai/final-event sequence.
+
+    Return ``(actor, reach index, dahai index, accepted index)`` for an
+    established reach. A declaration followed by hora or ryukyoku is a valid
+    unestablished reach and returns ``None``.
+    """
+    if not 0 <= reach_event_index < len(kyoku):
+        raise ValueError(f"{context} event index is out of range")
+
+    reach = _require_sequence_event(kyoku, reach_event_index, context)
+    if reach["type"] != "reach":
+        raise ValueError(
+            f"event {reach_event_index}: {context} event index does not point to reach"
+        )
+    actor = _require_sequence_actor(reach, reach_event_index, context)
+
+    dahai_index = reach_event_index + 1
+    if dahai_index >= len(kyoku):
+        raise ValueError(
+            f"event {reach_event_index}, actor {actor}: "
+            f"{context} must be followed by dahai"
+        )
+
+    dahai = _require_sequence_event(kyoku, dahai_index, context, actor)
+    if dahai["type"] != "dahai":
+        raise ValueError(
+            f"event {dahai_index}, actor {actor}: {context} must be followed by dahai"
+        )
+    dahai_actor = _require_sequence_actor(dahai, dahai_index, context)
+    if dahai_actor != actor:
+        raise ValueError(
+            f"event {dahai_index}, actor {dahai_actor}: "
+            f"{context} and dahai actors do not match"
+        )
+
+    final_index = reach_event_index + 2
+    if final_index >= len(kyoku):
+        raise ValueError(
+            f"event {dahai_index}, actor {actor}: "
+            f"{context} dahai must be followed by an event"
+        )
+
+    final_event = _require_sequence_event(kyoku, final_index, context, actor)
+    if final_event["type"] == "reach_accepted":
+        accepted_actor = _require_sequence_actor(final_event, final_index, context)
+        if accepted_actor != actor:
+            raise ValueError(
+                f"event {final_index}, actor {accepted_actor}: "
+                f"{context} and reach_accepted actors do not match"
+            )
+        return actor, reach_event_index, dahai_index, final_index
+
+    if final_event["type"] == "hora":
+        _validate_declaration_tile_hora(
+            dahai,
+            final_event,
+            final_index,
+            actor,
+            context,
+        )
+        return None
+
+    if final_event["type"] == "ryukyoku":
+        return None
+
+    raise ValueError(
+        f"event {final_index}, actor {actor}: {context} dahai must be followed by "
+        "reach_accepted, hora, or ryukyoku"
+    )
+
+
+def _require_sequence_event(
+    kyoku: list[dict[str, Any]],
+    event_index: int,
+    context: str,
+    actor: int | None = None,
+) -> dict[str, Any]:
+    event = kyoku[event_index]
+    actor_context = "" if actor is None else f", actor {actor}"
+    if not isinstance(event, dict):
+        raise ValueError(  # noqa: TRY004 - malformed MJAI is a data-value error
+            f"event {event_index}{actor_context}: "
+            f"{context} sequence event must be an object"
+        )
+    if not isinstance(event.get("type"), str):
+        raise ValueError(  # noqa: TRY004 - malformed MJAI is a data-value error
+            f"event {event_index}{actor_context}: "
+            f"{context} sequence event type must be a string"
+        )
+    return event
+
+
+def _require_sequence_actor(
+    event: dict[str, Any],
+    event_index: int,
+    context: str,
+) -> int:
+    actor = event.get("actor")
+    if type(actor) is not int or not 0 <= actor <= 3:
+        raise ValueError(
+            f"event {event_index}: {context} sequence actor must be "
+            "an integer from 0 to 3"
+        )
+    return actor
+
+
+def _validate_declaration_tile_hora(
+    dahai: dict[str, Any],
+    hora: dict[str, Any],
+    hora_event_index: int,
+    reach_actor: int,
+    context: str,
+) -> None:
+    target = hora.get("target")
+    if type(target) is not int or target != reach_actor:
+        raise ValueError(
+            f"event {hora_event_index}, actor {reach_actor}: "
+            f"{context} declaration hora target must be the reach actor"
+        )
+
+    dahai_tile = dahai.get("pai")
+    hora_tile = hora.get("pai")
+    if not isinstance(dahai_tile, str) or not isinstance(hora_tile, str):
+        raise ValueError(  # noqa: TRY004 - malformed MJAI is a data-value error
+            f"event {hora_event_index}, actor {reach_actor}: "
+            f"{context} declaration dahai and hora pai must be tile strings"
+        )
+    try:
+        same_tile_kind = normalize_tile(dahai_tile) == normalize_tile(hora_tile)
+    except ValueError as error:
+        raise ValueError(
+            f"event {hora_event_index}, actor {reach_actor}: "
+            f"{context} declaration dahai or hora has an invalid pai"
+        ) from error
+    if not same_tile_kind:
+        raise ValueError(
+            f"event {hora_event_index}, actor {reach_actor}: "
+            f"{context} declaration hora pai does not match the declaration tile kind"
+        )
+
+
 def is_dealer_double_riichi(kyoku: list[dict[str, Any]]) -> bool:
     """Return whether the dealer completed riichi on their first discard."""
     dealer = kyoku[0]["oya"]
@@ -93,32 +241,14 @@ def is_dealer_double_riichi(kyoku: list[dict[str, Any]]) -> bool:
         elif event_type == "dahai" and event["actor"] == dealer:
             dealer_has_discarded = True
         elif event_type == "reach" and event["actor"] == dealer:
-            if index + 1 >= len(kyoku) or kyoku[index + 1]["type"] != "dahai":
-                raise ValueError("dealer reach must be followed by dahai")
-
-            dahai = kyoku[index + 1]
-            if dahai.get("actor") != dealer:
-                raise ValueError("dealer reach and dahai actors do not match")
-
-            if index + 2 >= len(kyoku):
-                raise ValueError("dealer reach dahai must be followed by an event")
-
-            event_after_dahai = kyoku[index + 2]
-            if event_after_dahai["type"] == "reach_accepted":
-                reach_accepted = event_after_dahai
-                if reach_accepted.get("actor") != dealer:
-                    raise ValueError(
-                        "dealer reach and reach_accepted actors do not match"
-                    )
-                return not dealer_has_discarded and not ankan_occurred
-
-            if event_after_dahai["type"] in {"hora", "ryukyoku"}:
-                return False
-
-            raise ValueError(
-                "dealer reach dahai must be followed by "
-                "reach_accepted, hora, or ryukyoku"
+            sequence = match_reach_sequence(
+                kyoku,
+                index,
+                context="dealer reach",
             )
+            if sequence is None:
+                return False
+            return not dealer_has_discarded and not ankan_occurred
 
     return False
 

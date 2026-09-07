@@ -61,7 +61,8 @@
 次の場合は、妥当な未成立リーチとしてレコードを生成しない。
 
 - `reach`、同一actorの `dahai`、`hora` の順で、宣言牌にロンが
-  発生した場合
+  発生した場合。このとき `hora.target` はreach actorと一致し、
+  `hora.pai` は宣言牌 `dahai.pai` と正規化後の同一牌種でなければならない
 - `reach`、同一actorの `dahai`、`ryukyoku` の順で、
   `reach_accepted` に到達しなかった場合
 
@@ -152,13 +153,20 @@ riichi_discard_number
 `start_kyoku.tehais[actor]` を初期concealed handとし、
 リーチ宣言牌までのイベントを順番に適用する。
 
+この層は完全な麻雀行動合法性検証器ではない。牌所有、副露状態、
+打牌後枚数など、正確な手牌再現に必要な整合性を検証する。
+
 - `tsumo`
   - 同一actorの `pai` をconcealed handへ1枚追加する
 - `dahai`
   - 同一actorの `pai` と同じ物理牌を1枚除く
   - `5m` と `5mr` は状態更新時には別の物理牌として扱う
+  - 適用直後の全actorについて、concealed handの物理枚数が
+    `13 - 3 * fixed_meld_count` であることを検証する
 - `chi` / `pon` / `daiminkan`
   - actorのhandから `consumed` を除き、固定面子を追加する
+  - 四人麻雀の `chi` は `actor == (target + 1) % 4` を満たすことを
+    検証する
 - `ankan`
   - actorのhandから `consumed` 4枚を除き、閉じた固定面子を追加する
 - `kakan`
@@ -168,6 +176,11 @@ riichi_discard_number
 
 存在しない物理牌のツモ切り・手出し、5枚目の同一牌種、不正な
 `consumed`、固定面子数とconcealed hand枚数の不整合はエラーとする。
+
+成立リーチの宣言牌打牌直後のconcealed handと固定面子は、
+この抽出境界で `calculate_hand_waits()` に渡して検証する。
+`wait_tiles` が空なら不正MJAIとして例外にし、`EstablishedRiichi` を
+生成しない。待ち探索アルゴリズム自体は手牌再生層へ重複実装しない。
 
 ## actor_discards_before_riichi
 
@@ -225,6 +238,11 @@ riichi_discard_number
 待ち判定層では赤5を通常5へ正規化して扱う。`5mr`、`5pr`、`5sr` が
 物理的に複数存在する等の不正MJAIの検査はこの層では行わず、後続の
 MJAI手牌再生層で生牌を保持した状態で行う。
+
+現段階のMJAI手牌再生層では、各actorのconcealed handと固定面子を
+合わせた手牌状態内で同じ赤5が複数存在する場合を拒否する。局全体での
+`5mr`、`5pr`、`5sr` の物理的一意性を追跡するグローバル牌台帳は、
+完全なMJAI合法性検証の責務とし、Issue #24の必須範囲には含めない。
 
 - `wait_tiles` に `5mr`、`5pr`、`5sr` は出力しない
 - 通常5と赤5を別の待ち種類として数えない
@@ -612,12 +630,16 @@ R16の`3m`では、次の異なる標準形の完成分解が成立する。
 - リーチ者自身の暗槓後リーチ
 - 赤5のツモ、手出し、ツモ切り、宣言牌
 - `reach` はあるが宣言牌で放銃し、`reach_accepted` がないケース
+  - `hora.target` と宣言actor、および正規化後の `hora.pai` と
+    宣言牌が一致することも検査する
 - `reach` はあるが `ryukyoku` となり、`reach_accepted` がないケース
 - `reach` と `dahai` のactor不一致
 - `reach_accepted` のactor不一致
 - 3イベントの間に予期しないイベントが入るケース
 - 孤立した `reach_accepted`
 - 手牌に存在しない物理牌の `dahai`
+- 全actorの打牌直後枚数が `13 - 3 * fixed_meld_count` と異なるケース
+- 不正な方向からの `chi`
 - 副露済みactorの不正な成立リーチ
 - 待ちが1種類も得られない不正な成立リーチ
 

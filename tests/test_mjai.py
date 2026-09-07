@@ -12,6 +12,7 @@ from mahjong_analysis.mjai import (
     is_dealer_double_riichi,
     is_target_game,
     load_mjai,
+    match_reach_sequence,
     split_kyoku,
 )
 
@@ -521,7 +522,7 @@ def test_is_dealer_double_riichi_rejects_unaccepted_reach_with_hora() -> None:
         {"type": "tsumo", "actor": 0, "pai": "1m"},
         {"type": "reach", "actor": 0},
         {"type": "dahai", "actor": 0, "pai": "2m", "tsumogiri": False},
-        {"type": "hora", "actor": 1, "target": 0},
+        {"type": "hora", "actor": 1, "target": 0, "pai": "2m"},
         {"type": "end_kyoku"},
     ]
 
@@ -640,6 +641,27 @@ def test_is_dealer_double_riichi_rejects_end_after_reach_dahai() -> None:
 
     with pytest.raises(ValueError, match="followed by an event"):
         is_dealer_double_riichi(kyoku)
+
+
+@pytest.mark.parametrize(
+    ("event_index", "replacement", "expected_message"),
+    [
+        (2, [], r"event 2:.*event must be an object"),
+        (3, [], r"event 3, actor 0:.*event must be an object"),
+        (4, {"actor": 0}, r"event 4, actor 0:.*type must be a string"),
+    ],
+    ids=("reach-not-object", "dahai-not-object", "final-type-missing"),
+)
+def test_match_reach_sequence_rejects_malformed_sequence_events(
+    event_index: int,
+    replacement: object,
+    expected_message: str,
+) -> None:
+    kyoku: list[object] = dealer_double_riichi_kyoku()
+    kyoku[event_index] = replacement
+
+    with pytest.raises(ValueError, match=expected_message):
+        match_reach_sequence(kyoku, 2)  # type: ignore[arg-type]
 
 
 def test_classify_dealer_double_riichi_result_returns_dealer_win_for_tsumo(
