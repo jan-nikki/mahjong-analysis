@@ -12,6 +12,7 @@ CallType = Literal["chi", "pon", "daiminkan"]
 MeldType = Literal["chi", "pon", "daiminkan", "ankan", "kakan"]
 
 _OPEN_MELD_TYPES = frozenset(("chi", "pon", "daiminkan", "kakan"))
+_DISCARD_CALL_TYPES = frozenset(("chi", "pon", "daiminkan"))
 
 
 @dataclass(frozen=True)
@@ -28,6 +29,59 @@ class ActorDiscard:
     call_type: CallType | None = None
     called_by_actor: int | None = None
     call_event_index: int | None = None
+
+    def __post_init__(self) -> None:
+        if type(self.discard_number) is not int:
+            raise TypeError("discard_number must be an integer")
+        if self.discard_number < 1:
+            raise ValueError("discard_number must be at least 1")
+        if type(self.event_index) is not int:
+            raise TypeError("event_index must be an integer")
+        if self.event_index < 0:
+            raise ValueError("event_index must be non-negative")
+
+        if not isinstance(self.tile, str):
+            raise TypeError("tile must be a string")
+        normalized = normalize_tile(self.tile)
+        if not isinstance(self.tile_kind, str):
+            raise TypeError("tile_kind must be a string")
+        if normalize_tile(self.tile_kind) != self.tile_kind:
+            raise ValueError("tile_kind must be a normalized tile kind")
+        if normalized != self.tile_kind:
+            raise ValueError("tile_kind must equal normalize_tile(tile)")
+
+        for field_name, value in (
+            ("tsumogiri", self.tsumogiri),
+            ("is_riichi_declaration", self.is_riichi_declaration),
+            ("was_called", self.was_called),
+        ):
+            if type(value) is not bool:
+                raise TypeError(f"{field_name} must be a bool")
+
+        if not self.was_called:
+            if any(
+                value is not None
+                for value in (
+                    self.call_type,
+                    self.called_by_actor,
+                    self.call_event_index,
+                )
+            ):
+                raise ValueError("uncalled discard must not have call information")
+            return
+
+        if not isinstance(self.call_type, str):
+            raise TypeError("called discard call_type must be a string")
+        if self.call_type not in _DISCARD_CALL_TYPES:
+            raise ValueError(f"invalid discard call_type: {self.call_type!r}")
+        if type(self.called_by_actor) is not int:
+            raise TypeError("called_by_actor must be an integer")
+        if self.called_by_actor not in range(4):
+            raise ValueError("called_by_actor must be between 0 and 3")
+        if type(self.call_event_index) is not int:
+            raise TypeError("call_event_index must be an integer")
+        if self.call_event_index <= self.event_index:
+            raise ValueError("call_event_index must be after the discard event")
 
 
 @dataclass(frozen=True)

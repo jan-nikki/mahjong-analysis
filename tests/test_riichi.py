@@ -1,7 +1,7 @@
 import pytest
 
 from mahjong_analysis.hand_waits import FixedMeld, calculate_hand_waits
-from mahjong_analysis.riichi import extract_established_riichis
+from mahjong_analysis.riichi import ActorDiscard, extract_established_riichis
 
 
 def expand_hand(hand: str) -> list[str]:
@@ -750,3 +750,131 @@ def test_call_marks_only_later_of_two_same_raw_discards() -> None:
         second.call_event_index,
     ) == ("9m", 4, True, "chi", 2, 5)
     assert declaration.is_riichi_declaration is True
+
+
+def make_actor_discard(**changes: object) -> ActorDiscard:
+    values: dict[str, object] = {
+        "discard_number": 1,
+        "tile": "9s",
+        "tile_kind": "9s",
+        "tsumogiri": True,
+        "event_index": 10,
+        "is_riichi_declaration": False,
+        "was_called": False,
+        "call_type": None,
+        "called_by_actor": None,
+        "call_event_index": None,
+    }
+    values.update(changes)
+    return ActorDiscard(**values)
+
+
+@pytest.mark.parametrize(
+    ("tile", "tile_kind"),
+    [("5m", "5m"), ("5mr", "5m"), ("5pr", "5p"), ("5sr", "5s")],
+)
+def test_actor_discard_accepts_valid_raw_and_normalized_tiles(
+    tile: str,
+    tile_kind: str,
+) -> None:
+    discard = make_actor_discard(tile=tile, tile_kind=tile_kind)
+
+    assert discard.tile == tile
+    assert discard.tile_kind == tile_kind
+
+
+@pytest.mark.parametrize("call_type", ["chi", "pon", "daiminkan"])
+def test_actor_discard_accepts_consistent_call_information(call_type: str) -> None:
+    discard = make_actor_discard(
+        was_called=True,
+        call_type=call_type,
+        called_by_actor=2,
+        call_event_index=11,
+    )
+
+    assert (
+        discard.was_called,
+        discard.call_type,
+        discard.called_by_actor,
+        discard.call_event_index,
+    ) == (True, call_type, 2, 11)
+
+
+@pytest.mark.parametrize(
+    ("changes", "expected_message"),
+    [
+        ({"discard_number": 0}, "discard_number"),
+        ({"discard_number": True}, "discard_number"),
+        ({"event_index": -1}, "event_index"),
+        ({"event_index": True}, "event_index"),
+        ({"tile": ["9s"]}, "tile must be a string"),
+        ({"tile": "0m"}, "invalid tile"),
+        ({"tile_kind": ["9s"]}, "tile_kind must be a string"),
+        (
+            {"tile": "5mr", "tile_kind": "5mr"},
+            "tile_kind must be a normalized tile kind",
+        ),
+        (
+            {"tile": "5mr", "tile_kind": "5p"},
+            "tile_kind must equal normalize_tile",
+        ),
+        ({"tsumogiri": 1}, "tsumogiri"),
+        ({"is_riichi_declaration": 1}, "is_riichi_declaration"),
+        ({"was_called": 1}, "was_called"),
+        ({"called_by_actor": 2}, "uncalled discard"),
+        ({"call_type": "pon"}, "uncalled discard"),
+        ({"call_event_index": 11}, "uncalled discard"),
+        ({"was_called": True}, "call_type"),
+        (
+            {
+                "was_called": True,
+                "call_type": "kakan",
+                "called_by_actor": 2,
+                "call_event_index": 11,
+            },
+            "call_type",
+        ),
+        (
+            {
+                "was_called": True,
+                "call_type": "pon",
+                "called_by_actor": True,
+                "call_event_index": 11,
+            },
+            "called_by_actor",
+        ),
+        (
+            {
+                "was_called": True,
+                "call_type": "pon",
+                "called_by_actor": 4,
+                "call_event_index": 11,
+            },
+            "called_by_actor",
+        ),
+        (
+            {
+                "was_called": True,
+                "call_type": "pon",
+                "called_by_actor": 2,
+                "call_event_index": True,
+            },
+            "call_event_index",
+        ),
+        (
+            {
+                "was_called": True,
+                "call_type": "pon",
+                "called_by_actor": 2,
+                "call_event_index": 10,
+            },
+            "call_event_index must be after",
+        ),
+    ],
+)
+def test_actor_discard_rejects_invalid_direct_construction(
+    changes: dict[str, object],
+    expected_message: str,
+) -> None:
+    with pytest.raises((TypeError, ValueError), match=expected_message):
+        make_actor_discard(**changes)
