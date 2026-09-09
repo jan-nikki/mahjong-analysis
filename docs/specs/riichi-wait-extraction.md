@@ -62,7 +62,9 @@ production経路の対象対局判定、MJAI読み込み、局分割、東場抽
 
 - `reach`、同一actorの `dahai`、`hora` の順で、宣言牌にロンが
   発生した場合。このとき `hora.target` はreach actorと一致し、
-  `hora.pai` は宣言牌 `dahai.pai` と正規化後の同一牌種でなければならない
+  `hora.pai` は宣言牌 `dahai.pai` と正規化後の同一牌種で、かつ
+  `hora.actor != hora.target` でなければならない。自己和了形式や無関係な
+  `hora` は正常な宣言牌ロンとせず、不正イベント列として拒否する
 - `reach`、同一actorの `dahai`、`ryukyoku` の順で、
   `reach_accepted` に到達しなかった場合
 
@@ -642,7 +644,7 @@ R16の`3m`では、次の異なる標準形の完成分解が成立する。
 - 赤5のツモ、手出し、ツモ切り、宣言牌
 - `reach` はあるが宣言牌で放銃し、`reach_accepted` がないケース
   - `hora.target` と宣言actor、および正規化後の `hora.pai` と
-    宣言牌が一致することも検査する
+    宣言牌が一致し、`hora.actor != hora.target` であることも検査する
 - `reach` はあるが `ryukyoku` となり、`reach_accepted` がないケース
 - `reach` と `dahai` のactor不一致
 - `reach_accepted` のactor不一致
@@ -840,7 +842,8 @@ reach_accepted
 call metadataだけを局終了まで追跡した最終値をproductionと比較する。
 
 `reach -> dahai -> hora` は、`hora.target` がreach actorであり、`hora.pai` と
-宣言牌が同一正規化牌種の場合だけ正常な未成立リーチとする。
+宣言牌が同一正規化牌種で、`hora.actor != hora.target` の場合だけ正常な未成立
+リーチとする。自己和了形式や無関係な `hora` は不正イベント列として拒否する。
 `reach -> dahai -> ryukyoku` も未成立として除外する。それ以外の不正な成立列は、
 source path、物理行番号、可能ならactorを含む例外にする。
 

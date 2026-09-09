@@ -206,6 +206,13 @@ def _validate_declaration_tile_hora(
             f"{context} declaration hora target must be the reach actor"
         )
 
+    winner = _require_sequence_actor(hora, hora_event_index, context)
+    if winner == target:
+        raise ValueError(
+            f"event {hora_event_index}, actor {winner}: "
+            f"{context} declaration hora actor must differ from target"
+        )
+
     dahai_tile = dahai.get("pai")
     hora_tile = hora.get("pai")
     if not isinstance(dahai_tile, str) or not isinstance(hora_tile, str):

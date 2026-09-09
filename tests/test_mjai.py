@@ -664,6 +664,20 @@ def test_match_reach_sequence_rejects_malformed_sequence_events(
         match_reach_sequence(kyoku, 2)  # type: ignore[arg-type]
 
 
+def test_match_reach_sequence_rejects_self_hora_as_declaration_ron() -> None:
+    kyoku = [
+        {"type": "start_kyoku", "oya": 0},
+        {"type": "tsumo", "actor": 0, "pai": "9s"},
+        {"type": "reach", "actor": 0},
+        {"type": "dahai", "actor": 0, "pai": "9s", "tsumogiri": True},
+        {"type": "hora", "actor": 0, "target": 0, "pai": "9s"},
+        {"type": "end_kyoku"},
+    ]
+
+    with pytest.raises(ValueError, match="actor must differ from target"):
+        match_reach_sequence(kyoku, 2)
+
+
 def test_classify_dealer_double_riichi_result_returns_dealer_win_for_tsumo(
 ) -> None:
     kyoku = dealer_double_riichi_result_kyoku(

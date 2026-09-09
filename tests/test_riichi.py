@@ -197,6 +197,18 @@ def test_unrelated_hora_after_reach_declaration_is_rejected(
         extract_established_riichis(make_kyoku(*events))
 
 
+def test_self_hora_after_reach_declaration_is_rejected() -> None:
+    events = (
+        {"type": "tsumo", "actor": 1, "pai": "9s"},
+        {"type": "reach", "actor": 1},
+        {"type": "dahai", "actor": 1, "pai": "9s", "tsumogiri": True},
+        {"type": "hora", "actor": 1, "target": 1, "pai": "9s"},
+    )
+
+    with pytest.raises(ValueError, match="actor must differ from target"):
+        extract_established_riichis(make_kyoku(*events))
+
+
 def test_rejects_actor_outside_four_players() -> None:
     with pytest.raises(ValueError, match=r"event 2: actor"):
         extract_established_riichis(make_kyoku(*established_events(4)))
