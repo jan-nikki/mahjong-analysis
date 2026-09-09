@@ -623,8 +623,13 @@ def _validate_declaration_hora(
             winner,
             "declaration hora actor must differ from target",
         )
-    hora_tile = _require_tile(kyoku, event, "pai", winner)
     declaration_tile = _pending_value(pending.declaration_tile)
+    # Some upstream MJAI hora events omit pai.  Because hora must immediately
+    # follow this declaration dahai, the discarded tile is then authoritative.
+    if "pai" not in event.data:
+        return
+
+    hora_tile = _require_tile(kyoku, event, "pai", winner)
     if normalize_reference_tile(hora_tile) != normalize_reference_tile(
         declaration_tile
     ):

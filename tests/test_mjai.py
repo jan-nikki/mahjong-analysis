@@ -678,6 +678,19 @@ def test_match_reach_sequence_rejects_self_hora_as_declaration_ron() -> None:
         match_reach_sequence(kyoku, 2)
 
 
+def test_match_reach_sequence_accepts_declaration_ron_without_hora_pai() -> None:
+    kyoku = [
+        {"type": "start_kyoku", "oya": 0},
+        {"type": "tsumo", "actor": 0, "pai": "9s"},
+        {"type": "reach", "actor": 0},
+        {"type": "dahai", "actor": 0, "pai": "9s", "tsumogiri": True},
+        {"type": "hora", "actor": 1, "target": 0},
+        {"type": "end_kyoku"},
+    ]
+
+    assert match_reach_sequence(kyoku, 2) is None
+
+
 def test_classify_dealer_double_riichi_result_returns_dealer_win_for_tsumo(
 ) -> None:
     kyoku = dealer_double_riichi_result_kyoku(

@@ -214,18 +214,36 @@ def _validate_declaration_tile_hora(
         )
 
     dahai_tile = dahai.get("pai")
-    hora_tile = hora.get("pai")
-    if not isinstance(dahai_tile, str) or not isinstance(hora_tile, str):
+    if not isinstance(dahai_tile, str):
         raise ValueError(  # noqa: TRY004 - malformed MJAI is a data-value error
             f"event {hora_event_index}, actor {reach_actor}: "
-            f"{context} declaration dahai and hora pai must be tile strings"
+            f"{context} declaration dahai pai must be a tile string"
         )
     try:
-        same_tile_kind = normalize_tile(dahai_tile) == normalize_tile(hora_tile)
+        declaration_tile_kind = normalize_tile(dahai_tile)
     except ValueError as error:
         raise ValueError(
             f"event {hora_event_index}, actor {reach_actor}: "
-            f"{context} declaration dahai or hora has an invalid pai"
+            f"{context} declaration dahai has an invalid pai"
+        ) from error
+
+    # Upstream MJAI hora events may omit pai.  In that form the immediately
+    # preceding declaration dahai is the winning tile by construction.
+    if "pai" not in hora:
+        return
+
+    hora_tile = hora["pai"]
+    if not isinstance(hora_tile, str):
+        raise ValueError(  # noqa: TRY004 - malformed MJAI is a data-value error
+            f"event {hora_event_index}, actor {reach_actor}: "
+            f"{context} declaration hora pai must be a tile string"
+        )
+    try:
+        same_tile_kind = declaration_tile_kind == normalize_tile(hora_tile)
+    except ValueError as error:
+        raise ValueError(
+            f"event {hora_event_index}, actor {reach_actor}: "
+            f"{context} declaration hora has an invalid pai"
         ) from error
     if not same_tile_kind:
         raise ValueError(

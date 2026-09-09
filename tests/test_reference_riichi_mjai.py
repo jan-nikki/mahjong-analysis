@@ -228,6 +228,17 @@ def test_accepts_declaration_tile_ron_as_unestablished() -> None:
     assert extract_reference_riichi_candidates(make_kyoku(*events)) == ()
 
 
+def test_accepts_declaration_tile_ron_without_pai_as_unestablished() -> None:
+    events = (
+        {"type": "tsumo", "actor": 1, "pai": "9s"},
+        {"type": "reach", "actor": 1},
+        {"type": "dahai", "actor": 1, "pai": "9s", "tsumogiri": True},
+        {"type": "hora", "actor": 0, "target": 1},
+    )
+
+    assert extract_reference_riichi_candidates(make_kyoku(*events)) == ()
+
+
 @pytest.mark.parametrize(
     "hora",
     (
@@ -257,6 +268,21 @@ def test_rejects_self_hora_as_declaration_tile_ron() -> None:
     )
 
     with pytest.raises(ValueError, match="actor must differ from target"):
+        extract_reference_riichi_candidates(make_kyoku(*events))
+
+
+@pytest.mark.parametrize("invalid_pai", [None, 5, "not-a-tile"])
+def test_rejects_declaration_hora_with_present_invalid_pai(
+    invalid_pai: object,
+) -> None:
+    events = (
+        {"type": "tsumo", "actor": 1, "pai": "9s"},
+        {"type": "reach", "actor": 1},
+        {"type": "dahai", "actor": 1, "pai": "9s", "tsumogiri": True},
+        {"type": "hora", "actor": 0, "target": 1, "pai": invalid_pai},
+    )
+
+    with pytest.raises(ValueError, match="pai"):
         extract_reference_riichi_candidates(make_kyoku(*events))
 
 
