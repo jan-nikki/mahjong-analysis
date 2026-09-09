@@ -1,10 +1,26 @@
-"""Independent reference implementation for structural hand waits."""
+"""Independent reference implementation for riichi replay and hand waits."""
 
+from .mjai import (
+    ReferenceKyoku,
+    ReferenceMjaiEvent,
+    ReferenceMjaiLog,
+    extract_reference_riichi_candidates,
+    extract_reference_rule_code,
+    filter_reference_east_kyokus,
+    is_reference_east_kyoku,
+    is_reference_target_game,
+    read_reference_mjai,
+    reference_log_from_events,
+    split_reference_kyokus,
+)
 from .model import (
     REFERENCE_TILE_KINDS,
+    ReferenceActorDiscard,
+    ReferenceCallType,
     ReferenceHandType,
     ReferenceHandWaits,
     ReferenceMeld,
+    ReferenceRiichiCandidate,
     ReferenceWaitDetail,
     ReferenceWaitShape,
     normalize_reference_tile,
@@ -14,12 +30,26 @@ from .waits import calculate_reference_hand_waits
 
 __all__ = [
     "REFERENCE_TILE_KINDS",
+    "ReferenceActorDiscard",
+    "ReferenceCallType",
     "ReferenceHandType",
     "ReferenceHandWaits",
+    "ReferenceKyoku",
     "ReferenceMeld",
+    "ReferenceMjaiEvent",
+    "ReferenceMjaiLog",
+    "ReferenceRiichiCandidate",
     "ReferenceWaitDetail",
     "ReferenceWaitShape",
     "calculate_reference_hand_waits",
+    "extract_reference_riichi_candidates",
+    "extract_reference_rule_code",
+    "filter_reference_east_kyokus",
+    "is_reference_east_kyoku",
+    "is_reference_target_game",
     "normalize_reference_tile",
+    "read_reference_mjai",
+    "reference_log_from_events",
     "reference_tile_to_index",
+    "split_reference_kyokus",
 ]

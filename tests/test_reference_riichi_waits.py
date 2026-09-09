@@ -778,15 +778,14 @@ def test_reference_package_does_not_import_production_modules_or_fixtures() -> N
     repository_root = Path(__file__).resolve().parents[1]
     source_root = repository_root / "src"
     package_root = source_root / "mahjong_analysis" / "riichi_wait_reference"
+    reference_tests = (
+        Path(__file__).resolve(),
+        repository_root / "tests/test_reference_riichi_mjai.py",
+    )
 
     assert (package_root / "__init__.py").is_file()
     assert (
         _reference_package_import_violations(package_root, source_root=source_root)
         == {}
     )
-    assert (
-        _file_import_violations(
-            (Path(__file__).resolve(),), source_root=repository_root
-        )
-        == {}
-    )
+    assert _file_import_violations(reference_tests, source_root=repository_root) == {}
