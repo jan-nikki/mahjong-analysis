@@ -1,7 +1,7 @@
 """Build analysis records from established-riichi hand snapshots."""
 
 from collections.abc import Iterable
-from dataclasses import dataclass
+from dataclasses import InitVar, dataclass
 from itertools import pairwise
 
 from mahjong_analysis.hand_waits import (
@@ -13,6 +13,14 @@ from mahjong_analysis.hand_waits import (
 )
 from mahjong_analysis.riichi import ActorDiscard, EstablishedRiichi
 from mahjong_analysis.tiles import normalize_tile
+
+_FACTORY_VALIDATION_TOKEN = object()
+
+
+@dataclass(frozen=True)
+class _FactoryValidatedWaits:
+    token: object
+    waits: HandWaits
 
 
 @dataclass(frozen=True)
@@ -36,8 +44,12 @@ class RiichiWaitRecord:
     contains_ryanmen: bool
     is_pure_ryanmen: bool
     is_multiwait: bool
+    _factory_validated_waits: InitVar[_FactoryValidatedWaits | None] = None
 
-    def __post_init__(self) -> None:
+    def __post_init__(
+        self,
+        _factory_validated_waits: _FactoryValidatedWaits | None,
+    ) -> None:
         _validate_record_identity(self)
         _validate_immutable_collections(self)
         _validate_discard_history(self)
@@ -49,9 +61,9 @@ class RiichiWaitRecord:
         if not waits.wait_tiles:
             raise ValueError("a riichi wait record must have at least one wait tile")
 
-        calculated = calculate_hand_waits(
-            self.concealed_tiles_after_discard,
-            self.fixed_melds,
+        calculated = _resolve_calculated_waits(
+            self,
+            _factory_validated_waits,
         )
         if waits != calculated:
             raise ValueError(
@@ -94,6 +106,10 @@ def build_riichi_wait_record(
         contains_ryanmen=waits.contains_ryanmen,
         is_pure_ryanmen=waits.is_pure_ryanmen,
         is_multiwait=waits.is_multiwait,
+        _factory_validated_waits=_FactoryValidatedWaits(
+            _FACTORY_VALIDATION_TOKEN,
+            waits,
+        ),
     )
 
 
@@ -105,6 +121,23 @@ def build_riichi_wait_records(
         build_riichi_wait_record(established_riichi)
         for established_riichi in established_riichis
     )
+
+
+def _resolve_calculated_waits(
+    record: RiichiWaitRecord,
+    factory_validated_waits: _FactoryValidatedWaits | None,
+) -> HandWaits:
+    if factory_validated_waits is None:
+        return calculate_hand_waits(
+            record.concealed_tiles_after_discard,
+            record.fixed_melds,
+        )
+    if (
+        type(factory_validated_waits) is not _FactoryValidatedWaits
+        or factory_validated_waits.token is not _FACTORY_VALIDATION_TOKEN
+    ):
+        raise TypeError("_factory_validated_waits is reserved for the internal factory")
+    return factory_validated_waits.waits
 
 
 def _validate_record_identity(record: RiichiWaitRecord) -> None:

@@ -3,6 +3,7 @@ from dataclasses import asdict, replace
 
 import pytest
 
+import mahjong_analysis.riichi_wait_records as record_module
 from mahjong_analysis.hand_waits import (
     WAIT_SHAPE_ORDER,
     FixedMeld,
@@ -480,6 +481,67 @@ def test_builds_one_record_per_established_riichi_in_one_kyoku() -> None:
     ) == (3, tuple(second_hand), "C", 2, ("N", "C"), ("5s",))
 
 
+def test_factory_calculates_hand_waits_once_per_record(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    original = record_module.calculate_hand_waits
+    call_count = 0
+
+    def counted_calculate_hand_waits(
+        concealed_tiles: tuple[str, ...],
+        fixed_melds: tuple[FixedMeld, ...],
+    ) -> object:
+        nonlocal call_count
+        call_count += 1
+        return original(concealed_tiles, fixed_melds)
+
+    monkeypatch.setattr(
+        record_module,
+        "calculate_hand_waits",
+        counted_calculate_hand_waits,
+    )
+
+    record = build_riichi_wait_record(make_established_riichi("123m 123p 789p EE 45s"))
+
+    assert call_count == 1
+    assert record.wait_tiles == ("3s", "6s")
+
+
+def test_multiple_record_factory_calculates_once_per_record(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    original = record_module.calculate_hand_waits
+    call_count = 0
+
+    def counted_calculate_hand_waits(
+        concealed_tiles: tuple[str, ...],
+        fixed_melds: tuple[FixedMeld, ...],
+    ) -> object:
+        nonlocal call_count
+        call_count += 1
+        return original(concealed_tiles, fixed_melds)
+
+    monkeypatch.setattr(
+        record_module,
+        "calculate_hand_waits",
+        counted_calculate_hand_waits,
+    )
+    established = (
+        make_established_riichi("123m 123p 789p EE 45s"),
+        make_established_riichi("123m 456m 789m 123p 5s"),
+        make_established_riichi("123m 456m 789m 55p 77s"),
+    )
+
+    records = build_riichi_wait_records(established)
+
+    assert call_count == len(records) == 3
+    assert tuple(record.wait_tiles for record in records) == (
+        ("3s", "6s"),
+        ("5s",),
+        ("5p", "7s"),
+    )
+
+
 def test_rejects_established_riichi_with_empty_waits() -> None:
     established = make_established_riichi("1m 9m 1p 9p 1s EE SS W N P F")
 
@@ -559,6 +621,58 @@ def test_direct_construction_rejects_waits_from_a_different_hand() -> None:
             is_pure_ryanmen=False,
             is_multiwait=False,
         )
+
+
+def test_public_direct_construction_still_recalculates_and_rejects_mismatch(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    source = build_riichi_wait_record(make_established_riichi("123m 123p 789p EE 45s"))
+    original = record_module.calculate_hand_waits
+    call_count = 0
+
+    def counted_calculate_hand_waits(
+        concealed_tiles: tuple[str, ...],
+        fixed_melds: tuple[FixedMeld, ...],
+    ) -> object:
+        nonlocal call_count
+        call_count += 1
+        return original(concealed_tiles, fixed_melds)
+
+    monkeypatch.setattr(
+        record_module,
+        "calculate_hand_waits",
+        counted_calculate_hand_waits,
+    )
+
+    with pytest.raises(ValueError, match="declaration-post hand"):
+        RiichiWaitRecord(
+            actor=source.actor,
+            riichi_discard_number=source.riichi_discard_number,
+            riichi_declaration_tile=source.riichi_declaration_tile,
+            riichi_declaration_tile_kind=source.riichi_declaration_tile_kind,
+            reach_event_index=source.reach_event_index,
+            declaration_dahai_event_index=source.declaration_dahai_event_index,
+            reach_accepted_event_index=source.reach_accepted_event_index,
+            concealed_tiles_after_discard=tuple(expand_hand("123m 456m 789m 123p 5s")),
+            fixed_melds=source.fixed_melds,
+            actor_discards_before_riichi=source.actor_discards_before_riichi,
+            wait_tiles=source.wait_tiles,
+            wait_tile_count=source.wait_tile_count,
+            wait_details=source.wait_details,
+            wait_shapes=source.wait_shapes,
+            contains_ryanmen=source.contains_ryanmen,
+            is_pure_ryanmen=source.is_pure_ryanmen,
+            is_multiwait=source.is_multiwait,
+        )
+
+    assert call_count == 1
+
+
+def test_direct_construction_cannot_forge_factory_validation() -> None:
+    record = build_riichi_wait_record(make_established_riichi("123m 123p 789p EE 45s"))
+
+    with pytest.raises(TypeError, match="reserved for the internal factory"):
+        replace(record, _factory_validated_waits=object())
 
 
 def test_direct_construction_rejects_empty_waits() -> None:
