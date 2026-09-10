@@ -980,8 +980,11 @@ importせずreference側で独立にテストする。次の全項目を期待�
 
 ### 実牌譜reference検証段階
 
-必須検証は次の順序で行う。同じ段階では入力source pathを先に決定論的に固定し、
-同一入力集合をproduction/referenceの両方へ渡す。
+必須検証は次の順序で実施済みである。同じ段階では入力source pathを先に決定論的に
+固定し、同一入力集合をproduction/referenceの両方へ渡した。追加の2025年決定論的
+1000ファイル検証も実施済みである。
+件数、処理時間、差分分類別件数および全年全件比較への拡張判断は、
+[独立reference検証記録](../validation/riichi-wait-reference-validation.md)を正本とする。
 
 1. R1からR16を含む人工ケース
 2. 既に目視監査した2025年の8ファイル
