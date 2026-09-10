@@ -1039,28 +1039,112 @@ productionの `RiichiWaitRecord` factory内で同一手牌の待ちを2回計算
 
 ## 出力形式と保存境界
 
-出力形式はこの仕様では確定しない。候補は次の2つとする。
+Stage 6のcanonical datasetは、1成立リーチを1行とする年別gzip圧縮JSON Linesで
+確定する。保存先の既定値と構成は次とする。
 
-- 1成立リーチ1行のgzip圧縮JSON Lines (`JSONL.gz`)
-- 年別に分割したParquet
+```text
+data/processed/riichi-waits-v1/
+├── 2009.jsonl.gz
+├── ...
+├── 2025.jsonl.gz
+└── manifest.json
+```
 
-麻雀ルール、MJAI状態再生、レコード生成はPythonのデータモデルまたは
-イテレータを返し、JSONL/Parquetのserializerを呼び出してはならない。
-保存処理はレコードを受け取るadapterとして分離する。
+datasetの `schema_version` は1とし、dataset名は `riichi-waits-v1` とする。
+schema versionは全行へ重複保存せず、完成manifestをdataset全体の正本とする。
+Parquetは将来必要になった場合にcanonical JSONLから生成する派生形式であり、
+Stage 6では `pyarrow` を依存へ追加しない。
 
-両候補は次を満たす必要がある。
+麻雀ルール、MJAI状態再生、`RiichiWaitRecord` 生成は保存形式へ依存しない。
+export adapterはproduction recordを再判定せず、source/局metadataを加えてDTOへ
+losslessに写像する。生の赤牌表記、fixed meld内の物理牌順、宣言までの河順、
+異なる `tile / hand_type / wait_shape` のwait detailを並べ替えたり削除したりしない。
 
-- 1成立リーチ1レコードを維持する
-- `wait_tiles`、`wait_details`、`actor_discards_before_riichi` の配列・構造を
-  情報損失なく保存する
-- スキーマバージョンを記録する
-- 対象データセット、release tag、対象条件、対象年を記録する
-- 年単位でストリーミング生成でき、全件をメモリへ保持しない
-- 年別レコード数と整合性検査結果をmanifestへ記録できる
-- `data/processed/` 以下へ保存し、生成データをGit管理しない
+### 決定論的serialization
 
-現時点では `pyarrow` をプロジェクト依存へ追加しない。Parquetを採用する
-場合にのみ、保存adapterの実装と合わせて依存追加を別途決定する。
+- 入力 `.mjson` はraw rootからの相対POSIX pathで辞書順に処理する
+- 年、ファイル、局、成立リーチ、河、wait detailの意味上の順序を維持する
+- JSONは `sort_keys=True`、`ensure_ascii=False`、`separators=(",", ":")`、
+  `allow_nan=False` とし、各recordをUTF-8のLF終端1行として書く
+- gzipはcompression level 6、`mtime=0`、header filename空文字とする
+- 同一入力、同一コード、同一Python/zlib環境では年別gzip bytesとSHA256を
+  再現可能にする。manifestの作成時刻と経過時間は実行metadataなので同一bytesを
+  要求しない
+
+全recordは保持せず、year、file、kyoku、candidateの順に処理して即時書き込む。
+メモリ使用量は出力record総数に比例させない。
+
+### completion markerとcheckpoint
+
+`manifest.json` だけを完成datasetのcompletion markerとする。年別gzipだけ、または
+`manifest.json.part`だけが存在する状態を完成datasetとして読んではならない。
+
+- `YYYY.jsonl.gz.part`: 処理中年度の一時出力
+- `manifest.json.part`: 常にresume可能なcheckpoint
+- `manifest.json.previous`: `--force`置換中に無効化した旧completion markerのbackup
+- `manifest.json`: 全年度を検証後にatomic publishする完成manifest
+
+checkpointは常に `checkpoint=true` と `checkpoint_state` を持つ。完成manifestには
+`checkpoint`、`checkpoint_state`、年度entryの `status` を残さない。状態の意味は
+次のとおりとする。
+
+| checkpoint state | annual artifact | resume action |
+| --- | --- | --- |
+| `processing` | 未記録の先頭未完了年度にpartが0または1個 | partがあれば明示的に破棄し、その年度を先頭から再生成 |
+| year `ready` | expected size/SHAを持つpartまたはfinal | final一致なら採用。final不一致かつpart一致ならpartをfinalへ昇格。それ以外はエラー |
+| year `complete` | expected size/SHAと一致するfinalのみ | 検証して年度をskip。対応partがあればエラー |
+| `final_ready` | 全年度が `complete`、annual partなし | 全final、counter、scopeを再検証し、完成manifestをatomic publish |
+
+crash windowは、gzip書込み中、close後/SHA前、SHA後/checkpoint前、`ready`後/year
+rename前、year rename後/`complete`前、`final_ready`後/完成manifest publish前の
+いずれからも上表に従ってfail-closedで復旧する。checkpointと対応しないannual
+part、scope外のannual artifact、`complete`年度と同居するpartは黙って無視しない。
+
+### `--force`、`--resume`、full/sample
+
+`--max-files`ありをsample、なしをfullとする。sampleとfullは同じoutput rootへ
+混在させない。完成manifestだけでなく未完了checkpointについてもdataset名、schema、
+source、mode、years、input selection、serializationを検証する。
+
+`--force`は、checkpointが存在しない完成datasetを同一identity/mode/scopeで再生成する
+場合だけ許可する。既存の完成manifestは新年度partの生成中は有効な旧datasetを指し
+続ける。旧finalと異なる新partを初めて昇格する直前に、旧manifestを
+`manifest.json.previous` へatomic renameしてcompletion markerを無効化する。これにより
+旧manifestと新year finalが食い違った状態を完成datasetとして残さない。置換中の停止は
+checkpointとbackupから `--resume` する。
+
+`manifest.json.part` が存在する未完了exportは、同一scopeであっても `--force` を拒否し、
+`--resume` だけを許可する。完成manifestのpublish直後かつcheckpoint cleanup前のように
+`manifest.json` と `manifest.json.part` が併存する状態も、checkpointを正本として
+`--resume` する。`--force` は未完了exportを破棄・resetするoptionではない。未完了artifact
+を自動削除して最初から再生成する機能はschema version 1では提供しない。
+
+`--resume`はcheckpointのgeneratorを含む構成を現在の実行と完全照合する。sizeだけで
+なくSHA256を検証し、整合しないfinal/part/counterを採用しない。`--force`と
+`--resume`は同時指定しない。
+
+### manifestとintegrity validation
+
+完成manifestには、schema/dataset identity、作成時刻、source repository/release、
+validation summaryのlogical pathとSHA256、archive検証結果、対象rule/赤牌/東場/年、
+input selection、serialization設定、Git commit/worktree、Python/zlib version、年別
+counter、output filename、compressed size、SHA256、経過時間、全年度totalsを保存する。
+`established_riichis == output_records` と、totalsを年度entryから再計算した値との一致を
+必須とする。
+
+通常のcompleted-manifest validationは全required field、厳密なbool/int型、scope、
+serialization、年の一意性・順序、counter、totalsを検査する。annual integrity
+validationはmanifest記載の全年度について存在、compressed size、SHA256を検査する。
+recordを全解凍するdeep validationでは、さらに各recordのyearとJSONL行数が
+`output_records`に一致することを検査する。通常の1年度readerも対象年度の
+存在、size、SHA256、record year、行数を検査する。
+
+manifestとJSONLにはraw/output root、ユーザー名、temporary directoryなどのローカル
+絶対pathを保存しない。source pathはraw-root-relative POSIX pathとする。validation
+summaryがproject root内ならproject-relative POSIX pathを自動使用し、外部なら
+`--dataset-summary-logical-path` による明示的な相対logical identifierを要求する。
+
+生成物は `data/processed/` 以下へ保存し、Git管理しない。
 
 ## 完了時の不変条件
 
