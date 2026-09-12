@@ -469,6 +469,46 @@ def test_replays_ankan_dora_rinshan_and_allows_riichi() -> None:
     assert candidate.wait_tiles == ("3s", "6s")
 
 
+def test_reference_establishes_fifth_copy_wait_after_ankan() -> None:
+    hands = [list(DECLARATION_POST_HAND) for _ in range(4)]
+    hands[0] = tiles("44p", "67p", "2s", "456s", "6m", "3333s")
+    kyoku = make_kyoku(
+        {"type": "tsumo", "actor": 0, "pai": "5p"},
+        {"type": "ankan", "actor": 0, "consumed": ["3s"] * 4},
+        {"type": "dora", "dora_marker": "5p"},
+        {"type": "tsumo", "actor": 0, "pai": "1s"},
+        {"type": "reach", "actor": 0},
+        {"type": "dahai", "actor": 0, "pai": "6m", "tsumogiri": False},
+        {"type": "reach_accepted", "actor": 0},
+        hands=hands,
+    )
+
+    candidates = extract_reference_riichi_candidates(kyoku)
+
+    assert len(candidates) == 1
+    c = candidates[0]
+    assert c.actor == 0
+    assert c.riichi_discard_number == 1
+    assert c.riichi_declaration_tile == "6m"
+    assert c.candidate_key == (TARGET_SOURCE, 2, 7)
+    assert (
+        c.reach_event_index,
+        c.declaration_dahai_event_index,
+        c.reach_accepted_event_index,
+    ) == (5, 6, 7)
+    assert c.concealed_tiles_after_discard == canonical_tiles(
+        tiles("44p", "567p", "12s", "456s")
+    )
+    assert c.fixed_melds == (ReferenceMeld(("3s",) * 4),)
+    assert c.wait_tiles == ("3s",)
+    assert detail_tuples(c) == (("3s", "standard", "penchan"),)
+    assert c.wait_tile_count == 1
+    assert c.wait_shapes == ("penchan",)
+    assert c.contains_ryanmen is False
+    assert c.is_pure_ryanmen is False
+    assert c.is_multiwait is False
+
+
 def test_replays_multiple_ankan_before_established_riichi() -> None:
     hands = [list(DECLARATION_POST_HAND) for _ in range(4)]
     hands[0] = tiles("111m", "999m", "123p", "EE", "45s")

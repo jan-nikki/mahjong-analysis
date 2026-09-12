@@ -263,8 +263,8 @@ MJAI手牌再生層で生牌を保持した状態で行う。
 - `wait_tiles` に `5mr`、`5pr`、`5sr` は出力しない
 - 通常5と赤5を別の待ち種類として数えない
 - 5待ちは正規化後の `5m`、`5p`、`5s` 1種類とする
-- 同一actorが所有する通常牌と赤牌の合計が4枚なら、その牌種を
-  新たな和了牌候補にしない
+- 純手牌（concealed）内の通常牌と赤牌を正規化して同牌種が4枚なら、
+  その牌種を新たな和了牌候補にしない。fixed meld内の牌は合算しない
 - 宣言牌と河履歴には生牌と正規化牌の両方を保存する
 
 ## 待ち情報の正本
@@ -278,8 +278,23 @@ MJAI手牌再生層で生牌を保持した状態で行う。
 
 河、副露、ドラ表示牌等に何枚見えているか、山に実際に残っているか、
 フリテンかどうかは `wait_tiles` に影響させない。これは残り枚数ではなく、
-手牌構造上の和了牌種である。ただし同一actorが既に4枚全てを所有している
-牌種は、5枚目を加えられないため候補外とする。
+手牌構造上の和了牌種である。
+
+[天鳳公式マニュアル](https://tenhou.net/man/index.html)の5枚目待ちの聴牌に従い、
+候補除外は **純手牌（concealed）だけで正規化後の同牌種を4枚使用している場合**
+に限定する。fixed meld内の使用枚数はこの除外へ加えない。暗槓もfixed側であり、
+暗槓に4枚使っていても構造上の待ちを保持する。これは5枚目の物理牌が存在する、
+または実際に和了できるという意味ではなく、天鳳で認められる聴牌の構造を表す。
+
+純手牌は副露・暗槓として固定されていない牌である。MJAI再生で`consumed`として
+除いたchi / pon / daiminkan / ankan（加槓後も含む）はfixed側に属する。
+ただし本Issueの成立リーチではopen meldを拒否するため、既存`FixedMeld`と
+`ReferenceMeld`の待ちAPIはankan限定を維持する。今回、open hand用APIへは拡張しない。
+
+実際の入力手牌の物理的整合性と、仮想的な和了牌候補の採否は別に検査する。
+入力時点でconcealed + fixed meldに同牌種が5枚以上ある不正状態は従来どおり拒否する。
+「実際の5枚所有を拒否する」ことから「fixed側の4枚で構造待ちを除外する」ことを
+導いてはならない。赤5も通常5と同じ牌種に正規化して、それぞれの枚数を検査する。
 
 ### wait_details
 
@@ -455,8 +470,8 @@ is_multiwait = wait_tile_count >= 3
 `123p 789p EE 45s` の10枚なら、固定暗槓を1面子として待ちは
 `3s, 6s` となる。両方のdetailは `standard / ryanmen` である。
 
-暗槓牌をactorの所有牌数に含めるため、この例で `9m` を5枚目の
-和了牌候補にしてはならない。
+この例で`9m`が待ちに含まれないのは、純手牌に`9m`を足しても完成しないためであり、
+暗槓の4枚を理由に候補除外するためではない。次のR17では逆に暗槓牌が待ちになる。
 
 ### 七対子
 
@@ -632,6 +647,56 @@ R16の`3m`では、次の異なる標準形の完成分解が成立する。
 | R15 | `True` | `False` | `True` |
 | R16 | `False` | `False` | `False` |
 
+### 5枚目待ちの回帰ケース（R17以降）
+
+R1〜R16の入力と期待値は変更しない。production/referenceそれぞれの独立テストで、
+以下を追加し、待ち牌・detail・全派生値の完全一致を確認する。
+
+| ID | 純手牌 | fixed meld | wait_tiles | wait_details |
+|---|---|---|---|---|
+| R17 | `44p 567p 12s 456s` | ankan `3333s` | `3s` | `3s/standard/penchan` |
+| R18 | `34567m 789p EE` | ankan `2222m` | `2m, 5m, 8m` | 3牌とも`standard/ryanmen` |
+| R19 | `34m 123p 789p EE` | ankan `5m 5m 5m 5mr` | `2m, 5m` | 2牌とも`standard/ryanmen` |
+| R20 | `555m 5mr 123p 789p 123s` | なし | 空 | 空 |
+
+| ID | wait_tile_count | wait_shapes | contains_ryanmen | is_pure_ryanmen | is_multiwait |
+|---|---:|---|---:|---:|---:|
+| R17 | 1 | `penchan` | `False` | `False` | `False` |
+| R18 | 3 | `ryanmen` | `True` | `False` | `True` |
+| R19 | 2 | `ryanmen` | `True` | `True` | `False` |
+| R20 | 0 | 空 | `False` | `False` | `False` |
+
+R17は5枚目待ちだけの聴牌、R18/R19は5枚目待ちと別待ちの共存を検査する。
+旧仕様ではR17は空待ちエラー、R18/R19は処理停止せず待ちが欠落し、派生値も変わる。
+R20は純手牌内で通常5と赤5を合算して4枚であるため、引き続き候補外とする。
+赤牌を通常5に置き換えたR20も空待ちになることを確認する。別途、実所有が
+concealed + fixedで5枚となる不正入力は例外として拒否されることを確認する。
+
+### 実データで発見したregression fixture
+
+元MJAI（Git管理外）: `2023/2023103019gm-00a9-0000-4b80c963.mjson`。
+`start_kyoku`物理行339、actor 0。candidate keyは
+`("2023/2023103019gm-00a9-0000-4b80c963.mjson", 339, 450)`。
+
+| 物理行 | kyoku内event_index | イベント |
+|---:|---:|---|
+| 446 | 107 | `tsumo actor=0 pai=5p` |
+| 447 | 108 | `ankan actor=0 consumed=[3s,3s,3s,3s]` |
+| 448 | 109 | `dora` |
+| 449 | 110 | `tsumo actor=0 pai=1s` |
+| 450 | 111 | `reach actor=0` |
+| 451 | 112 | `dahai actor=0 pai=6m tsumogiri=false` |
+| 452 | 113 | `reach_accepted actor=0` |
+
+宣言dahai直後の純手牌・暗槓・待ち期待値はR17と同じ。両実装が空待ちとして拒否して
+いた共有仕様バグの回帰fixtureとし、正式comparison CLIでも候補と待ち詳細が一致し、
+`processing_error=0`となることを確認する。
+
+旧仕様の待ちで生成済みのfull exportは、待ちが一部欠落していても正常終了した年度を
+含むため、修正後のcanonical datasetとして再利用しない。failed output rootは保持し、
+修正・検証・コミット後にcleanなoutput rootから2009〜2025を再生成する。
+旧年度と新年度をresumeで混在させない。dataset schemaやserializerは変更しない。
+
 ## 人工MJAIイベントの必須テストケース
 
 手牌単体テストとは別に、少なくとも次をMJAIイベント列から検証する。
@@ -796,8 +861,10 @@ fixed meld数を `f`、concealed hand内に必要な完成面子数を `q = 4 - 
 - 国士1種待ちは12種の幺九牌と、そのうち1種の対子から成る場合とし、
   不足牌を `kokushi/kokushi_single` とする。
 
-待ち候補は、referenceが独自に数えたconcealed handとfixed meldの所有枚数が
-4枚未満の場合だけ採用する。赤5は生牌状態では通常5と区別し、待ち牌と
+待ち候補は、referenceが独自に正規化して数えた純手牌（concealed）内の枚数が
+4枚未満の場合だけ採用する。fixed meld（ankanを含む）の牌はこの除外判定に
+加えない。入力のconcealed + fixedの実所有5枚以上は別途拒否する。
+赤5は生牌状態では通常5と区別し、待ち牌と
 待ち詳細では通常5へ正規化する。`wait_tiles`、`wait_details`、`wait_shapes`
 は仕様順へ決定論的に整列し、派生値もreference側で独立に計算する。
 
@@ -968,7 +1035,8 @@ importせずreference側で独立にテストする。次の全項目を期待�
 特にR15の同一待ち牌に対する複数wait shapeと、R16の異なる未完成断片を
 最後まで探索する性質を検査する。
 
-加えて、七対子四枚使いnegative、国士negative、赤5、4枚所有済み、複数暗槓、
+加えて、七対子四枚使いnegative、国士negative、赤5、純手牌内4枚の候補除外、
+fixed側4枚の5枚目待ち保持（別待ちとの共存を含む）、複数暗槓、
 必要面子数ゼロをreference単体で検査する。MJAI再生については、生牌の削除、
 全副露種、槓後のdoraと嶺上tsumo、成立・未成立リーチ、複数リーチ、本人の
 打牌数、河のcall情報、物理行番号を人工イベント列で検査する。
@@ -980,9 +1048,13 @@ importせずreference側で独立にテストする。次の全項目を期待�
 
 ### 実牌譜reference検証段階
 
-必須検証は次の順序で実施済みである。同じ段階では入力source pathを先に決定論的に
-固定し、同一入力集合をproduction/referenceの両方へ渡した。追加の2025年決定論的
-1000ファイル検証も実施済みである。
+次に列挙する必須検証範囲は、天鳳の5枚目待ちを修正する前の旧wait semanticsに
+対して、この順序で正式比較を実施済みである。各段階では入力source pathを先に
+決定論的に固定し、同一入力集合をproduction/referenceの両方へ渡した。追加の
+2025年決定論的1000ファイル検証も旧wait semanticsで実施済みである。これらは
+過去の検証履歴として保持し、5枚目待ち修正後の現在のコードを正式検証済みとは
+扱わない。修正後の正式検証完了を主張する前に、次の必須範囲をproduction/referenceで
+再比較し、その結果を検証記録へ追記しなければならない。
 件数、処理時間、差分分類別件数および全年全件比較への拡張判断は、
 [独立reference検証記録](../validation/riichi-wait-reference-validation.md)を正本とする。
 

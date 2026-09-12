@@ -95,6 +95,85 @@ def side_result(
     )
 
 
+@pytest.mark.parametrize(
+    ("concealed", "kan_tile", "wait_tiles", "shape", "flags"),
+    (
+        (
+            ("4p", "4p", "5p", "6p", "7p", "1s", "2s", "4s", "5s", "6s"),
+            "3s",
+            ("3s",),
+            "penchan",
+            (False, False, False),
+        ),
+        (
+            ("3m", "4m", "5m", "6m", "7m", "7p", "8p", "9p", "E", "E"),
+            "2m",
+            ("2m", "5m", "8m"),
+            "ryanmen",
+            (True, False, True),
+        ),
+    ),
+    ids=("fifth-only", "fifth-and-ordinary-multiwait"),
+)
+def test_fifth_waits_match_expected_values_through_both_pipelines(
+    tmp_path: Path,
+    concealed: tuple[str, ...],
+    kan_tile: str,
+    wait_tiles: tuple[str, ...],
+    shape: str,
+    flags: tuple[bool, bool, bool],
+) -> None:
+    path = tmp_path / "2025" / "2025010100gm-00a9-0000-1234abcd.mjson"
+    initial = [kan_tile] * 3 + list(concealed)
+    events = (
+        {"type": "start_game", "aka_flag": True},
+        {
+            "type": "start_kyoku",
+            "bakaze": "E",
+            "kyoku": 1,
+            "honba": 0,
+            "oya": 0,
+            "tehais": [list(initial) for _ in range(4)],
+        },
+        {"type": "tsumo", "actor": 0, "pai": kan_tile},
+        {"type": "ankan", "actor": 0, "consumed": [kan_tile] * 4},
+        {"type": "dora", "dora_marker": "5p"},
+        {"type": "tsumo", "actor": 0, "pai": "6m"},
+        {"type": "reach", "actor": 0},
+        {"type": "dahai", "actor": 0, "pai": "6m", "tsumogiri": True},
+        {"type": "reach_accepted", "actor": 0},
+        {"type": "end_kyoku"},
+        {"type": "end_game"},
+    )
+    path.parent.mkdir()
+    path.write_text("\n".join(json.dumps(e) for e in events) + "\n", encoding="utf-8")
+
+    production = comparison_module._process_production_file(path, tmp_path)
+    reference = comparison_module._process_reference_file(path, tmp_path)
+
+    assert len(production.candidates) == len(reference.candidates) == 1
+    assert production.candidates == reference.candidates
+    c = production.candidates[0]
+    assert c.candidate_key == (path.relative_to(tmp_path).as_posix(), 2, 7)
+    assert c.actor == 0
+    assert c.riichi_declaration_tile == "6m"
+    assert sorted(c.concealed_tiles_after_discard) == sorted(concealed)
+    assert c.fixed_melds == (ComparableMeld("ankan", (kan_tile,) * 4),)
+    assert c.wait_tiles == wait_tiles
+    assert c.wait_details == tuple(
+        ComparableWaitDetail(t, "standard", shape) for t in wait_tiles
+    )
+    assert c.wait_tile_count == len(wait_tiles)
+    assert c.wait_shapes == (shape,)
+    assert (c.contains_ryanmen, c.is_pure_ryanmen, c.is_multiwait) == flags
+    report = compare_riichi_wait_files((path,), raw_root=tmp_path)
+    assert report.production_candidates == report.reference_candidates == 1
+    assert report.production_only == report.reference_only == ()
+    assert report.field_mismatches == report.scope_mismatches == ()
+    assert report.processing_errors == ()
+    assert report.is_pass is True
+
+
 def test_complete_candidate_match_passes() -> None:
     production = candidate()
     reference = candidate()

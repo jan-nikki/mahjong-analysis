@@ -382,29 +382,83 @@ def test_reference_normalizes_red_five_pair_wait() -> None:
     assert "5mr" not in waits.wait_tiles
 
 
-def test_reference_excludes_wait_kind_already_owned_four_times() -> None:
+@pytest.mark.parametrize(
+    "hand", (_tiles("44p", "567p", "12s", "456s"), _tiles("123m", "456p", "EE", "12s"))
+)
+def test_reference_ankan_allows_structural_fifth_only_wait(
+    hand: tuple[str, ...],
+) -> None:
     waits = calculate_reference_hand_waits(
-        _tiles("123m", "456p", "EE", "12s"),
+        hand,
         (ReferenceMeld(_tiles("3333s")),),
     )
 
-    assert waits.wait_tiles == ()
-    assert waits.wait_details == ()
+    assert waits.wait_tiles == ("3s",)
+    assert _detail_tuples(waits) == (("3s", "standard", "penchan"),)
+    assert waits.wait_tile_count == 1
+    assert waits.wait_shapes == ("penchan",)
+    assert waits.contains_ryanmen is False
+    assert waits.is_pure_ryanmen is False
+    assert waits.is_multiwait is False
 
 
-def test_reference_red_ankan_excludes_one_side_of_ryanmen() -> None:
+def test_reference_red_ankan_preserves_both_sides_of_ryanmen() -> None:
     waits = calculate_reference_hand_waits(
         _tiles("34m", "123p", "789p", "EE"),
         (ReferenceMeld(("5m", "5m", "5m", "5mr")),),
     )
 
-    assert waits.wait_tiles == ("2m",)
-    assert waits.wait_tile_count == 1
-    assert _detail_tuples(waits) == (("2m", "standard", "ryanmen"),)
+    assert waits.wait_tiles == ("2m", "5m")
+    assert waits.wait_tile_count == 2
+    assert _detail_tuples(waits) == (
+        ("2m", "standard", "ryanmen"),
+        ("5m", "standard", "ryanmen"),
+    )
+    assert waits.wait_shapes == ("ryanmen",)
+    assert waits.contains_ryanmen is True
+    assert waits.is_pure_ryanmen is True
+    assert waits.is_multiwait is False
+
+
+def test_reference_fifth_wait_and_ordinary_multiwait_are_all_retained() -> None:
+    waits = calculate_reference_hand_waits(
+        _tiles("34567m", "789p", "EE"), (ReferenceMeld(_tiles("2222m")),)
+    )
+
+    assert waits.wait_tiles == ("2m", "5m", "8m")
+    assert _detail_tuples(waits) == (
+        ("2m", "standard", "ryanmen"),
+        ("5m", "standard", "ryanmen"),
+        ("8m", "standard", "ryanmen"),
+    )
+    assert waits.wait_tile_count == 3
     assert waits.wait_shapes == ("ryanmen",)
     assert waits.contains_ryanmen is True
     assert waits.is_pure_ryanmen is False
+    assert waits.is_multiwait is True
+
+
+@pytest.mark.parametrize("fours", [("5m",) * 4, ("5m", "5m", "5m", "5mr")])
+def test_reference_four_copies_in_pure_hand_exclude_fifth(
+    fours: tuple[str, ...],
+) -> None:
+    waits = calculate_reference_hand_waits((*fours, *_tiles("123p", "789p", "123s")))
+
+    assert waits.wait_tiles == ()
+    assert waits.wait_details == ()
+    assert waits.wait_tile_count == 0
+    assert waits.wait_shapes == ()
+    assert waits.contains_ryanmen is False
+    assert waits.is_pure_ryanmen is False
     assert waits.is_multiwait is False
+
+
+def test_reference_fifth_wait_does_not_allow_five_actual_owned_tiles() -> None:
+    with pytest.raises(ValueError, match="own five"):
+        calculate_reference_hand_waits(
+            _tiles("34m", "123p", "789p", "EE"),
+            (ReferenceMeld(_tiles("3333m")),),
+        )
 
 
 @pytest.mark.parametrize(

@@ -356,14 +356,66 @@ def test_red_five_pair_produces_normalized_five_wait() -> None:
     )
 
 
-def test_fixed_meld_tiles_count_toward_four_copy_limit() -> None:
+def test_red_ankan_does_not_exclude_fifth_copy_ryanmen_wait() -> None:
     fixed_meld = FixedMeld(("5m", "5m", "5m", "5mr"))
     hand = expand_hand("34m 123p 789p EE")
 
     waits = calculate_hand_waits(hand, [fixed_meld])
 
-    assert "2m" in waits.wait_tiles
-    assert "5m" not in waits.wait_tiles
+    assert waits.wait_tiles == ("2m", "5m")
+    assert waits.wait_details == details("2m/standard/ryanmen", "5m/standard/ryanmen")
+    assert waits.wait_tile_count == 2
+    assert waits.wait_shapes == ("ryanmen",)
+    assert waits.contains_ryanmen is True
+    assert waits.is_pure_ryanmen is True
+    assert waits.is_multiwait is False
+
+
+@pytest.mark.parametrize("hand", ["44p 567p 12s 456s", "123m 456p EE 12s"])
+def test_tenhou_retains_only_wait_used_four_times_in_ankan(hand: str) -> None:
+    waits = calculate_hand_waits(expand_hand(hand), (FixedMeld(("3s",) * 4),))
+
+    assert waits.wait_tiles == ("3s",)
+    assert waits.wait_details == details("3s/standard/penchan")
+    assert waits.wait_tile_count == 1
+    assert waits.wait_shapes == ("penchan",)
+    assert waits.contains_ryanmen is False
+    assert waits.is_pure_ryanmen is False
+    assert waits.is_multiwait is False
+
+
+def test_fifth_copy_wait_is_not_silently_lost_from_multiwait() -> None:
+    waits = calculate_hand_waits(
+        expand_hand("34567m 789p EE"), (FixedMeld(("2m",) * 4),)
+    )
+
+    assert waits.wait_tiles == ("2m", "5m", "8m")
+    assert waits.wait_details == details(
+        "2m/standard/ryanmen", "5m/standard/ryanmen", "8m/standard/ryanmen"
+    )
+    assert waits.wait_tile_count == 3
+    assert waits.wait_shapes == ("ryanmen",)
+    assert waits.contains_ryanmen is True
+    assert waits.is_pure_ryanmen is False
+    assert waits.is_multiwait is True
+
+
+@pytest.mark.parametrize("fours", ["5555m", "555m 5mr"])
+def test_four_normalized_copies_in_pure_hand_still_exclude_fifth(fours: str) -> None:
+    waits = calculate_hand_waits(expand_hand(f"{fours} 123p 789p 123s"))
+
+    assert waits.wait_tiles == ()
+    assert waits.wait_details == ()
+    assert waits.wait_tile_count == 0
+    assert waits.wait_shapes == ()
+    assert waits.contains_ryanmen is False
+    assert waits.is_pure_ryanmen is False
+    assert waits.is_multiwait is False
+
+
+def test_fifth_copy_tenpai_does_not_allow_five_actual_owned_tiles() -> None:
+    with pytest.raises(ValueError):
+        calculate_hand_waits(expand_hand("34m 123p 789p EE"), (FixedMeld(("3m",) * 4),))
 
 
 def test_multiple_ankan_reduce_required_concealed_meld_count() -> None:

@@ -64,15 +64,9 @@ def calculate_reference_hand_waits(
     _validate_reference_input(concealed, fixed)
 
     concealed_counts = _tile_counts(concealed)
-    owned_counts = list(concealed_counts)
-    for meld in fixed:
-        for tile in meld.tiles:
-            owned_counts[reference_tile_to_index(tile)] += 1
-
     required_melds = 4 - len(fixed)
     details = _standard_wait_details(
         concealed_counts,
-        tuple(owned_counts),
         required_melds,
     )
     if not fixed:
@@ -126,7 +120,6 @@ def _tile_counts(tiles: tuple[str, ...]) -> tuple[int, ...]:
 
 def _standard_wait_details(
     concealed_counts: tuple[int, ...],
-    owned_counts: tuple[int, ...],
     required_melds: int,
 ) -> set[ReferenceWaitDetail]:
     details: set[ReferenceWaitDetail] = set()
@@ -141,7 +134,7 @@ def _standard_wait_details(
                 details,
                 singleton_index,
                 "tanki",
-                owned_counts,
+                concealed_counts,
             )
 
     if required_melds == 0:
@@ -167,7 +160,7 @@ def _standard_wait_details(
                     details,
                     wait_index,
                     wait_shape,
-                    owned_counts,
+                    concealed_counts,
                 )
 
     return details
@@ -242,9 +235,11 @@ def _add_standard_detail(
     details: set[ReferenceWaitDetail],
     wait_index: int,
     wait_shape: ReferenceWaitShape,
-    owned_counts: tuple[int, ...],
+    concealed_counts: tuple[int, ...],
 ) -> None:
-    if owned_counts[wait_index] >= 4:
+    # Tenhou permits fifth-copy tenpai through fixed melds, even closed kans.
+    # The restriction concerns the original pure hand, before reservations.
+    if concealed_counts[wait_index] >= 4:
         return
     details.add(
         ReferenceWaitDetail(

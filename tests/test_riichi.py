@@ -566,6 +566,45 @@ def test_riichi_actor_ankan_is_retained_as_fixed_meld() -> None:
     assert waits.wait_tiles == ("3s", "6s")
 
 
+def test_tenhou_fifth_copy_penchan_after_ankan_is_established() -> None:
+    # Minimized from 2023103019gm-00a9-0000-4b80c963, lines 446-452.
+    hands = [list(DECLARATION_POST_HAND) for _ in range(4)]
+    hands[0] = expand_hand("44p 67p 2s 456s 6m 3333s")
+    events = (
+        {"type": "tsumo", "actor": 0, "pai": "5p"},
+        {"type": "ankan", "actor": 0, "consumed": ["3s"] * 4},
+        {"type": "dora", "dora_marker": "5p"},
+        {"type": "tsumo", "actor": 0, "pai": "1s"},
+        {"type": "reach", "actor": 0},
+        {"type": "dahai", "actor": 0, "pai": "6m", "tsumogiri": False},
+        {"type": "reach_accepted", "actor": 0},
+    )
+
+    result = extract_established_riichis(make_kyoku(*events, hands=hands))
+
+    assert len(result) == 1
+    riichi = result[0]
+    assert riichi.actor == 0
+    assert riichi.riichi_discard_number == 1
+    assert riichi.riichi_declaration_tile == "6m"
+    assert (
+        riichi.reach_event_index,
+        riichi.declaration_dahai_event_index,
+        riichi.reach_accepted_event_index,
+    ) == (5, 6, 7)
+    assert riichi.concealed_tiles_after_discard == tuple(
+        expand_hand("44p 67p 2s 456s 5p 1s")
+    )
+    assert riichi.fixed_melds == (FixedMeld(("3s",) * 4),)
+    waits = calculate_hand_waits(
+        riichi.concealed_tiles_after_discard, riichi.fixed_melds
+    )
+    assert waits.wait_tiles == ("3s",)
+    assert tuple(
+        (d.wait_tile, d.hand_type, d.wait_shape) for d in waits.wait_details
+    ) == (("3s", "standard", "penchan"),)
+
+
 def test_kakan_updates_matching_pon_before_another_actor_riichi() -> None:
     hands = [list(DECLARATION_POST_HAND) for _ in range(4)]
     hands[0] = expand_hand("9m 123p 456p 789s E S W")

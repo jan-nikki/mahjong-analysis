@@ -207,7 +207,8 @@ def calculate_hand_waits(
         )
 
     concealed_counts = tiles_to_counts(concealed)
-    owned_counts = tiles_to_counts(
+    # Validate actual ownership, separately from Tenhou's structural fifth wait.
+    tiles_to_counts(
         (
             *concealed,
             *(tile for meld in fixed for tile in meld.tiles),
@@ -217,7 +218,9 @@ def calculate_hand_waits(
     details: set[WaitDetail] = set()
     melds_needed = 4 - len(fixed)
     for wait_index in range(len(TILE_KINDS)):
-        if owned_counts[wait_index] == 4:
+        # Only the pure concealed hand excludes a fifth-copy wait. Fixed melds
+        # (including ankan) do not contribute to this Tenhou tenpai restriction.
+        if concealed_counts[wait_index] >= 4:
             continue
 
         completed_counts = list(concealed_counts)
