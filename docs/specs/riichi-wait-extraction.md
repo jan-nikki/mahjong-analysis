@@ -693,9 +693,10 @@ concealed + fixedで5枚となる不正入力は例外として拒否される�
 `processing_error=0`となることを確認する。
 
 旧仕様の待ちで生成済みのfull exportは、待ちが一部欠落していても正常終了した年度を
-含むため、修正後のcanonical datasetとして再利用しない。failed output rootは保持し、
-修正・検証・コミット後にcleanなoutput rootから2009〜2025を再生成する。
-旧年度と新年度をresumeで混在させない。dataset schemaやserializerは変更しない。
+含むため、修正後のcanonical datasetとして再利用せず、旧checkpointからresumeしない。
+failed output rootは保持する。次のcanonical full exportは、commit `e596560`以降の
+clean worktreeからcleanなoutput rootへ2009〜2025を最初から生成する。旧年度と
+新年度を混在させない。dataset schemaやserializerは変更しない。
 
 ## 人工MJAIイベントの必須テストケース
 
@@ -1049,12 +1050,17 @@ fixed側4枚の5枚目待ち保持（別待ちとの共存を含む）、複数�
 ### 実牌譜reference検証段階
 
 次に列挙する必須検証範囲は、天鳳の5枚目待ちを修正する前の旧wait semanticsに
-対して、この順序で正式比較を実施済みである。各段階では入力source pathを先に
+対して、この順序で正式比較を実施した履歴である。各段階では入力source pathを先に
 決定論的に固定し、同一入力集合をproduction/referenceの両方へ渡した。追加の
-2025年決定論的1000ファイル検証も旧wait semanticsで実施済みである。これらは
-過去の検証履歴として保持し、5枚目待ち修正後の現在のコードを正式検証済みとは
-扱わない。修正後の正式検証完了を主張する前に、次の必須範囲をproduction/referenceで
-再比較し、その結果を検証記録へ追記しなければならない。
+2025年決定論的1000ファイル検証も旧wait semanticsで実施した。
+
+5枚目待ち修正後は、commit `e596560`を対象に必須範囲をproduction/referenceで
+再比較した。2009年全件、2025年全件、2010〜2024各年の決定論的100ファイルに加え、
+共有仕様バグを発見した2023年も全件比較し、全difference classが0でPASSした。
+R1〜R16は既存の期待値を変えず、R17〜R20とともに修正後の人工テストで確認した。
+監査済み2025年8ファイルと決定論的100/1000ファイルは2025年全件に包含され、問題の
+2023年実牌譜も2023年全件に包含される。pre-fix履歴とpost-fix結果を混同せず、件数、
+処理時間、重複除外範囲、未検証年度全件は検証記録で区別する。
 件数、処理時間、差分分類別件数および全年全件比較への拡張判断は、
 [独立reference検証記録](../validation/riichi-wait-reference-validation.md)を正本とする。
 
