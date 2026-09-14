@@ -2,9 +2,11 @@
 
 - 初回記録日: 2026-09-10
 - post-fix再検証追記日: 2026-09-13
+- canonical full export追記日: 2026-09-14
 - 対象仕様: [成立リーチの待ち形・両面判定・巡目抽出仕様](../specs/riichi-wait-extraction.md)
 - 対象: productionの成立リーチ抽出・手牌再生・待ち判定と、独立reference実装
 - post-fix対象commit: `e596560 Handle Tenhou fifth-tile waits`
+- canonical generator commit: `6904f8661bd414cce081ac524e031e38821a0284`
 
 ## 結論
 
@@ -14,6 +16,12 @@ post-fix検証範囲は355,962ファイル、355,961対象対局、2,047,821東�
 
 このpost-fix範囲には、2009年全件、2023年全件、2025年全件、および2023年を除く
 2010〜2024各年の決定論的先頭100ファイルを含む。2009〜2025の全年全件比較ではない。
+
+この再検証後、commit `6904f8661bd414cce081ac524e031e38821a0284`のclean worktreeから
+2009〜2025のcanonical full exportを新規生成した。10,706,714成立リーチを同数の
+レコードとして出力し、completion marker、manifest totals、全17年度artifactの
+compressed sizeとSHA256を検証した。`data/processed/riichi-waits-v1`をschema v1の
+canonical datasetとして確定した。
 
 本書では、修正前の正式比較を履歴として残し、その後に共有仕様バグの発見・影響診断、
 post-fix正式再検証を分けて記録する。独立アルゴリズム同士の一致でも、両者が共有する
@@ -229,9 +237,11 @@ rawの全件走査・再export、`.part`の復旧、artifactの削除・移動�
 | `2009/2009123103gm-00a9-0000-d8f3d7d5.mjson` | 84 / 147 | 1 | `5m, 8m` | `2m, 5m, 8m` |
 
 旧仕様で出力済みの年度は修正後canonical datasetへ流用せず、旧checkpointから
-resumeしない。failed output rootはそのまま保持する。次のcanonical full exportは、
-commit `e596560`以降のclean worktreeから、cleanなoutput rootへ2009〜2025を最初から
-生成する。
+resumeしなかった。failed datasetは
+`data/processed/riichi-waits-v1-pre-fifth-tile-fix-failed`へ退避し、修正後の
+canonical datasetと分離した。canonical full exportはcommit `e596560`を含む
+`6904f8661bd414cce081ac524e031e38821a0284`のclean worktreeから、cleanなoutput rootへ
+2009〜2025を最初から生成した。
 
 ## 3. e596560以降のpost-fix formal revalidation
 
@@ -332,3 +342,71 @@ production/reference人工テストで完全一致を確認した。
 なかった。これは実装の信頼性を高める結果だが、2009〜2025全年全件を比較した
 ものではなく、正しさや未検証入力の不存在を証明するものでもない。2010〜2022年と
 2024年は各年100ファイルのみであり、各年全件は未検証である。
+
+## 4. Canonical full exportと最終integrity verification
+
+### Dataset identity
+
+| 項目 | 値 |
+|---|---|
+| output root | `data/processed/riichi-waits-v1` |
+| `dataset_name` | `riichi-waits-v1` |
+| `schema_version` | 1 |
+| mode | `full` |
+| years | 2009〜2025（17年度） |
+| scope | `rule_code=00a9`, `aka_flag=true`, `bakaze=E` |
+| source | `NikkeTryHard/tenhou-to-mjai`, release `v2.0.0` |
+| generator commit | `6904f8661bd414cce081ac524e031e38821a0284` |
+| fifth-tile-wait fix | `e596560 Handle Tenhou fifth-tile waits` |
+
+generator metadataはPython 3.12.10、zlib 1.3.1、`worktree_clean=true`だった。
+
+### Full export result
+
+- `scanned_files`: 2,500,236
+- `target_games`: 2,500,235
+- `east_kyokus`: 14,434,809
+- `established_riichis`: 10,706,714
+- `output_records`: 10,706,714
+- `established_riichis == output_records`: true
+- `ExitCode`: 0
+- `Elapsed`: 19:55:14.3386946
+
+### Completion markerとserialization
+
+- `manifest.json`: 存在
+- `manifest.json.part`: 不存在
+- その他の`*.part`: 0件
+
+したがって、checkpoint途中状態ではなくcomplete状態である。serializationはJSON
+Lines、UTF-8、gzip compression level 6、gzip `mtime=0`、gzip filename `""`、
+`sort_keys=true`、`allow_nan=false`、LFで行った。
+
+### Annual artifact integrity
+
+manifestに記録された2009〜2025の全17年度gzipについて、実ファイルからread-onlyで
+`compressed_size_bytes`とSHA256を再計算し、manifest値と比較した。
+
+- PASS: all 17 annual files match manifest size and SHA256
+- missing: 0
+- size mismatch: 0
+- SHA256 mismatch: 0
+
+2023年は168,777ファイル、971,994東場、756,643出力レコードで完走した。共有仕様
+バグを発見した`2023/2023103019gm-00a9-0000-4b80c963.mjson`を含み、同年度のpost-fix
+reference全件比較もPASSしている。
+
+2025年は178,888ファイル、178,887対象対局、1,028,072東場、794,774出力レコードで
+完走し、post-fix reference全件比較もPASSしている。
+
+### Canonical確定とreference validationの範囲
+
+full export正常終了、completion marker成立、checkpoint残骸なし、manifest totals整合、
+全17年度artifactの存在・size・SHA256一致、generatorのclean worktree、およびpost-fix
+reference検証済み範囲で全difference class 0を確認した。この結果に基づき、
+`data/processed/riichi-waits-v1`をcanonical datasetとして確定する。
+
+reference検証の重複除外範囲は、355,962ファイル、355,961対象対局、2,047,821東場、
+1,585,473成立リーチである。これは2009〜2025全年全件のreference comparisonでは
+ない。canonical full exportの完走とartifact integrityは、未比較年度の全候補が
+reference実装と一致することや、実装の絶対的な正しさを証明するものではない。

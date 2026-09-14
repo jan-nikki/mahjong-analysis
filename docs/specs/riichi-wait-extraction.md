@@ -694,9 +694,11 @@ concealed + fixedで5枚となる不正入力は例外として拒否される�
 
 旧仕様の待ちで生成済みのfull exportは、待ちが一部欠落していても正常終了した年度を
 含むため、修正後のcanonical datasetとして再利用せず、旧checkpointからresumeしない。
-failed output rootは保持する。次のcanonical full exportは、commit `e596560`以降の
-clean worktreeからcleanなoutput rootへ2009〜2025を最初から生成する。旧年度と
-新年度を混在させない。dataset schemaやserializerは変更しない。
+failed datasetは`data/processed/riichi-waits-v1-pre-fifth-tile-fix-failed`へ退避し、
+canonical datasetから分離した。修正後のfull exportは、commit `e596560`を含む
+`6904f8661bd414cce081ac524e031e38821a0284`のclean worktreeからcleanなoutput rootへ
+2009〜2025を最初から生成した。旧年度と新年度は混在していない。dataset schemaや
+serializerは変更していない。
 
 ## 人工MJAIイベントの必須テストケース
 
@@ -1225,6 +1227,21 @@ summaryがproject root内ならproject-relative POSIX pathを自動使用し、�
 生成物は `data/processed/` 以下へ保存し、Git管理しない。
 
 ## 完了時の不変条件
+
+### Canonical full export完了状況
+
+commit `6904f8661bd414cce081ac524e031e38821a0284`のclean worktreeから、schema v1の
+2009〜2025 full exportを完了した。`data/processed/riichi-waits-v1`は10,706,714件の
+成立リーチを同数のレコードとして保持する。完成manifestが存在し、checkpointと
+その他のpart fileは残っていない。manifest totalsの整合、および全17年度artifactの
+存在・compressed size・SHA256一致をread-onlyで再検証したため、この出力をcanonical
+datasetとして確定する。詳細は
+[独立reference検証・canonical export記録](../validation/riichi-wait-reference-validation.md)
+を正本とする。
+
+post-fix reference comparisonは指定範囲で全difference classが0だったが、
+2009〜2025全年全件をreference比較したものではない。この限定はcanonical full export
+の完走・integrity確認後も維持する。
 
 - 対象は2009年から2025年の東場である
 - 成立リーチ1件につきレコードがちょうど1件ある
