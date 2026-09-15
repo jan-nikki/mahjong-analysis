@@ -335,14 +335,15 @@ formal baselineの値とadjusted値を置換・混在させない。
 
 ## 出力
 
-Git管理する小さな結果だけを`research/results/`へ置く。record-level派生datasetは作らず、
-元の`data/processed/riichi-waits-v1`を正本とする。v1の候補filenameは次とする。
+Git管理する小さな結果だけを`research/results/riichi-wait-summary-v1/`へ置く。
+record-level派生datasetは作らず、元の`data/processed/riichi-waits-v1`を正本とする。
+正式成果物のlogical filenameは次とする。
 
 ```text
-research/results/riichi-wait-summary-v1-overall.json
-research/results/riichi-wait-summary-v1-yearly.json
-research/results/riichi-wait-summary-v1-by-turn.json
-research/results/riichi-wait-summary-v1.md
+riichi-wait-summary-v1-overall.json
+riichi-wait-summary-v1-yearly.json
+riichi-wait-summary-v1-by-turn.json
+riichi-wait-summary-v1.md
 ```
 
 ### 共通metadata
@@ -361,6 +362,37 @@ research/results/riichi-wait-summary-v1.md
 timestamp、elapsed、絶対ローカルpathはcanonical resultへ含めない。同一input manifestと
 同一analysis commitから同じbytesを再生成できることを優先する。
 
+canonical分析開始前に、analysis codeのGit worktreeについてtracked変更とuntracked fileを
+検査し、いずれかが存在すれば拒否する。`git status --porcelain=v1 --untracked-files=all`
+相当を明示し、`status.showUntrackedFiles=no`等のユーザー設定で未追跡fileの検出を無効化
+できないようにする。.gitignore対象fileはdirtyとはみなさない。このguardにより、記録する
+analysis commitが実際に実行したtracked分析コードを含むHEADであることを保証する。
+canonical inputでは`source.repository=NikkeTryHard/tenhou-to-mjai`も固定値照合する。
+
+metadata envelopeはanalysis schema v1の一部であり、生成時とpublished generationの読込時に
+同じvalidatorで検証する。必須fieldと値は次のとおりとする。必須fieldがないmetadata、型が
+異なるmetadata、未知のanalysis name/versionは受理しない。
+
+- `schema_version`は整数1、`analysis_name`は`riichi-wait-summary-v1`
+- `observation_unit`は`established_riichi_record`
+- `years`は2009〜2025の範囲にある重複なし・昇順の整数配列
+- `scope`は`rule_code=00a9`、`aka_flag=true`、`bakaze=E`
+- `input_dataset.dataset_name`は`riichi-waits-v1`、同`schema_version`は整数1
+- `input_dataset.manifest_path`はproject-relativeなPOSIX path
+- `input_dataset.manifest_sha256`は64桁の小文字16進SHA256
+- `input_dataset.source_repository`は`NikkeTryHard/tenhou-to-mjai`、
+  `input_dataset.source_release_tag`は`v2.0.0`
+- `input_dataset.generator_git_commit`と`analysis_generator.git_commit`は空でなく、前後に
+  空白のない文字列。Git object formatを40桁へ固定せず、実際にmanifestまたは
+  `git rev-parse HEAD`から得た値を保持する
+- `input_dataset.totals.output_records`は非負整数。生成時はaggregateのrecord数と一致する
+- `analysis_generator.worktree_clean`はboolean `true`
+- `formal_wait_semantics`と`ryanmen_metrics`は本仕様で固定したformal waitおよびheadline定義
+
+3つのJSONについて、metadataが相互に同一であることと、そのmetadata自体が上記契約を満たす
+ことを別々の条件として検証する。`SummaryAnalysis`の直接構築時にも検証し、文書生成時にも
+再検証するため、構築後にmutableなmappingを変更して検証を迂回できないようにする。
+
 ### overall JSON
 
 全期間の正式指標、3層のwait shape集計、hand type集計、5枚目待ち感度指標を保持する。
@@ -376,8 +408,14 @@ result:
     contains_ryanmen
     multiwait
     wait_tile_count_distribution
-    wait_shape_record_level
-    hand_type_record_level
+    wait_shape_record_level:
+      wait_shape_membership
+      wait_shape_set_distribution
+      records_with_multiple_wait_shapes
+    hand_type_record_level:
+      hand_type_membership
+      hand_type_set_distribution
+      records_with_multiple_hand_types
   riichi_discard_number_distribution
   wait_tile_level                  # formal側だけの補助結果
   wait_detail_level                # formal側だけの診断結果
@@ -389,10 +427,14 @@ result:
       adjusted_contains_ryanmen
       adjusted_is_multiwait
       adjusted_wait_tile_count_distribution
-      adjusted_wait_shape_membership
-      adjusted_wait_shape_set_distribution
-      adjusted_hand_type_membership
-      adjusted_hand_type_set_distribution
+      adjusted_wait_shape_record_level:
+        adjusted_wait_shape_membership
+        adjusted_wait_shape_set_distribution
+        adjusted_records_with_multiple_wait_shapes
+      adjusted_hand_type_record_level:
+        adjusted_hand_type_membership
+        adjusted_hand_type_set_distribution
+        adjusted_records_with_multiple_hand_types
     formal_adjusted_deltas
 ```
 
@@ -444,8 +486,46 @@ wait shapeが非排他的である注意、hand typeの注意、5枚目待ち感
 - Markdownの行順もJSONと同じ仕様順にする
 - JSONの有限floatは丸めず、Markdownだけ表示用に丸める
 
-全入力と全不変条件の確認後に一時fileへ書き、close成功後にfinalへ置換する。複数結果が
-同一run由来であることは共通のinput manifest SHA256とanalysis commitで検証可能にする。
+### publication stateとfailure atomicity
+
+4成果物を個別の固定pathへ順次置換してrollbackする方式は用いない。出力rootは次の
+content-addressed generation構造を持つ。
+
+```text
+research/results/riichi-wait-summary-v1/
+  current.json
+  generations/
+    <generation_id>/
+      riichi-wait-summary-v1-overall.json
+      riichi-wait-summary-v1-yearly.json
+      riichi-wait-summary-v1-by-turn.json
+      riichi-wait-summary-v1.md
+      complete.json
+```
+
+`generation_id`は4成果物のlogical filename、byte size、SHA256を仕様順に並べたdescriptorの
+SHA256とする。同じ入力manifestとanalysis commitから生成した同じ4成果物は同じIDになる。
+Windowsでnon-empty directoryを原子的に置換できることには依存しない。
+
+生成時はgeneration directory内で4成果物を一時fileから個別に置換し、全fileを再読込して
+size、SHA256、JSON decode、3 JSON間のmetadata一致、および前節のmetadata契約を確認する。
+その後、descriptorを持つ`complete.json`を一時fileから置換する。`complete.json`のdescriptor
+は各成果物のSHA256を通じて、成果物内のcanonical manifest SHA256やgenerator commitを含む
+検証済みmetadataをそのgenerationへ結び付ける。重要なprovenanceを`current.json`だけには
+置かない。4成果物完成前や検証失敗時には`complete.json`が存在しないため、そのgenerationは
+正式成果物ではない。
+
+publicationの最後に、generation IDとcompletion markerの相対pathだけを持つ
+`current.json`を一時fileから`os.replace()`で原子的に更新する。正式成果物とは、
+`current.json`が指すgenerationについて、`complete.json`と全4fileのsize/SHA256を検証できる
+場合だけをいう。directory内の他generation、completion markerのない途中generation、
+`.tmp`残骸は正式成果物として認識しない。
+
+新runの失敗またはprocess終了が`current.json`更新より前なら旧pointerを維持し、更新後なら
+検証済み新generation全体が正式となる。新旧4fileが1つの正式世代として混在する状態は
+作らない。cleanupはpublication成立条件ではなく、cleanup失敗で既存の正式世代を変更しない。
+既存generationは自動削除せず、同じgenerationを再生成する場合はmarkerと全fileを検証して
+再利用する。
 
 ## streaming設計
 
@@ -550,6 +630,13 @@ hand type集合、主要boolean、distribution、5枚目感度のcountとdenomin
 - JSON 3種とMarkdownが同じmetadata fingerprintを持つ
 - overall、yearly、by-turnのformal/adjusted主要指標が同じschemaとdenominatorを持つ
 - outputは全処理成功前にfinalとしてpublishされない
+- malformedまたは不正な`current.json`、存在しない・未完成generationへのpointerを拒否する
+- `complete.json`の必須field、generation ID、4 artifact descriptorを検証する
+- published artifactの欠損、size不一致、同一sizeでのSHA256不一致を拒否する
+- 空または不正なmetadata、および3 JSON間で異なるmetadataを拒否する
+- 同一generation IDの未完成残骸は安全に再生成し、完成世代は全fileを再検証して再利用する
+- 同一generation IDの完成世代が破損していれば再利用せず、silent successしない
+- 新世代のpublication失敗時も、既存`current.json`が指す旧完成世代を維持する
 
 ### 本番結果の確認
 
@@ -578,10 +665,8 @@ src/mahjong_analysis/riichi_wait_summary.py
 analysis/summarize_riichi_waits.py
 tests/test_riichi_wait_summary.py
 docs/specs/riichi-wait-summary-analysis.md
-research/results/riichi-wait-summary-v1-overall.json
-research/results/riichi-wait-summary-v1-yearly.json
-research/results/riichi-wait-summary-v1-by-turn.json
-research/results/riichi-wait-summary-v1.md
+research/results/riichi-wait-summary-v1/current.json
+research/results/riichi-wait-summary-v1/generations/<generation_id>/
 ```
 
 実装段階で既存`riichi_wait_dataset.py`に変更が必要な場合も、集計から独立した汎用reader
