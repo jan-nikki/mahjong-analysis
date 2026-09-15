@@ -1,0 +1,31 @@
+{
+  "analysis_name": "riichi-wait-summary-v1",
+  "files": [
+    {
+      "filename": "riichi-wait-summary-v1-overall.json",
+      "key": "overall",
+      "sha256": "541d985a2e9f61e5760177dbe69cbd8e9c4344b5ccd101ed7254eafb04368e1c",
+      "size_bytes": 189771
+    },
+    {
+      "filename": "riichi-wait-summary-v1-yearly.json",
+      "key": "yearly",
+      "sha256": "5db7c82bfdea7ae2f95fee3f9053aa049187daf8057de88c15678f17ca189893",
+      "size_bytes": 3113456
+    },
+    {
+      "filename": "riichi-wait-summary-v1-by-turn.json",
+      "key": "by_turn",
+      "sha256": "b6a9a8fecd6c97cb79f8d85e01177ca044ca9a6b318440db0816b3c415fdf626",
+      "size_bytes": 8035869
+    },
+    {
+      "filename": "riichi-wait-summary-v1.md",
+      "key": "markdown",
+      "sha256": "676900e02efab4b34f773e8883119b768162372a0ed1729d2358a5bfffb2a4f0",
+      "size_bytes": 2833
+    }
+  ],
+  "generation_id": "6bfca679eae6b3c2a01046e73bb90b6d817e0b82b5b84d024a9ddb4516ca90c7",
+  "schema_version": 1
+}

@@ -1,0 +1,7233 @@
+{
+  "metadata": {
+    "analysis_generator": {
+      "git_commit": "7d19411ff46136c511a98af92e533f5ff1c5b3ff",
+      "worktree_clean": true
+    },
+    "analysis_name": "riichi-wait-summary-v1",
+    "formal_wait_semantics": {
+      "concealed_four_candidate_excluded": true,
+      "fixed_meld_self_owned_four_waits_retained": true,
+      "name": "tenhou_formal_wait"
+    },
+    "input_dataset": {
+      "dataset_name": "riichi-waits-v1",
+      "generator_git_commit": "6904f8661bd414cce081ac524e031e38821a0284",
+      "manifest_path": "data/processed/riichi-waits-v1/manifest.json",
+      "manifest_sha256": "2bbe3409fb8d8ba4e5c34f7531592e3f7e0a1685215f2617f91e27cbdbaa7127",
+      "schema_version": 1,
+      "source_release_tag": "v2.0.0",
+      "source_repository": "NikkeTryHard/tenhou-to-mjai",
+      "totals": {
+        "east_kyokus": 14434809,
+        "established_riichis": 10706714,
+        "output_records": 10706714,
+        "scanned_files": 2500236,
+        "target_games": 2500235
+      }
+    },
+    "observation_unit": "established_riichi_record",
+    "ryanmen_metrics": {
+      "headline": "is_pure_ryanmen",
+      "headline_definition": {
+        "all_hand_types": "standard",
+        "all_wait_shapes": "ryanmen",
+        "empty_details_is_pure_ryanmen": false,
+        "wait_tile_count": 2
+      },
+      "supplementary": "contains_ryanmen"
+    },
+    "schema_version": 1,
+    "scope": {
+      "aka_flag": true,
+      "bakaze": "E",
+      "rule_code": "00a9"
+    },
+    "years": [
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ]
+  },
+  "result": {
+    "established_riichi_count": 10706714,
+    "fifth_tile_sensitivity": {
+      "adjusted_record_level": {
+        "adjusted_contains_ryanmen": {
+          "count": 6404455,
+          "denominator": 10706714,
+          "rate": 0.5981718573971435
+        },
+        "adjusted_hand_type_record_level": {
+          "adjusted_hand_type_membership": [
+            {
+              "count": 10240847,
+              "denominator": 10706714,
+              "rate": 0.9564883305933081,
+              "value": "standard"
+            },
+            {
+              "count": 473281,
+              "denominator": 10706714,
+              "rate": 0.044204132098793335,
+              "value": "chiitoitsu"
+            },
+            {
+              "count": 362,
+              "denominator": 10706714,
+              "rate": 3.381056036427236e-05,
+              "value": "kokushi"
+            }
+          ],
+          "adjusted_hand_type_set_distribution": [
+            {
+              "count": 1,
+              "denominator": 10706714,
+              "members": [],
+              "rate": 9.339933802285183e-08
+            },
+            {
+              "count": 10233070,
+              "denominator": 10706714,
+              "members": [
+                "standard"
+              ],
+              "rate": 0.9557619639415044
+            },
+            {
+              "count": 7777,
+              "denominator": 10706714,
+              "members": [
+                "standard",
+                "chiitoitsu"
+              ],
+              "rate": 0.0007263666518037186
+            },
+            {
+              "count": 465504,
+              "denominator": 10706714,
+              "members": [
+                "chiitoitsu"
+              ],
+              "rate": 0.04347776544698962
+            },
+            {
+              "count": 362,
+              "denominator": 10706714,
+              "members": [
+                "kokushi"
+              ],
+              "rate": 3.381056036427236e-05
+            }
+          ],
+          "adjusted_records_with_multiple_hand_types": {
+            "count": 7777,
+            "denominator": 10706714,
+            "rate": 0.0007263666518037186
+          }
+        },
+        "adjusted_is_multiwait": {
+          "count": 879754,
+          "denominator": 10706714,
+          "rate": 0.08216844122295598
+        },
+        "adjusted_is_pure_ryanmen": {
+          "count": 4466281,
+          "denominator": 10706714,
+          "rate": 0.4171476888240407
+        },
+        "adjusted_wait_shape_record_level": {
+          "adjusted_records_with_multiple_wait_shapes": {
+            "count": 1649280,
+            "denominator": 10706714,
+            "rate": 0.15404166021432905
+          },
+          "adjusted_wait_shape_membership": [
+            {
+              "count": 6404455,
+              "denominator": 10706714,
+              "rate": 0.5981718573971435,
+              "value": "ryanmen"
+            },
+            {
+              "count": 2660383,
+              "denominator": 10706714,
+              "rate": 0.24847801108724862,
+              "value": "kanchan"
+            },
+            {
+              "count": 838320,
+              "denominator": 10706714,
+              "rate": 0.07829853305131715,
+              "value": "penchan"
+            },
+            {
+              "count": 1244140,
+              "denominator": 10706714,
+              "rate": 0.11620185240775087,
+              "value": "shanpon"
+            },
+            {
+              "count": 1318738,
+              "denominator": 10706714,
+              "rate": 0.12316925622557957,
+              "value": "tanki"
+            },
+            {
+              "count": 351,
+              "denominator": 10706714,
+              "rate": 3.2783167646020995e-05,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 11,
+              "denominator": 10706714,
+              "rate": 1.0273927182513701e-06,
+              "value": "kokushi_13men"
+            }
+          ],
+          "adjusted_wait_shape_set_distribution": [
+            {
+              "count": 1,
+              "denominator": 10706714,
+              "members": [],
+              "rate": 9.339933802285183e-08
+            },
+            {
+              "count": 4880112,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.4557992302773755
+            },
+            {
+              "count": 667855,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.062377214895251706
+            },
+            {
+              "count": 12985,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "penchan"
+              ],
+              "rate": 0.001212790404226731
+            },
+            {
+              "count": 22,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 2.0547854365027402e-06
+            },
+            {
+              "count": 141,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "penchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 1.3169306661222109e-05
+            },
+            {
+              "count": 4178,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.0003902224342594749
+            },
+            {
+              "count": 6942,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0006483782045546374
+            },
+            {
+              "count": 2365,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 0.00022088943442404458
+            },
+            {
+              "count": 42350,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.003955461965267775
+            },
+            {
+              "count": 277399,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen",
+                "penchan"
+              ],
+              "rate": 0.025908882968201076
+            },
+            {
+              "count": 2379,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen",
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 0.0002221970251563645
+            },
+            {
+              "count": 442,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen",
+                "penchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 4.128250740610051e-05
+            },
+            {
+              "count": 22268,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen",
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.0020798164590928644
+            },
+            {
+              "count": 128291,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.011982294474289685
+            },
+            {
+              "count": 5662,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 0.0005288270518853871
+            },
+            {
+              "count": 351064,
+              "denominator": 10706714,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.03278914520365445
+            },
+            {
+              "count": 1820989,
+              "denominator": 10706714,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.17007916714689492
+            },
+            {
+              "count": 14981,
+              "denominator": 10706714,
+              "members": [
+                "kanchan",
+                "penchan"
+              ],
+              "rate": 0.0013992154829203433
+            },
+            {
+              "count": 8,
+              "denominator": 10706714,
+              "members": [
+                "kanchan",
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 7.471947041828147e-07
+            },
+            {
+              "count": 133,
+              "denominator": 10706714,
+              "members": [
+                "kanchan",
+                "penchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 1.2422111957039294e-05
+            },
+            {
+              "count": 1672,
+              "denominator": 10706714,
+              "members": [
+                "kanchan",
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.00015616369317420826
+            },
+            {
+              "count": 12219,
+              "denominator": 10706714,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0011412465113012265
+            },
+            {
+              "count": 1110,
+              "denominator": 10706714,
+              "members": [
+                "kanchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 0.00010367326520536553
+            },
+            {
+              "count": 72433,
+              "denominator": 10706714,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.006765194251009227
+            },
+            {
+              "count": 479331,
+              "denominator": 10706714,
+              "members": [
+                "penchan"
+              ],
+              "rate": 0.04476919809383159
+            },
+            {
+              "count": 3572,
+              "denominator": 10706714,
+              "members": [
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 0.00033362243541762676
+            },
+            {
+              "count": 326,
+              "denominator": 10706714,
+              "members": [
+                "penchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 3.0448184195449695e-05
+            },
+            {
+              "count": 18483,
+              "denominator": 10706714,
+              "members": [
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.0017262999646763704
+            },
+            {
+              "count": 1080528,
+              "denominator": 10706714,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.10092059991515605
+            },
+            {
+              "count": 796111,
+              "denominator": 10706714,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.07435624039271059
+            },
+            {
+              "count": 351,
+              "denominator": 10706714,
+              "members": [
+                "kokushi_single"
+              ],
+              "rate": 3.2783167646020995e-05
+            },
+            {
+              "count": 11,
+              "denominator": 10706714,
+              "members": [
+                "kokushi_13men"
+              ],
+              "rate": 1.0273927182513701e-06
+            }
+          ]
+        },
+        "adjusted_wait_tile_count_distribution": [
+          {
+            "count": 1,
+            "denominator": 10706714,
+            "rate": 9.339933802285183e-08,
+            "value": 0
+          },
+          {
+            "count": 2949759,
+            "denominator": 10706714,
+            "rate": 0.2755055379269494,
+            "value": 1
+          },
+          {
+            "count": 6877200,
+            "denominator": 10706714,
+            "rate": 0.6423259274507566,
+            "value": 2
+          },
+          {
+            "count": 825907,
+            "denominator": 10706714,
+            "rate": 0.07713916706843948,
+            "value": 3
+          },
+          {
+            "count": 40523,
+            "denominator": 10706714,
+            "rate": 0.0037848213747000248,
+            "value": 4
+          },
+          {
+            "count": 11947,
+            "denominator": 10706714,
+            "rate": 0.0011158418913590107,
+            "value": 5
+          },
+          {
+            "count": 1287,
+            "denominator": 10706714,
+            "rate": 0.00012020494803541031,
+            "value": 6
+          },
+          {
+            "count": 42,
+            "denominator": 10706714,
+            "rate": 3.922772196959777e-06,
+            "value": 7
+          },
+          {
+            "count": 35,
+            "denominator": 10706714,
+            "rate": 3.2689768307998142e-06,
+            "value": 8
+          },
+          {
+            "count": 2,
+            "denominator": 10706714,
+            "rate": 1.8679867604570367e-07,
+            "value": 9
+          },
+          {
+            "count": 11,
+            "denominator": 10706714,
+            "rate": 1.0273927182513701e-06,
+            "value": 13
+          }
+        ],
+        "adjusted_zero_wait_count": 1,
+        "record_count": 10706714
+      },
+      "formal_adjusted_deltas": {
+        "contains_ryanmen": {
+          "count_delta": 0,
+          "percentage_point_delta": 0.0
+        },
+        "is_multiwait": {
+          "count_delta": -89,
+          "percentage_point_delta": -0.0008312541084035119
+        },
+        "is_pure_ryanmen": {
+          "count_delta": -123,
+          "percentage_point_delta": -0.0011488118576818973
+        }
+      },
+      "records_with_fifth_tile_and_other_waits": {
+        "count": 304,
+        "denominator": 10706714,
+        "rate": 2.8393398758946955e-05
+      },
+      "records_with_only_fifth_tile_waits": {
+        "count": 1,
+        "denominator": 10706714,
+        "rate": 9.339933802285183e-08
+      },
+      "records_with_self_owned_four_fifth_tile_wait": {
+        "count": 305,
+        "denominator": 10706714,
+        "rate": 2.8486798096969807e-05
+      },
+      "self_owned_four_fifth_tile_wait_observations": {
+        "count": 305,
+        "denominator": 19412469,
+        "rate": 1.5711551168478363e-05
+      }
+    },
+    "formal_baseline": {
+      "contains_ryanmen": {
+        "count": 6404455,
+        "denominator": 10706714,
+        "rate": 0.5981718573971435
+      },
+      "hand_type_record_level": {
+        "hand_type_membership": [
+          {
+            "count": 10240848,
+            "denominator": 10706714,
+            "rate": 0.9564884239926461,
+            "value": "standard"
+          },
+          {
+            "count": 473281,
+            "denominator": 10706714,
+            "rate": 0.044204132098793335,
+            "value": "chiitoitsu"
+          },
+          {
+            "count": 362,
+            "denominator": 10706714,
+            "rate": 3.381056036427236e-05,
+            "value": "kokushi"
+          }
+        ],
+        "hand_type_set_distribution": [
+          {
+            "count": 10233071,
+            "denominator": 10706714,
+            "members": [
+              "standard"
+            ],
+            "rate": 0.9557620573408424
+          },
+          {
+            "count": 7777,
+            "denominator": 10706714,
+            "members": [
+              "standard",
+              "chiitoitsu"
+            ],
+            "rate": 0.0007263666518037186
+          },
+          {
+            "count": 465504,
+            "denominator": 10706714,
+            "members": [
+              "chiitoitsu"
+            ],
+            "rate": 0.04347776544698962
+          },
+          {
+            "count": 362,
+            "denominator": 10706714,
+            "members": [
+              "kokushi"
+            ],
+            "rate": 3.381056036427236e-05
+          }
+        ],
+        "records_with_multiple_hand_types": {
+          "count": 7777,
+          "denominator": 10706714,
+          "rate": 0.0007263666518037186
+        }
+      },
+      "multiwait": {
+        "count": 879843,
+        "denominator": 10706714,
+        "rate": 0.08217675376404002
+      },
+      "pure_ryanmen": {
+        "count": 4466404,
+        "denominator": 10706714,
+        "rate": 0.4171591769426175
+      },
+      "record_count": 10706714,
+      "wait_shape_record_level": {
+        "records_with_multiple_wait_shapes": {
+          "count": 1649286,
+          "denominator": 10706714,
+          "rate": 0.1540422206103572
+        },
+        "wait_shape_membership": [
+          {
+            "count": 6404455,
+            "denominator": 10706714,
+            "rate": 0.5981718573971435,
+            "value": "ryanmen"
+          },
+          {
+            "count": 2660388,
+            "denominator": 10706714,
+            "rate": 0.24847847808393872,
+            "value": "kanchan"
+          },
+          {
+            "count": 838322,
+            "denominator": 10706714,
+            "rate": 0.07829871984999319,
+            "value": "penchan"
+          },
+          {
+            "count": 1244140,
+            "denominator": 10706714,
+            "rate": 0.11620185240775087,
+            "value": "shanpon"
+          },
+          {
+            "count": 1318738,
+            "denominator": 10706714,
+            "rate": 0.12316925622557957,
+            "value": "tanki"
+          },
+          {
+            "count": 351,
+            "denominator": 10706714,
+            "rate": 3.2783167646020995e-05,
+            "value": "kokushi_single"
+          },
+          {
+            "count": 11,
+            "denominator": 10706714,
+            "rate": 1.0273927182513701e-06,
+            "value": "kokushi_13men"
+          }
+        ],
+        "wait_shape_set_distribution": [
+          {
+            "count": 4880112,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen"
+            ],
+            "rate": 0.4557992302773755
+          },
+          {
+            "count": 667855,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen",
+              "kanchan"
+            ],
+            "rate": 0.062377214895251706
+          },
+          {
+            "count": 12985,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen",
+              "kanchan",
+              "penchan"
+            ],
+            "rate": 0.001212790404226731
+          },
+          {
+            "count": 22,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen",
+              "kanchan",
+              "penchan",
+              "shanpon"
+            ],
+            "rate": 2.0547854365027402e-06
+          },
+          {
+            "count": 141,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen",
+              "kanchan",
+              "penchan",
+              "shanpon",
+              "tanki"
+            ],
+            "rate": 1.3169306661222109e-05
+          },
+          {
+            "count": 4178,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen",
+              "kanchan",
+              "penchan",
+              "tanki"
+            ],
+            "rate": 0.0003902224342594749
+          },
+          {
+            "count": 6942,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen",
+              "kanchan",
+              "shanpon"
+            ],
+            "rate": 0.0006483782045546374
+          },
+          {
+            "count": 2365,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen",
+              "kanchan",
+              "shanpon",
+              "tanki"
+            ],
+            "rate": 0.00022088943442404458
+          },
+          {
+            "count": 42350,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen",
+              "kanchan",
+              "tanki"
+            ],
+            "rate": 0.003955461965267775
+          },
+          {
+            "count": 277399,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen",
+              "penchan"
+            ],
+            "rate": 0.025908882968201076
+          },
+          {
+            "count": 2379,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen",
+              "penchan",
+              "shanpon"
+            ],
+            "rate": 0.0002221970251563645
+          },
+          {
+            "count": 442,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen",
+              "penchan",
+              "shanpon",
+              "tanki"
+            ],
+            "rate": 4.128250740610051e-05
+          },
+          {
+            "count": 22268,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen",
+              "penchan",
+              "tanki"
+            ],
+            "rate": 0.0020798164590928644
+          },
+          {
+            "count": 128291,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen",
+              "shanpon"
+            ],
+            "rate": 0.011982294474289685
+          },
+          {
+            "count": 5662,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen",
+              "shanpon",
+              "tanki"
+            ],
+            "rate": 0.0005288270518853871
+          },
+          {
+            "count": 351064,
+            "denominator": 10706714,
+            "members": [
+              "ryanmen",
+              "tanki"
+            ],
+            "rate": 0.03278914520365445
+          },
+          {
+            "count": 1820989,
+            "denominator": 10706714,
+            "members": [
+              "kanchan"
+            ],
+            "rate": 0.17007916714689492
+          },
+          {
+            "count": 14981,
+            "denominator": 10706714,
+            "members": [
+              "kanchan",
+              "penchan"
+            ],
+            "rate": 0.0013992154829203433
+          },
+          {
+            "count": 8,
+            "denominator": 10706714,
+            "members": [
+              "kanchan",
+              "penchan",
+              "shanpon"
+            ],
+            "rate": 7.471947041828147e-07
+          },
+          {
+            "count": 133,
+            "denominator": 10706714,
+            "members": [
+              "kanchan",
+              "penchan",
+              "shanpon",
+              "tanki"
+            ],
+            "rate": 1.2422111957039294e-05
+          },
+          {
+            "count": 1672,
+            "denominator": 10706714,
+            "members": [
+              "kanchan",
+              "penchan",
+              "tanki"
+            ],
+            "rate": 0.00015616369317420826
+          },
+          {
+            "count": 12219,
+            "denominator": 10706714,
+            "members": [
+              "kanchan",
+              "shanpon"
+            ],
+            "rate": 0.0011412465113012265
+          },
+          {
+            "count": 1110,
+            "denominator": 10706714,
+            "members": [
+              "kanchan",
+              "shanpon",
+              "tanki"
+            ],
+            "rate": 0.00010367326520536553
+          },
+          {
+            "count": 72438,
+            "denominator": 10706714,
+            "members": [
+              "kanchan",
+              "tanki"
+            ],
+            "rate": 0.006765661247699341
+          },
+          {
+            "count": 479332,
+            "denominator": 10706714,
+            "members": [
+              "penchan"
+            ],
+            "rate": 0.04476929149316961
+          },
+          {
+            "count": 3572,
+            "denominator": 10706714,
+            "members": [
+              "penchan",
+              "shanpon"
+            ],
+            "rate": 0.00033362243541762676
+          },
+          {
+            "count": 326,
+            "denominator": 10706714,
+            "members": [
+              "penchan",
+              "shanpon",
+              "tanki"
+            ],
+            "rate": 3.0448184195449695e-05
+          },
+          {
+            "count": 18484,
+            "denominator": 10706714,
+            "members": [
+              "penchan",
+              "tanki"
+            ],
+            "rate": 0.0017263933640143932
+          },
+          {
+            "count": 1080528,
+            "denominator": 10706714,
+            "members": [
+              "shanpon"
+            ],
+            "rate": 0.10092059991515605
+          },
+          {
+            "count": 796105,
+            "denominator": 10706714,
+            "members": [
+              "tanki"
+            ],
+            "rate": 0.07435567999668245
+          },
+          {
+            "count": 351,
+            "denominator": 10706714,
+            "members": [
+              "kokushi_single"
+            ],
+            "rate": 3.2783167646020995e-05
+          },
+          {
+            "count": 11,
+            "denominator": 10706714,
+            "members": [
+              "kokushi_13men"
+            ],
+            "rate": 1.0273927182513701e-06
+          }
+        ]
+      },
+      "wait_tile_count_distribution": [
+        {
+          "count": 2949550,
+          "denominator": 10706714,
+          "rate": 0.2754860174653026,
+          "value": 1
+        },
+        {
+          "count": 6877321,
+          "denominator": 10706714,
+          "rate": 0.6423372287706574,
+          "value": 2
+        },
+        {
+          "count": 825995,
+          "denominator": 10706714,
+          "rate": 0.07714738621018549,
+          "value": 3
+        },
+        {
+          "count": 40520,
+          "denominator": 10706714,
+          "rate": 0.003784541176685956,
+          "value": 4
+        },
+        {
+          "count": 11951,
+          "denominator": 10706714,
+          "rate": 0.0011162154887111022,
+          "value": 5
+        },
+        {
+          "count": 1287,
+          "denominator": 10706714,
+          "rate": 0.00012020494803541031,
+          "value": 6
+        },
+        {
+          "count": 42,
+          "denominator": 10706714,
+          "rate": 3.922772196959777e-06,
+          "value": 7
+        },
+        {
+          "count": 35,
+          "denominator": 10706714,
+          "rate": 3.2689768307998142e-06,
+          "value": 8
+        },
+        {
+          "count": 2,
+          "denominator": 10706714,
+          "rate": 1.8679867604570367e-07,
+          "value": 9
+        },
+        {
+          "count": 11,
+          "denominator": 10706714,
+          "rate": 1.0273927182513701e-06,
+          "value": 13
+        }
+      ]
+    },
+    "riichi_discard_number_distribution": [
+      {
+        "count": 36213,
+        "denominator": 10706714,
+        "rate": 0.0033822702278215335,
+        "value": 1
+      },
+      {
+        "count": 85877,
+        "denominator": 10706714,
+        "rate": 0.008020854951388446,
+        "value": 2
+      },
+      {
+        "count": 225316,
+        "denominator": 10706714,
+        "rate": 0.021044365245956882,
+        "value": 3
+      },
+      {
+        "count": 452592,
+        "denominator": 10706714,
+        "rate": 0.04227179319443856,
+        "value": 4
+      },
+      {
+        "count": 743602,
+        "denominator": 10706714,
+        "rate": 0.06945193455246866,
+        "value": 5
+      },
+      {
+        "count": 1036969,
+        "denominator": 10706714,
+        "rate": 0.09685221815021863,
+        "value": 6
+      },
+      {
+        "count": 1258554,
+        "denominator": 10706714,
+        "rate": 0.11754811046601227,
+        "value": 7
+      },
+      {
+        "count": 1356865,
+        "denominator": 10706714,
+        "rate": 0.12673029278637685,
+        "value": 8
+      },
+      {
+        "count": 1318221,
+        "denominator": 10706714,
+        "rate": 0.12312096876782176,
+        "value": 9
+      },
+      {
+        "count": 1174038,
+        "denominator": 10706714,
+        "rate": 0.10965437201367291,
+        "value": 10
+      },
+      {
+        "count": 969498,
+        "denominator": 10706714,
+        "rate": 0.0905504714144788,
+        "value": 11
+      },
+      {
+        "count": 749155,
+        "denominator": 10706714,
+        "rate": 0.06997058107650957,
+        "value": 12
+      },
+      {
+        "count": 537908,
+        "denominator": 10706714,
+        "rate": 0.05024025111719618,
+        "value": 13
+      },
+      {
+        "count": 362164,
+        "denominator": 10706714,
+        "rate": 0.03382587785570811,
+        "value": 14
+      },
+      {
+        "count": 224265,
+        "denominator": 10706714,
+        "rate": 0.020946202541694867,
+        "value": 15
+      },
+      {
+        "count": 123060,
+        "denominator": 10706714,
+        "rate": 0.011493722537092146,
+        "value": 16
+      },
+      {
+        "count": 46935,
+        "denominator": 10706714,
+        "rate": 0.00438369793010255,
+        "value": 17
+      },
+      {
+        "count": 5305,
+        "denominator": 10706714,
+        "rate": 0.0004954834882112289,
+        "value": 18
+      },
+      {
+        "count": 176,
+        "denominator": 10706714,
+        "rate": 1.6438283492021922e-05,
+        "value": 19
+      },
+      {
+        "count": 1,
+        "denominator": 10706714,
+        "rate": 9.339933802285183e-08,
+        "value": 20
+      }
+    ],
+    "wait_detail_level": {
+      "hand_type_by_wait_shape": [
+        {
+          "count": 13388414,
+          "detail_denominator": 21002819,
+          "hand_type": "standard",
+          "share_of_details": 0.6374579526681633,
+          "wait_shape": "ryanmen"
+        },
+        {
+          "count": 2683041,
+          "detail_denominator": 21002819,
+          "hand_type": "standard",
+          "share_of_details": 0.1277467086680126,
+          "wait_shape": "kanchan"
+        },
+        {
+          "count": 838341,
+          "detail_denominator": 21002819,
+          "hand_type": "standard",
+          "share_of_details": 0.03991564180027452,
+          "wait_shape": "penchan"
+        },
+        {
+          "count": 2491369,
+          "detail_denominator": 21002819,
+          "hand_type": "standard",
+          "share_of_details": 0.11862069563138167,
+          "wait_shape": "shanpon"
+        },
+        {
+          "count": 1127879,
+          "detail_denominator": 21002819,
+          "hand_type": "standard",
+          "share_of_details": 0.05370131504728008,
+          "wait_shape": "tanki"
+        },
+        {
+          "count": 0,
+          "detail_denominator": 21002819,
+          "hand_type": "standard",
+          "share_of_details": 0.0,
+          "wait_shape": "kokushi_single"
+        },
+        {
+          "count": 0,
+          "detail_denominator": 21002819,
+          "hand_type": "standard",
+          "share_of_details": 0.0,
+          "wait_shape": "kokushi_13men"
+        },
+        {
+          "count": 0,
+          "detail_denominator": 21002819,
+          "hand_type": "chiitoitsu",
+          "share_of_details": 0.0,
+          "wait_shape": "ryanmen"
+        },
+        {
+          "count": 0,
+          "detail_denominator": 21002819,
+          "hand_type": "chiitoitsu",
+          "share_of_details": 0.0,
+          "wait_shape": "kanchan"
+        },
+        {
+          "count": 0,
+          "detail_denominator": 21002819,
+          "hand_type": "chiitoitsu",
+          "share_of_details": 0.0,
+          "wait_shape": "penchan"
+        },
+        {
+          "count": 0,
+          "detail_denominator": 21002819,
+          "hand_type": "chiitoitsu",
+          "share_of_details": 0.0,
+          "wait_shape": "shanpon"
+        },
+        {
+          "count": 473281,
+          "detail_denominator": 21002819,
+          "hand_type": "chiitoitsu",
+          "share_of_details": 0.022534165532731583,
+          "wait_shape": "tanki"
+        },
+        {
+          "count": 0,
+          "detail_denominator": 21002819,
+          "hand_type": "chiitoitsu",
+          "share_of_details": 0.0,
+          "wait_shape": "kokushi_single"
+        },
+        {
+          "count": 0,
+          "detail_denominator": 21002819,
+          "hand_type": "chiitoitsu",
+          "share_of_details": 0.0,
+          "wait_shape": "kokushi_13men"
+        },
+        {
+          "count": 0,
+          "detail_denominator": 21002819,
+          "hand_type": "kokushi",
+          "share_of_details": 0.0,
+          "wait_shape": "ryanmen"
+        },
+        {
+          "count": 0,
+          "detail_denominator": 21002819,
+          "hand_type": "kokushi",
+          "share_of_details": 0.0,
+          "wait_shape": "kanchan"
+        },
+        {
+          "count": 0,
+          "detail_denominator": 21002819,
+          "hand_type": "kokushi",
+          "share_of_details": 0.0,
+          "wait_shape": "penchan"
+        },
+        {
+          "count": 0,
+          "detail_denominator": 21002819,
+          "hand_type": "kokushi",
+          "share_of_details": 0.0,
+          "wait_shape": "shanpon"
+        },
+        {
+          "count": 0,
+          "detail_denominator": 21002819,
+          "hand_type": "kokushi",
+          "share_of_details": 0.0,
+          "wait_shape": "tanki"
+        },
+        {
+          "count": 351,
+          "detail_denominator": 21002819,
+          "hand_type": "kokushi",
+          "share_of_details": 1.671204232155693e-05,
+          "wait_shape": "kokushi_single"
+        },
+        {
+          "count": 143,
+          "detail_denominator": 21002819,
+          "hand_type": "kokushi",
+          "share_of_details": 6.808609834708379e-06,
+          "wait_shape": "kokushi_13men"
+        }
+      ],
+      "wait_detail_count": 21002819
+    },
+    "wait_tile_level": {
+      "by_tile": [
+        {
+          "shape_membership": [
+            {
+              "count": 346597,
+              "denominator": 454691,
+              "rate": 0.7622693213632995,
+              "value": "ryanmen"
+            },
+            {
+              "count": 0,
+              "denominator": 454691,
+              "rate": 0.0,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 454691,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 77144,
+              "denominator": 454691,
+              "rate": 0.16966247407580093,
+              "value": "shanpon"
+            },
+            {
+              "count": 42590,
+              "denominator": 454691,
+              "rate": 0.09366800750399722,
+              "value": "tanki"
+            },
+            {
+              "count": 23,
+              "denominator": 454691,
+              "rate": 5.058380306625819e-05,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 11,
+              "denominator": 454691,
+              "rate": 2.419225364038435e-05,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 334949,
+              "denominator": 454691,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.7366519240539179
+            },
+            {
+              "count": 3258,
+              "denominator": 454691,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.007165305669124746
+            },
+            {
+              "count": 26,
+              "denominator": 454691,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 5.718169042272664e-05
+            },
+            {
+              "count": 8364,
+              "denominator": 454691,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.018394909949834063
+            },
+            {
+              "count": 73860,
+              "denominator": 454691,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.16243998671625345
+            },
+            {
+              "count": 34200,
+              "denominator": 454691,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.07521591586374043
+            },
+            {
+              "count": 23,
+              "denominator": 454691,
+              "members": [
+                "kokushi_single"
+              ],
+              "rate": 5.058380306625819e-05
+            },
+            {
+              "count": 11,
+              "denominator": 454691,
+              "members": [
+                "kokushi_13men"
+              ],
+              "rate": 2.419225364038435e-05
+            }
+          ],
+          "tile": "1m",
+          "tile_frequency": {
+            "count": 454691,
+            "denominator": 19412469,
+            "share": 0.023422625942119985
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 11648,
+            "denominator": 454691,
+            "rate": 0.025617397309381534
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 389557,
+              "denominator": 599665,
+              "rate": 0.6496243736085981,
+              "value": "ryanmen"
+            },
+            {
+              "count": 122127,
+              "denominator": 599665,
+              "rate": 0.20365870944610742,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 599665,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 77955,
+              "denominator": 599665,
+              "rate": 0.129997581983274,
+              "value": "shanpon"
+            },
+            {
+              "count": 49783,
+              "denominator": 599665,
+              "rate": 0.0830180183936031,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 599665,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 599665,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 351166,
+              "denominator": 599665,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.5856036286926868
+            },
+            {
+              "count": 24625,
+              "denominator": 599665,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.041064594398539184
+            },
+            {
+              "count": 1,
+              "denominator": 599665,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 1.6675977420726572e-06
+            },
+            {
+              "count": 74,
+              "denominator": 599665,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00012340223291337662
+            },
+            {
+              "count": 4039,
+              "denominator": 599665,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.006735427280231463
+            },
+            {
+              "count": 30,
+              "denominator": 599665,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 5.002793226217972e-05
+            },
+            {
+              "count": 9622,
+              "denominator": 599665,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.01604562547422311
+            },
+            {
+              "count": 96166,
+              "denominator": 599665,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.16036620446415917
+            },
+            {
+              "count": 506,
+              "denominator": 599665,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0008438044574887645
+            },
+            {
+              "count": 755,
+              "denominator": 599665,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0012590362952648562
+            },
+            {
+              "count": 73379,
+              "denominator": 599665,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.12236665471554951
+            },
+            {
+              "count": 39302,
+              "denominator": 599665,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.06553992645893958
+            }
+          ],
+          "tile": "2m",
+          "tile_frequency": {
+            "count": 599665,
+            "denominator": 19412469,
+            "share": 0.03089071256211665
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 39652,
+            "denominator": 599665,
+            "rate": 0.06612358566866501
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 430372,
+              "denominator": 717401,
+              "rate": 0.5999043770499344,
+              "value": "ryanmen"
+            },
+            {
+              "count": 139423,
+              "denominator": 717401,
+              "rate": 0.1943445855246926,
+              "value": "kanchan"
+            },
+            {
+              "count": 140468,
+              "denominator": 717401,
+              "rate": 0.19580123250455464,
+              "value": "penchan"
+            },
+            {
+              "count": 64421,
+              "denominator": 717401,
+              "rate": 0.08979775606669073,
+              "value": "shanpon"
+            },
+            {
+              "count": 44158,
+              "denominator": 717401,
+              "rate": 0.06155274386291628,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 717401,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 717401,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 336487,
+              "denominator": 717401,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.4690361457539089
+            },
+            {
+              "count": 27918,
+              "denominator": 717401,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.03891547405147191
+            },
+            {
+              "count": 346,
+              "denominator": 717401,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "penchan"
+              ],
+              "rate": 0.0004822965119925955
+            },
+            {
+              "count": 5,
+              "denominator": 717401,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 6.9696027744594724e-06
+            },
+            {
+              "count": 90,
+              "denominator": 717401,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0001254528499402705
+            },
+            {
+              "count": 52675,
+              "denominator": 717401,
+              "members": [
+                "ryanmen",
+                "penchan"
+              ],
+              "rate": 0.07342476522893054
+            },
+            {
+              "count": 1,
+              "denominator": 717401,
+              "members": [
+                "ryanmen",
+                "penchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 1.3939205548918945e-06
+            },
+            {
+              "count": 224,
+              "denominator": 717401,
+              "members": [
+                "ryanmen",
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.0003122382042957844
+            },
+            {
+              "count": 4411,
+              "denominator": 717401,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.006148583567628147
+            },
+            {
+              "count": 23,
+              "denominator": 717401,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 3.206017276251357e-05
+            },
+            {
+              "count": 8192,
+              "denominator": 717401,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.0114189971856744
+            },
+            {
+              "count": 106294,
+              "denominator": 717401,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.14816539146167904
+            },
+            {
+              "count": 2863,
+              "denominator": 717401,
+              "members": [
+                "kanchan",
+                "penchan"
+              ],
+              "rate": 0.003990794548655494
+            },
+            {
+              "count": 1,
+              "denominator": 717401,
+              "members": [
+                "kanchan",
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 1.3939205548918945e-06
+            },
+            {
+              "count": 12,
+              "denominator": 717401,
+              "members": [
+                "kanchan",
+                "penchan",
+                "tanki"
+              ],
+              "rate": 1.6727046658702734e-05
+            },
+            {
+              "count": 791,
+              "denominator": 717401,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0011025911589194885
+            },
+            {
+              "count": 1103,
+              "denominator": 717401,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0015374943720457596
+            },
+            {
+              "count": 82263,
+              "denominator": 717401,
+              "members": [
+                "penchan"
+              ],
+              "rate": 0.11466808660707192
+            },
+            {
+              "count": 731,
+              "denominator": 717401,
+              "members": [
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 0.001018955925625975
+            },
+            {
+              "count": 1352,
+              "denominator": 717401,
+              "members": [
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.0018845805902138414
+            },
+            {
+              "count": 58458,
+              "denominator": 717401,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.08148580779787037
+            },
+            {
+              "count": 33161,
+              "denominator": 717401,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.04622379952077011
+            }
+          ],
+          "tile": "3m",
+          "tile_frequency": {
+            "count": 717401,
+            "denominator": 19412469,
+            "share": 0.036955680392844414
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 100738,
+            "denominator": 717401,
+            "rate": 0.14042076885869967
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 712975,
+              "denominator": 887898,
+              "rate": 0.8029920103435304,
+              "value": "ryanmen"
+            },
+            {
+              "count": 130376,
+              "denominator": 887898,
+              "rate": 0.14683668619593693,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 887898,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 66717,
+              "denominator": 887898,
+              "rate": 0.07514038774724124,
+              "value": "shanpon"
+            },
+            {
+              "count": 52145,
+              "denominator": 887898,
+              "rate": 0.05872859269871089,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 887898,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 887898,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 641057,
+              "denominator": 887898,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.7219939677755778
+            },
+            {
+              "count": 46631,
+              "denominator": 887898,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.05251841990859311
+            },
+            {
+              "count": 5,
+              "denominator": 887898,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 5.631277466555843e-06
+            },
+            {
+              "count": 2,
+              "denominator": 887898,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 2.2525109866223374e-06
+            },
+            {
+              "count": 203,
+              "denominator": 887898,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00022862986514216724
+            },
+            {
+              "count": 8059,
+              "denominator": 887898,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.009076493020594708
+            },
+            {
+              "count": 62,
+              "denominator": 887898,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 6.982784058529246e-05
+            },
+            {
+              "count": 16956,
+              "denominator": 887898,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.019096788144584174
+            },
+            {
+              "count": 81412,
+              "denominator": 887898,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.09169071222144887
+            },
+            {
+              "count": 823,
+              "denominator": 887898,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0009269082709950918
+            },
+            {
+              "count": 1300,
+              "denominator": 887898,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0014641321413045192
+            },
+            {
+              "count": 57766,
+              "denominator": 887898,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.06505927482661297
+            },
+            {
+              "count": 33622,
+              "denominator": 887898,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.03786696219610811
+            }
+          ],
+          "tile": "4m",
+          "tile_frequency": {
+            "count": 887898,
+            "denominator": 19412469,
+            "share": 0.045738540522588855
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 74041,
+            "denominator": 887898,
+            "rate": 0.08338908298025223
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 718255,
+              "denominator": 908033,
+              "rate": 0.7910009878495605,
+              "value": "ryanmen"
+            },
+            {
+              "count": 115187,
+              "denominator": 908033,
+              "rate": 0.12685331920756185,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 908033,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 80676,
+              "denominator": 908033,
+              "rate": 0.0888469912437103,
+              "value": "shanpon"
+            },
+            {
+              "count": 72682,
+              "denominator": 908033,
+              "rate": 0.08004334644225485,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 908033,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 908033,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 642170,
+              "denominator": 908033,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.7072099802540216
+            },
+            {
+              "count": 47370,
+              "denominator": 908033,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.05216770756128907
+            },
+            {
+              "count": 10,
+              "denominator": 908033,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 1.1012815613529464e-05
+            },
+            {
+              "count": 4,
+              "denominator": 908033,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 4.405126245411786e-06
+            },
+            {
+              "count": 214,
+              "denominator": 908033,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00023567425412953052
+            },
+            {
+              "count": 8693,
+              "denominator": 908033,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.009573440612841164
+            },
+            {
+              "count": 88,
+              "denominator": 908033,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 9.691277739905928e-05
+            },
+            {
+              "count": 19706,
+              "denominator": 908033,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.02170185444802116
+            },
+            {
+              "count": 65227,
+              "denominator": 908033,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.07183329240236863
+            },
+            {
+              "count": 928,
+              "denominator": 908033,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0010219892889355342
+            },
+            {
+              "count": 1434,
+              "denominator": 908033,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.001579237758980125
+            },
+            {
+              "count": 70953,
+              "denominator": 908033,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.07813923062267561
+            },
+            {
+              "count": 51236,
+              "denominator": 908033,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.05642526207747956
+            }
+          ],
+          "tile": "5m",
+          "tile_frequency": {
+            "count": 908033,
+            "denominator": 19412469,
+            "share": 0.04677576046612103
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 78447,
+            "denominator": 908033,
+            "rate": 0.0863922346434546
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 718012,
+              "denominator": 893496,
+              "rate": 0.8035984492376015,
+              "value": "ryanmen"
+            },
+            {
+              "count": 130119,
+              "denominator": 893496,
+              "rate": 0.14562907948104972,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 893496,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 67070,
+              "denominator": 893496,
+              "rate": 0.07506468971321639,
+              "value": "shanpon"
+            },
+            {
+              "count": 53327,
+              "denominator": 893496,
+              "rate": 0.05968353523686731,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 893496,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 893496,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 645386,
+              "denominator": 893496,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.7223154888214385
+            },
+            {
+              "count": 46619,
+              "denominator": 893496,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.05217594706635508
+            },
+            {
+              "count": 3,
+              "denominator": 893496,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 3.357597571785436e-06
+            },
+            {
+              "count": 165,
+              "denominator": 893496,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00018466786644819898
+            },
+            {
+              "count": 8142,
+              "denominator": 893496,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.009112519809825673
+            },
+            {
+              "count": 65,
+              "denominator": 893496,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 7.274794738868444e-05
+            },
+            {
+              "count": 17632,
+              "denominator": 893496,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.019733720128573603
+            },
+            {
+              "count": 81159,
+              "denominator": 893496,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.0908330871095114
+            },
+            {
+              "count": 833,
+              "denominator": 893496,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0009322929257657561
+            },
+            {
+              "count": 1340,
+              "denominator": 893496,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0014997269153974948
+            },
+            {
+              "count": 58027,
+              "denominator": 893496,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.0649437714326645
+            },
+            {
+              "count": 34125,
+              "denominator": 893496,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.038192672379059336
+            }
+          ],
+          "tile": "6m",
+          "tile_frequency": {
+            "count": 893496,
+            "denominator": 19412469,
+            "share": 0.04602691187813358
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 74799,
+            "denominator": 893496,
+            "rate": 0.08371498025732628
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 429166,
+              "denominator": 718486,
+              "rate": 0.5973199199427686,
+              "value": "ryanmen"
+            },
+            {
+              "count": 140406,
+              "denominator": 718486,
+              "rate": 0.19541925660346895,
+              "value": "kanchan"
+            },
+            {
+              "count": 142656,
+              "denominator": 718486,
+              "rate": 0.1985508416308738,
+              "value": "penchan"
+            },
+            {
+              "count": 64316,
+              "denominator": 718486,
+              "rate": 0.08951601005447567,
+              "value": "shanpon"
+            },
+            {
+              "count": 44028,
+              "denominator": 718486,
+              "rate": 0.061278855816258075,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 718486,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 718486,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 334658,
+              "denominator": 718486,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.46578221426722305
+            },
+            {
+              "count": 28231,
+              "denominator": 718486,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.03929234529274057
+            },
+            {
+              "count": 351,
+              "denominator": 718486,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "penchan"
+              ],
+              "rate": 0.0004885272642751563
+            },
+            {
+              "count": 3,
+              "denominator": 718486,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 4.175446703206465e-06
+            },
+            {
+              "count": 1,
+              "denominator": 718486,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 1.3918155677354882e-06
+            },
+            {
+              "count": 99,
+              "denominator": 718486,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00013778974120581334
+            },
+            {
+              "count": 52722,
+              "denominator": 718486,
+              "members": [
+                "ryanmen",
+                "penchan"
+              ],
+              "rate": 0.07337930036215042
+            },
+            {
+              "count": 2,
+              "denominator": 718486,
+              "members": [
+                "ryanmen",
+                "penchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 2.7836311354709765e-06
+            },
+            {
+              "count": 227,
+              "denominator": 718486,
+              "members": [
+                "ryanmen",
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.00031594213387595583
+            },
+            {
+              "count": 4387,
+              "denominator": 718486,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.006105894895655587
+            },
+            {
+              "count": 22,
+              "denominator": 718486,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 3.061994249018074e-05
+            },
+            {
+              "count": 8463,
+              "denominator": 718486,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.011778935149745437
+            },
+            {
+              "count": 106925,
+              "denominator": 718486,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.14881987958011708
+            },
+            {
+              "count": 2947,
+              "denominator": 718486,
+              "members": [
+                "kanchan",
+                "penchan"
+              ],
+              "rate": 0.004101680478116484
+            },
+            {
+              "count": 1,
+              "denominator": 718486,
+              "members": [
+                "kanchan",
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 1.3918155677354882e-06
+            },
+            {
+              "count": 16,
+              "denominator": 718486,
+              "members": [
+                "kanchan",
+                "penchan",
+                "tanki"
+              ],
+              "rate": 2.226904908376781e-05
+            },
+            {
+              "count": 794,
+              "denominator": 718486,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0011051015607819778
+            },
+            {
+              "count": 1038,
+              "denominator": 718486,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0014447045593094369
+            },
+            {
+              "count": 84333,
+              "denominator": 718486,
+              "members": [
+                "penchan"
+              ],
+              "rate": 0.11737598227383693
+            },
+            {
+              "count": 720,
+              "denominator": 718486,
+              "members": [
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 0.0010021072087695515
+            },
+            {
+              "count": 1337,
+              "denominator": 718486,
+              "members": [
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.0018608574140623478
+            },
+            {
+              "count": 58386,
+              "denominator": 718486,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.08126254373780421
+            },
+            {
+              "count": 32823,
+              "denominator": 718486,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.04568356237978193
+            }
+          ],
+          "tile": "7m",
+          "tile_frequency": {
+            "count": 718486,
+            "denominator": 19412469,
+            "share": 0.03701157230437818
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 101361,
+            "denominator": 718486,
+            "rate": 0.14107581776123682
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 390413,
+              "denominator": 604556,
+              "rate": 0.64578467503424,
+              "value": "ryanmen"
+            },
+            {
+              "count": 124783,
+              "denominator": 604556,
+              "rate": 0.20640436948769014,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 604556,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 79050,
+              "denominator": 604556,
+              "rate": 0.13075711762020392,
+              "value": "shanpon"
+            },
+            {
+              "count": 50258,
+              "denominator": 604556,
+              "rate": 0.08313208371102099,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 604556,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 604556,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 351838,
+              "denominator": 604556,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.5819775173846592
+            },
+            {
+              "count": 24877,
+              "denominator": 604556,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.041149207021351206
+            },
+            {
+              "count": 2,
+              "denominator": 604556,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 3.3082129695181257e-06
+            },
+            {
+              "count": 56,
+              "denominator": 604556,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 9.262996314650752e-05
+            },
+            {
+              "count": 4100,
+              "denominator": 604556,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.006781836587512157
+            },
+            {
+              "count": 24,
+              "denominator": 604556,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 3.969855563421751e-05
+            },
+            {
+              "count": 9516,
+              "denominator": 604556,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.015740477308967243
+            },
+            {
+              "count": 98557,
+              "denominator": 604556,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.16302377281839897
+            },
+            {
+              "count": 564,
+              "denominator": 604556,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0009329160574041114
+            },
+            {
+              "count": 727,
+              "denominator": 604556,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0012025354144198387
+            },
+            {
+              "count": 74360,
+              "denominator": 604556,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.12299935820668391
+            },
+            {
+              "count": 39935,
+              "denominator": 604556,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.06605674246885318
+            }
+          ],
+          "tile": "8m",
+          "tile_frequency": {
+            "count": 604556,
+            "denominator": 19412469,
+            "share": 0.03114266402692002
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 39866,
+            "denominator": 604556,
+            "rate": 0.0659426091214048
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 350525,
+              "denominator": 459901,
+              "rate": 0.7621749028595285,
+              "value": "ryanmen"
+            },
+            {
+              "count": 0,
+              "denominator": 459901,
+              "rate": 0.0,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 459901,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 78360,
+              "denominator": 459901,
+              "rate": 0.17038449579365994,
+              "value": "shanpon"
+            },
+            {
+              "count": 43023,
+              "denominator": 459901,
+              "rate": 0.09354839411090647,
+              "value": "tanki"
+            },
+            {
+              "count": 19,
+              "denominator": 459901,
+              "rate": 4.131323915364394e-05,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 11,
+              "denominator": 459901,
+              "rate": 2.3918191088951754e-05,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 338515,
+              "denominator": 459901,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.7360605869524093
+            },
+            {
+              "count": 3326,
+              "denominator": 459901,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.007231991232895776
+            },
+            {
+              "count": 27,
+              "denominator": 459901,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 5.870828721833612e-05
+            },
+            {
+              "count": 8657,
+              "denominator": 459901,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.01882361638700503
+            },
+            {
+              "count": 75007,
+              "denominator": 459901,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.16309379627354584
+            },
+            {
+              "count": 34339,
+              "denominator": 459901,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.07466606943668311
+            },
+            {
+              "count": 19,
+              "denominator": 459901,
+              "members": [
+                "kokushi_single"
+              ],
+              "rate": 4.131323915364394e-05
+            },
+            {
+              "count": 11,
+              "denominator": 459901,
+              "members": [
+                "kokushi_13men"
+              ],
+              "rate": 2.3918191088951754e-05
+            }
+          ],
+          "tile": "9m",
+          "tile_frequency": {
+            "count": 459901,
+            "denominator": 19412469,
+            "share": 0.023691010144047106
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 12010,
+            "denominator": 459901,
+            "rate": 0.02611431590711914
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 344969,
+              "denominator": 452819,
+              "rate": 0.7618253651017294,
+              "value": "ryanmen"
+            },
+            {
+              "count": 0,
+              "denominator": 452819,
+              "rate": 0.0,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 452819,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 76993,
+              "denominator": 452819,
+              "rate": 0.1700304095013681,
+              "value": "shanpon"
+            },
+            {
+              "count": 42509,
+              "denominator": 452819,
+              "rate": 0.0938763611950912,
+              "value": "tanki"
+            },
+            {
+              "count": 27,
+              "denominator": 452819,
+              "rate": 5.962647327077707e-05,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 11,
+              "denominator": 452819,
+              "rate": 2.429226688809436e-05,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 333302,
+              "denominator": 452819,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.7360601034850569
+            },
+            {
+              "count": 3318,
+              "denominator": 452819,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.007327431048608826
+            },
+            {
+              "count": 23,
+              "denominator": 452819,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 5.079292167510639e-05
+            },
+            {
+              "count": 8326,
+              "denominator": 452819,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.018387037646388514
+            },
+            {
+              "count": 73652,
+              "denominator": 452819,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.16265218553108415
+            },
+            {
+              "count": 34160,
+              "denominator": 452819,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.07543853062702757
+            },
+            {
+              "count": 27,
+              "denominator": 452819,
+              "members": [
+                "kokushi_single"
+              ],
+              "rate": 5.962647327077707e-05
+            },
+            {
+              "count": 11,
+              "denominator": 452819,
+              "members": [
+                "kokushi_13men"
+              ],
+              "rate": 2.429226688809436e-05
+            }
+          ],
+          "tile": "1p",
+          "tile_frequency": {
+            "count": 452819,
+            "denominator": 19412469,
+            "share": 0.02332619307724329
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 11667,
+            "denominator": 452819,
+            "rate": 0.025765261616672447
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 386966,
+              "denominator": 594987,
+              "rate": 0.6503772351328685,
+              "value": "ryanmen"
+            },
+            {
+              "count": 120735,
+              "denominator": 594987,
+              "rate": 0.20292039994151131,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 594987,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 77343,
+              "denominator": 594987,
+              "rate": 0.12999107543526162,
+              "value": "shanpon"
+            },
+            {
+              "count": 49286,
+              "denominator": 594987,
+              "rate": 0.08283542329496275,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 594987,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 594987,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 348985,
+              "denominator": 594987,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.5865422269730263
+            },
+            {
+              "count": 24479,
+              "denominator": 594987,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.041142075373075376
+            },
+            {
+              "count": 3,
+              "denominator": 594987,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 5.04212697084138e-06
+            },
+            {
+              "count": 88,
+              "denominator": 594987,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00014790239114468047
+            },
+            {
+              "count": 4084,
+              "denominator": 594987,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.006864015516305398
+            },
+            {
+              "count": 25,
+              "denominator": 594987,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 4.20177247570115e-05
+            },
+            {
+              "count": 9302,
+              "denominator": 594987,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.01563395502758884
+            },
+            {
+              "count": 94919,
+              "denominator": 594987,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.15953121664843098
+            },
+            {
+              "count": 534,
+              "denominator": 594987,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0008974986008097656
+            },
+            {
+              "count": 712,
+              "denominator": 594987,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0011966648010796875
+            },
+            {
+              "count": 72697,
+              "denominator": 594987,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.1221825014664186
+            },
+            {
+              "count": 39159,
+              "denominator": 594987,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.06581488335039253
+            }
+          ],
+          "tile": "2p",
+          "tile_frequency": {
+            "count": 594987,
+            "denominator": 19412469,
+            "share": 0.030649733426489953
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 39227,
+            "denominator": 594987,
+            "rate": 0.0659291715617316
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 427799,
+              "denominator": 712670,
+              "rate": 0.6002764252739697,
+              "value": "ryanmen"
+            },
+            {
+              "count": 136674,
+              "denominator": 712670,
+              "rate": 0.1917774004798855,
+              "value": "kanchan"
+            },
+            {
+              "count": 138875,
+              "denominator": 712670,
+              "rate": 0.19486578640885682,
+              "value": "penchan"
+            },
+            {
+              "count": 64712,
+              "denominator": 712670,
+              "rate": 0.090802194564104,
+              "value": "shanpon"
+            },
+            {
+              "count": 44688,
+              "denominator": 712670,
+              "rate": 0.06270503879776053,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 712670,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 712670,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 335033,
+              "denominator": 712670,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.4701095878878022
+            },
+            {
+              "count": 27620,
+              "denominator": 712670,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.0387556653149424
+            },
+            {
+              "count": 306,
+              "denominator": 712670,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "penchan"
+              ],
+              "rate": 0.00042937123773976733
+            },
+            {
+              "count": 7,
+              "denominator": 712670,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 9.822217856792063e-06
+            },
+            {
+              "count": 117,
+              "denominator": 712670,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00016417135560638165
+            },
+            {
+              "count": 51671,
+              "denominator": 712670,
+              "members": [
+                "ryanmen",
+                "penchan"
+              ],
+              "rate": 0.0725034026969004
+            },
+            {
+              "count": 3,
+              "denominator": 712670,
+              "members": [
+                "ryanmen",
+                "penchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 4.20952193862517e-06
+            },
+            {
+              "count": 271,
+              "denominator": 712670,
+              "members": [
+                "ryanmen",
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.00038026014845580705
+            },
+            {
+              "count": 4365,
+              "denominator": 712670,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.006124854420699623
+            },
+            {
+              "count": 30,
+              "denominator": 712670,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 4.20952193862517e-05
+            },
+            {
+              "count": 8376,
+              "denominator": 712670,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.011752985252641474
+            },
+            {
+              "count": 104097,
+              "denominator": 712670,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.14606620174835477
+            },
+            {
+              "count": 2719,
+              "denominator": 712670,
+              "members": [
+                "kanchan",
+                "penchan"
+              ],
+              "rate": 0.0038152300503739456
+            },
+            {
+              "count": 2,
+              "denominator": 712670,
+              "members": [
+                "kanchan",
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 2.806347959083447e-06
+            },
+            {
+              "count": 15,
+              "denominator": 712670,
+              "members": [
+                "kanchan",
+                "penchan",
+                "tanki"
+              ],
+              "rate": 2.104760969312585e-05
+            },
+            {
+              "count": 729,
+              "denominator": 712670,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0010229138310859163
+            },
+            {
+              "count": 1062,
+              "denominator": 712670,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0014901707662733103
+            },
+            {
+              "count": 81857,
+              "denominator": 712670,
+              "members": [
+                "penchan"
+              ],
+              "rate": 0.11485961244334685
+            },
+            {
+              "count": 725,
+              "denominator": 712670,
+              "members": [
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 0.0010173011351677494
+            },
+            {
+              "count": 1306,
+              "denominator": 712670,
+              "members": [
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.0018325452172814906
+            },
+            {
+              "count": 58851,
+              "denominator": 712670,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.08257819187000996
+            },
+            {
+              "count": 33508,
+              "denominator": 712670,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.04701755370648407
+            }
+          ],
+          "tile": "3p",
+          "tile_frequency": {
+            "count": 712670,
+            "denominator": 19412469,
+            "share": 0.03671197105324418
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 99324,
+            "denominator": 712670,
+            "rate": 0.13936885234400212
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 709548,
+              "denominator": 884365,
+              "rate": 0.8023248319415626,
+              "value": "ryanmen"
+            },
+            {
+              "count": 129893,
+              "denominator": 884365,
+              "rate": 0.14687713783336065,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 884365,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 66377,
+              "denominator": 884365,
+              "rate": 0.07505611370870624,
+              "value": "shanpon"
+            },
+            {
+              "count": 52348,
+              "denominator": 884365,
+              "rate": 0.05919275412301482,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 884365,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 884365,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 638144,
+              "denominator": 884365,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.721584413675349
+            },
+            {
+              "count": 46172,
+              "denominator": 884365,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.05220921225964392
+            },
+            {
+              "count": 5,
+              "denominator": 884365,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 5.653774176951824e-06
+            },
+            {
+              "count": 1,
+              "denominator": 884365,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 1.1307548353903649e-06
+            },
+            {
+              "count": 195,
+              "denominator": 884365,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00022049719290112116
+            },
+            {
+              "count": 7991,
+              "denominator": 884365,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.009035861889604405
+            },
+            {
+              "count": 61,
+              "denominator": 884365,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 6.897604495881225e-05
+            },
+            {
+              "count": 16979,
+              "denominator": 884365,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.019199086350093004
+            },
+            {
+              "count": 81386,
+              "denominator": 884365,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.09202761303308023
+            },
+            {
+              "count": 798,
+              "denominator": 884365,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0009023423586415111
+            },
+            {
+              "count": 1336,
+              "denominator": 884365,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0015106884600815274
+            },
+            {
+              "count": 57521,
+              "denominator": 884365,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.06504214888648918
+            },
+            {
+              "count": 33776,
+              "denominator": 884365,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.03819237532014496
+            }
+          ],
+          "tile": "4p",
+          "tile_frequency": {
+            "count": 884365,
+            "denominator": 19412469,
+            "share": 0.045556544095447106
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 73538,
+            "denominator": 884365,
+            "rate": 0.08315344908493665
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 713845,
+              "denominator": 905087,
+              "rate": 0.7887031854396318,
+              "value": "ryanmen"
+            },
+            {
+              "count": 115663,
+              "denominator": 905087,
+              "rate": 0.12779213489973892,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 905087,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 80732,
+              "denominator": 905087,
+              "rate": 0.08919805499360835,
+              "value": "shanpon"
+            },
+            {
+              "count": 72530,
+              "denominator": 905087,
+              "rate": 0.08013594273257708,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 905087,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 905087,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 638788,
+              "denominator": 905087,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.705775245915586
+            },
+            {
+              "count": 47397,
+              "denominator": 905087,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.05236734148208957
+            },
+            {
+              "count": 9,
+              "denominator": 905087,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 9.943795458337154e-06
+            },
+            {
+              "count": 2,
+              "denominator": 905087,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 2.209732324074923e-06
+            },
+            {
+              "count": 203,
+              "denominator": 905087,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0002242878308936047
+            },
+            {
+              "count": 8422,
+              "denominator": 905087,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.009305182816679502
+            },
+            {
+              "count": 69,
+              "denominator": 905087,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 7.623576518058485e-05
+            },
+            {
+              "count": 18955,
+              "denominator": 905087,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.020942738101420083
+            },
+            {
+              "count": 65711,
+              "denominator": 905087,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.07260186037364363
+            },
+            {
+              "count": 927,
+              "denominator": 905087,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0010242109322087269
+            },
+            {
+              "count": 1414,
+              "denominator": 905087,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0015622807531209706
+            },
+            {
+              "count": 71303,
+              "denominator": 905087,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.07878027195175713
+            },
+            {
+              "count": 51887,
+              "denominator": 905087,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.05732819054963777
+            }
+          ],
+          "tile": "5p",
+          "tile_frequency": {
+            "count": 905087,
+            "denominator": 19412469,
+            "share": 0.04662400233581828
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 77398,
+            "denominator": 905087,
+            "rate": 0.08551443120937545
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 713626,
+              "denominator": 888565,
+              "rate": 0.8031218875377716,
+              "value": "ryanmen"
+            },
+            {
+              "count": 130183,
+              "denominator": 888565,
+              "rate": 0.14650925931136158,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 888565,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 66676,
+              "denominator": 888565,
+              "rate": 0.07503784191364729,
+              "value": "shanpon"
+            },
+            {
+              "count": 52954,
+              "denominator": 888565,
+              "rate": 0.059594964915341025,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 888565,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 888565,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 641171,
+              "denominator": 888565,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.7215803008221121
+            },
+            {
+              "count": 46645,
+              "denominator": 888565,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.05249475277554259
+            },
+            {
+              "count": 12,
+              "denominator": 888565,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 1.3504920855536736e-05
+            },
+            {
+              "count": 204,
+              "denominator": 888565,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00022958365454412452
+            },
+            {
+              "count": 8169,
+              "denominator": 888565,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.009193474872406633
+            },
+            {
+              "count": 57,
+              "denominator": 888565,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 6.41483740637995e-05
+            },
+            {
+              "count": 17368,
+              "denominator": 888565,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.019546122118246835
+            },
+            {
+              "count": 81176,
+              "denominator": 888565,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.09135628794742084
+            },
+            {
+              "count": 826,
+              "denominator": 888565,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0009295887188894453
+            },
+            {
+              "count": 1320,
+              "denominator": 888565,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0014855412941090409
+            },
+            {
+              "count": 57612,
+              "denominator": 888565,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.06483712502743187
+            },
+            {
+              "count": 34005,
+              "denominator": 888565,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.03826956947437723
+            }
+          ],
+          "tile": "6p",
+          "tile_frequency": {
+            "count": 888565,
+            "denominator": 19412469,
+            "share": 0.045772899882029434
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 74601,
+            "denominator": 888565,
+            "rate": 0.08395671672865801
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 426782,
+              "denominator": 714901,
+              "rate": 0.5969805609448021,
+              "value": "ryanmen"
+            },
+            {
+              "count": 138573,
+              "denominator": 714901,
+              "rate": 0.1938352303325915,
+              "value": "kanchan"
+            },
+            {
+              "count": 141139,
+              "denominator": 714901,
+              "rate": 0.19742453850253391,
+              "value": "penchan"
+            },
+            {
+              "count": 65027,
+              "denominator": 714901,
+              "rate": 0.09095944753189603,
+              "value": "shanpon"
+            },
+            {
+              "count": 44267,
+              "denominator": 714901,
+              "rate": 0.06192046171427932,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 714901,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 714901,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 333302,
+              "denominator": 714901,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.4662211970608518
+            },
+            {
+              "count": 27719,
+              "denominator": 714901,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.03877320076486115
+            },
+            {
+              "count": 327,
+              "denominator": 714901,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "penchan"
+              ],
+              "rate": 0.0004574059904798007
+            },
+            {
+              "count": 1,
+              "denominator": 714901,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 1.3987950779198798e-06
+            },
+            {
+              "count": 102,
+              "denominator": 714901,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00014267709794782774
+            },
+            {
+              "count": 52165,
+              "denominator": 714901,
+              "members": [
+                "ryanmen",
+                "penchan"
+              ],
+              "rate": 0.07296814523969053
+            },
+            {
+              "count": 1,
+              "denominator": 714901,
+              "members": [
+                "ryanmen",
+                "penchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 1.3987950779198798e-06
+            },
+            {
+              "count": 236,
+              "denominator": 714901,
+              "members": [
+                "ryanmen",
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.0003301156383890916
+            },
+            {
+              "count": 4479,
+              "denominator": 714901,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.006265203154003141
+            },
+            {
+              "count": 16,
+              "denominator": 714901,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 2.2380721246718076e-05
+            },
+            {
+              "count": 8434,
+              "denominator": 714901,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.011797437687176266
+            },
+            {
+              "count": 105739,
+              "denominator": 714901,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.14790719274417016
+            },
+            {
+              "count": 2850,
+              "denominator": 714901,
+              "members": [
+                "kanchan",
+                "penchan"
+              ],
+              "rate": 0.003986565972071658
+            },
+            {
+              "count": 4,
+              "denominator": 714901,
+              "members": [
+                "kanchan",
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 5.595180311679519e-06
+            },
+            {
+              "count": 8,
+              "denominator": 714901,
+              "members": [
+                "kanchan",
+                "penchan",
+                "tanki"
+              ],
+              "rate": 1.1190360623359038e-05
+            },
+            {
+              "count": 780,
+              "denominator": 714901,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0010910601607775064
+            },
+            {
+              "count": 1043,
+              "denominator": 714901,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0014589432662704346
+            },
+            {
+              "count": 83522,
+              "denominator": 714901,
+              "members": [
+                "penchan"
+              ],
+              "rate": 0.1168301624980242
+            },
+            {
+              "count": 682,
+              "denominator": 714901,
+              "members": [
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 0.000953978243141358
+            },
+            {
+              "count": 1344,
+              "denominator": 714901,
+              "members": [
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.0018799805847243185
+            },
+            {
+              "count": 59064,
+              "denominator": 714901,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.08261843248225978
+            },
+            {
+              "count": 33083,
+              "denominator": 714901,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.046276337562823386
+            }
+          ],
+          "tile": "7p",
+          "tile_frequency": {
+            "count": 714901,
+            "denominator": 19412469,
+            "share": 0.03682689718654541
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 100191,
+            "denominator": 714901,
+            "rate": 0.14014667765187067
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 388282,
+              "denominator": 600558,
+              "rate": 0.6465353887551244,
+              "value": "ryanmen"
+            },
+            {
+              "count": 124005,
+              "denominator": 600558,
+              "rate": 0.20648297083712147,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 600558,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 77752,
+              "denominator": 600558,
+              "rate": 0.12946626304203757,
+              "value": "shanpon"
+            },
+            {
+              "count": 50016,
+              "denominator": 600558,
+              "rate": 0.0832825472310751,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 600558,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 600558,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 350133,
+              "denominator": 600558,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.5830127980977691
+            },
+            {
+              "count": 24486,
+              "denominator": 600558,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.04077208196377369
+            },
+            {
+              "count": 4,
+              "denominator": 600558,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 6.660472427309269e-06
+            },
+            {
+              "count": 69,
+              "denominator": 600558,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00011489314937108489
+            },
+            {
+              "count": 4152,
+              "denominator": 600558,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.006913570379547021
+            },
+            {
+              "count": 28,
+              "denominator": 600558,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 4.662330699116488e-05
+            },
+            {
+              "count": 9410,
+              "denominator": 600558,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.015668761385245054
+            },
+            {
+              "count": 98199,
+              "denominator": 600558,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.16351293297233574
+            },
+            {
+              "count": 569,
+              "denominator": 600558,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0009474522027847435
+            },
+            {
+              "count": 678,
+              "denominator": 600558,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.001128950076428921
+            },
+            {
+              "count": 72999,
+              "denominator": 600558,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.12155195668028733
+            },
+            {
+              "count": 39831,
+              "denominator": 600558,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.06632331931303888
+            }
+          ],
+          "tile": "8p",
+          "tile_frequency": {
+            "count": 600558,
+            "denominator": 19412469,
+            "share": 0.03093671392340665
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 39396,
+            "denominator": 600558,
+            "rate": 0.065598992936569
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 348452,
+              "denominator": 457409,
+              "rate": 0.7617952423323546,
+              "value": "ryanmen"
+            },
+            {
+              "count": 0,
+              "denominator": 457409,
+              "rate": 0.0,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 457409,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 77832,
+              "denominator": 457409,
+              "rate": 0.17015843588560783,
+              "value": "shanpon"
+            },
+            {
+              "count": 42923,
+              "denominator": 457409,
+              "rate": 0.09383943035663925,
+              "value": "tanki"
+            },
+            {
+              "count": 25,
+              "denominator": 457409,
+              "rate": 5.465568014621487e-05,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 11,
+              "denominator": 457409,
+              "rate": 2.4048499264334547e-05,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 336644,
+              "denominator": 457409,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.7359802714856944
+            },
+            {
+              "count": 3413,
+              "denominator": 457409,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.007461593453561254
+            },
+            {
+              "count": 26,
+              "denominator": 457409,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 5.684190735206347e-05
+            },
+            {
+              "count": 8369,
+              "denominator": 457409,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.018296535485746893
+            },
+            {
+              "count": 74393,
+              "denominator": 457409,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.16264000052469452
+            },
+            {
+              "count": 34528,
+              "denominator": 457409,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.07548605296354029
+            },
+            {
+              "count": 25,
+              "denominator": 457409,
+              "members": [
+                "kokushi_single"
+              ],
+              "rate": 5.465568014621487e-05
+            },
+            {
+              "count": 11,
+              "denominator": 457409,
+              "members": [
+                "kokushi_13men"
+              ],
+              "rate": 2.4048499264334547e-05
+            }
+          ],
+          "tile": "9p",
+          "tile_frequency": {
+            "count": 457409,
+            "denominator": 19412469,
+            "share": 0.023562639044008262
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 11808,
+            "denominator": 457409,
+            "rate": 0.02581497084666021
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 345393,
+              "denominator": 451026,
+              "rate": 0.7657939897034761,
+              "value": "ryanmen"
+            },
+            {
+              "count": 0,
+              "denominator": 451026,
+              "rate": 0.0,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 451026,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 75201,
+              "denominator": 451026,
+              "rate": 0.16673318167910497,
+              "value": "shanpon"
+            },
+            {
+              "count": 42009,
+              "denominator": 451026,
+              "rate": 0.09314097191736175,
+              "value": "tanki"
+            },
+            {
+              "count": 17,
+              "denominator": 451026,
+              "rate": 3.769184038170748e-05,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 11,
+              "denominator": 451026,
+              "rate": 2.438883789404602e-05,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 333816,
+              "denominator": 451026,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.7401258464035333
+            },
+            {
+              "count": 3207,
+              "denominator": 451026,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.007110454829655053
+            },
+            {
+              "count": 28,
+              "denominator": 451026,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 6.20806782757535e-05
+            },
+            {
+              "count": 8342,
+              "denominator": 451026,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.01849560779201199
+            },
+            {
+              "count": 71966,
+              "denominator": 451026,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.15956064617117416
+            },
+            {
+              "count": 33639,
+              "denominator": 451026,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.074583283447074
+            },
+            {
+              "count": 17,
+              "denominator": 451026,
+              "members": [
+                "kokushi_single"
+              ],
+              "rate": 3.769184038170748e-05
+            },
+            {
+              "count": 11,
+              "denominator": 451026,
+              "members": [
+                "kokushi_13men"
+              ],
+              "rate": 2.438883789404602e-05
+            }
+          ],
+          "tile": "1s",
+          "tile_frequency": {
+            "count": 451026,
+            "denominator": 19412469,
+            "share": 0.023233829761685646
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 11577,
+            "denominator": 451026,
+            "rate": 0.025668143299942797
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 384470,
+              "denominator": 589567,
+              "rate": 0.6521226595111328,
+              "value": "ryanmen"
+            },
+            {
+              "count": 119196,
+              "denominator": 589567,
+              "rate": 0.20217549489710246,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 589567,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 76386,
+              "denominator": 589567,
+              "rate": 0.12956288259010426,
+              "value": "shanpon"
+            },
+            {
+              "count": 48466,
+              "denominator": 589567,
+              "rate": 0.08220609362464316,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 589567,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 589567,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 346851,
+              "denominator": 589567,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.5883148140923763
+            },
+            {
+              "count": 24487,
+              "denominator": 589567,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.04153387146838273
+            },
+            {
+              "count": 2,
+              "denominator": 589567,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 3.392320126465694e-06
+            },
+            {
+              "count": 1,
+              "denominator": 589567,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 1.696160063232847e-06
+            },
+            {
+              "count": 69,
+              "denominator": 589567,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00011703504436306645
+            },
+            {
+              "count": 3965,
+              "denominator": 589567,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.006725274650718239
+            },
+            {
+              "count": 20,
+              "denominator": 589567,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 3.3923201264656945e-05
+            },
+            {
+              "count": 9075,
+              "denominator": 589567,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.015392652573838088
+            },
+            {
+              "count": 93398,
+              "denominator": 589567,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.15841795758582145
+            },
+            {
+              "count": 543,
+              "denominator": 589567,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.000921014914335436
+            },
+            {
+              "count": 696,
+              "denominator": 589567,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0011805274040100615
+            },
+            {
+              "count": 71855,
+              "denominator": 589567,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.12187758134359623
+            },
+            {
+              "count": 38605,
+              "denominator": 589567,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.06548025924110407
+            }
+          ],
+          "tile": "2s",
+          "tile_frequency": {
+            "count": 589567,
+            "denominator": 19412469,
+            "share": 0.030370531435233716
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 38858,
+            "denominator": 589567,
+            "rate": 0.06590938773710198
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 426045,
+              "denominator": 706733,
+              "rate": 0.6028372808401475,
+              "value": "ryanmen"
+            },
+            {
+              "count": 135010,
+              "denominator": 706733,
+              "rate": 0.19103395483159835,
+              "value": "kanchan"
+            },
+            {
+              "count": 137006,
+              "denominator": 706733,
+              "rate": 0.19385821802576078,
+              "value": "penchan"
+            },
+            {
+              "count": 64267,
+              "denominator": 706733,
+              "rate": 0.09093533201364588,
+              "value": "shanpon"
+            },
+            {
+              "count": 43774,
+              "denominator": 706733,
+              "rate": 0.061938525581796806,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 706733,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 706733,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 334056,
+              "denominator": 706733,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.4726763855656945
+            },
+            {
+              "count": 27593,
+              "denominator": 706733,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.039043033224711456
+            },
+            {
+              "count": 365,
+              "denominator": 706733,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "penchan"
+              ],
+              "rate": 0.000516460954844333
+            },
+            {
+              "count": 3,
+              "denominator": 706733,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 4.2448845603643806e-06
+            },
+            {
+              "count": 1,
+              "denominator": 706733,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 1.4149615201214603e-06
+            },
+            {
+              "count": 97,
+              "denominator": 706733,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00013725126745178166
+            },
+            {
+              "count": 51269,
+              "denominator": 706733,
+              "members": [
+                "ryanmen",
+                "penchan"
+              ],
+              "rate": 0.07254366217510715
+            },
+            {
+              "count": 237,
+              "denominator": 706733,
+              "members": [
+                "ryanmen",
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.0003353458802687861
+            },
+            {
+              "count": 4290,
+              "denominator": 706733,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.006070184921321065
+            },
+            {
+              "count": 17,
+              "denominator": 706733,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 2.4054345842064825e-05
+            },
+            {
+              "count": 8117,
+              "denominator": 706733,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.011485242658825893
+            },
+            {
+              "count": 102421,
+              "denominator": 706733,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.14492177385236008
+            },
+            {
+              "count": 2763,
+              "denominator": 706733,
+              "members": [
+                "kanchan",
+                "penchan"
+              ],
+              "rate": 0.003909538680095595
+            },
+            {
+              "count": 8,
+              "denominator": 706733,
+              "members": [
+                "kanchan",
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 1.1319692160971682e-05
+            },
+            {
+              "count": 19,
+              "denominator": 706733,
+              "members": [
+                "kanchan",
+                "penchan",
+                "tanki"
+              ],
+              "rate": 2.6884268882307745e-05
+            },
+            {
+              "count": 701,
+              "denominator": 706733,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0009918880256051437
+            },
+            {
+              "count": 1039,
+              "denominator": 706733,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0014701450194061973
+            },
+            {
+              "count": 80243,
+              "denominator": 706733,
+              "members": [
+                "penchan"
+              ],
+              "rate": 0.11354075725910634
+            },
+            {
+              "count": 691,
+              "denominator": 706733,
+              "members": [
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 0.000977738410403929
+            },
+            {
+              "count": 1411,
+              "denominator": 706733,
+              "members": [
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.0019965107048913805
+            },
+            {
+              "count": 58556,
+              "denominator": 706733,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.08285448677223223
+            },
+            {
+              "count": 32836,
+              "denominator": 706733,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.04646167647470827
+            }
+          ],
+          "tile": "3s",
+          "tile_frequency": {
+            "count": 706733,
+            "denominator": 19412469,
+            "share": 0.03640613669492531
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 98621,
+            "denominator": 706733,
+            "rate": 0.13954492007589853
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 710290,
+              "denominator": 882526,
+              "rate": 0.8048374778760059,
+              "value": "ryanmen"
+            },
+            {
+              "count": 128558,
+              "denominator": 882526,
+              "rate": 0.14567049582675184,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 882526,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 65644,
+              "denominator": 882526,
+              "rate": 0.07438194455460802,
+              "value": "shanpon"
+            },
+            {
+              "count": 51835,
+              "denominator": 882526,
+              "rate": 0.058734813478583066,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 882526,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 882526,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 638826,
+              "denominator": 882526,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.7238608267631775
+            },
+            {
+              "count": 46345,
+              "denominator": 882526,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.05251403358088034
+            },
+            {
+              "count": 7,
+              "denominator": 882526,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 7.931777647344101e-06
+            },
+            {
+              "count": 203,
+              "denominator": 882526,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00023002155177297894
+            },
+            {
+              "count": 7984,
+              "denominator": 882526,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.009046758962342185
+            },
+            {
+              "count": 75,
+              "denominator": 882526,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 8.498333193582965e-05
+            },
+            {
+              "count": 16850,
+              "denominator": 882526,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.019092921908249728
+            },
+            {
+              "count": 79951,
+              "denominator": 882526,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.09059336495468688
+            },
+            {
+              "count": 819,
+              "denominator": 882526,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0009280179847392598
+            },
+            {
+              "count": 1233,
+              "denominator": 882526,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0013971259770250396
+            },
+            {
+              "count": 56759,
+              "denominator": 882526,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.0643142524979434
+            },
+            {
+              "count": 33474,
+              "denominator": 882526,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.03792976070959949
+            }
+          ],
+          "tile": "4s",
+          "tile_frequency": {
+            "count": 882526,
+            "denominator": 19412469,
+            "share": 0.04546181116889356
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 73516,
+            "denominator": 882526,
+            "rate": 0.0833017950745927
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 709343,
+              "denominator": 897562,
+              "rate": 0.7902997230274901,
+              "value": "ryanmen"
+            },
+            {
+              "count": 114004,
+              "denominator": 897562,
+              "rate": 0.12701518112397805,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 897562,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 80342,
+              "denominator": 897562,
+              "rate": 0.08951136523159403,
+              "value": "shanpon"
+            },
+            {
+              "count": 71412,
+              "denominator": 897562,
+              "rate": 0.07956219180402023,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 897562,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 897562,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 634433,
+              "denominator": 897562,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.7068403074105187
+            },
+            {
+              "count": 47145,
+              "denominator": 897562,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.052525619400108296
+            },
+            {
+              "count": 3,
+              "denominator": 897562,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 3.342387489666452e-06
+            },
+            {
+              "count": 248,
+              "denominator": 897562,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00027630403247909337
+            },
+            {
+              "count": 8364,
+              "denominator": 897562,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.009318576321190068
+            },
+            {
+              "count": 76,
+              "denominator": 897562,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 8.467381640488346e-05
+            },
+            {
+              "count": 19074,
+              "denominator": 897562,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.021250899659299303
+            },
+            {
+              "count": 64306,
+              "denominator": 897562,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.07164518997016361
+            },
+            {
+              "count": 875,
+              "denominator": 897562,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0009748630178193818
+            },
+            {
+              "count": 1427,
+              "denominator": 897562,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.001589862315918009
+            },
+            {
+              "count": 71024,
+              "denominator": 897562,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.07912990968869003
+            },
+            {
+              "count": 50587,
+              "denominator": 897562,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.05636045197991894
+            }
+          ],
+          "tile": "5s",
+          "tile_frequency": {
+            "count": 897562,
+            "denominator": 19412469,
+            "share": 0.046236364884858286
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 77212,
+            "denominator": 897562,
+            "rate": 0.08602414095070869
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 708722,
+              "denominator": 881540,
+              "rate": 0.8039589808743789,
+              "value": "ryanmen"
+            },
+            {
+              "count": 128549,
+              "denominator": 881540,
+              "rate": 0.14582321845860652,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 881540,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 65687,
+              "denominator": 881540,
+              "rate": 0.0745139188238764,
+              "value": "shanpon"
+            },
+            {
+              "count": 52044,
+              "denominator": 881540,
+              "rate": 0.05903759330262949,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 881540,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 881540,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 637535,
+              "denominator": 881540,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.7232059804433151
+            },
+            {
+              "count": 46226,
+              "denominator": 881540,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.05243777934069923
+            },
+            {
+              "count": 7,
+              "denominator": 881540,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 7.940649318238537e-06
+            },
+            {
+              "count": 4,
+              "denominator": 881540,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 4.537513896136307e-06
+            },
+            {
+              "count": 194,
+              "denominator": 881540,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00022006942396261088
+            },
+            {
+              "count": 7877,
+              "denominator": 881540,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.008935499239966423
+            },
+            {
+              "count": 66,
+              "denominator": 881540,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 7.486897928624906e-05
+            },
+            {
+              "count": 16813,
+              "denominator": 881540,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.019072305283934932
+            },
+            {
+              "count": 80118,
+              "denominator": 881540,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.09088413458266216
+            },
+            {
+              "count": 779,
+              "denominator": 881540,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0008836808312725458
+            },
+            {
+              "count": 1221,
+              "denominator": 881540,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0013850761167956077
+            },
+            {
+              "count": 56954,
+              "denominator": 881540,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.0646073916101368
+            },
+            {
+              "count": 33746,
+              "denominator": 881540,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.038280735984753955
+            }
+          ],
+          "tile": "6s",
+          "tile_frequency": {
+            "count": 881540,
+            "denominator": 19412469,
+            "share": 0.04541101907232924
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 73187,
+            "denominator": 881540,
+            "rate": 0.08302175737913198
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 427359,
+              "denominator": 712603,
+              "rate": 0.5997154095618458,
+              "value": "ryanmen"
+            },
+            {
+              "count": 138077,
+              "denominator": 712603,
+              "rate": 0.19376426986695255,
+              "value": "kanchan"
+            },
+            {
+              "count": 138197,
+              "denominator": 712603,
+              "rate": 0.19393266657591954,
+              "value": "penchan"
+            },
+            {
+              "count": 64810,
+              "denominator": 712603,
+              "rate": 0.09094825590125218,
+              "value": "shanpon"
+            },
+            {
+              "count": 43705,
+              "denominator": 712603,
+              "rate": 0.06133148471168379,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 712603,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 712603,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 335088,
+              "denominator": 712603,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.4702309701194073
+            },
+            {
+              "count": 27329,
+              "denominator": 712603,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.038350947161322646
+            },
+            {
+              "count": 315,
+              "denominator": 712603,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "penchan"
+              ],
+              "rate": 0.0004420413610383341
+            },
+            {
+              "count": 4,
+              "denominator": 712603,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 5.613223632232814e-06
+            },
+            {
+              "count": 1,
+              "denominator": 712603,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 1.4033059080582035e-06
+            },
+            {
+              "count": 88,
+              "denominator": 712603,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0001234909199091219
+            },
+            {
+              "count": 51693,
+              "denominator": 712603,
+              "members": [
+                "ryanmen",
+                "penchan"
+              ],
+              "rate": 0.07254109230525271
+            },
+            {
+              "count": 1,
+              "denominator": 712603,
+              "members": [
+                "ryanmen",
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 1.4033059080582035e-06
+            },
+            {
+              "count": 253,
+              "denominator": 712603,
+              "members": [
+                "ryanmen",
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.00035503639473872546
+            },
+            {
+              "count": 4416,
+              "denominator": 712603,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.006196998889985027
+            },
+            {
+              "count": 33,
+              "denominator": 712603,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 4.6309094965920713e-05
+            },
+            {
+              "count": 8138,
+              "denominator": 712603,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.01142010347977766
+            },
+            {
+              "count": 105790,
+              "denominator": 712603,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.14845573201347734
+            },
+            {
+              "count": 2750,
+              "denominator": 712603,
+              "members": [
+                "kanchan",
+                "penchan"
+              ],
+              "rate": 0.0038590912471600596
+            },
+            {
+              "count": 5,
+              "denominator": 712603,
+              "members": [
+                "kanchan",
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 7.016529540291017e-06
+            },
+            {
+              "count": 19,
+              "denominator": 712603,
+              "members": [
+                "kanchan",
+                "penchan",
+                "tanki"
+              ],
+              "rate": 2.6662812253105867e-05
+            },
+            {
+              "count": 753,
+              "denominator": 712603,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0010566893487678273
+            },
+            {
+              "count": 1023,
+              "denominator": 712603,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0014355819439435423
+            },
+            {
+              "count": 81157,
+              "denominator": 712603,
+              "members": [
+                "penchan"
+              ],
+              "rate": 0.11388809758027962
+            },
+            {
+              "count": 713,
+              "denominator": 712603,
+              "members": [
+                "penchan",
+                "shanpon"
+              ],
+              "rate": 0.001000557112445499
+            },
+            {
+              "count": 1291,
+              "denominator": 712603,
+              "members": [
+                "penchan",
+                "tanki"
+              ],
+              "rate": 0.0018116679273031408
+            },
+            {
+              "count": 58884,
+              "denominator": 712603,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.08263226509009926
+            },
+            {
+              "count": 32859,
+              "denominator": 712603,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.04611122883288451
+            }
+          ],
+          "tile": "7s",
+          "tile_frequency": {
+            "count": 712603,
+            "denominator": 19412469,
+            "share": 0.03670851966331537
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 98825,
+            "denominator": 712603,
+            "rate": 0.13868170636385196
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 385555,
+              "denominator": 595209,
+              "rate": 0.6477640627073852,
+              "value": "ryanmen"
+            },
+            {
+              "count": 121500,
+              "denominator": 595209,
+              "rate": 0.20412997787331844,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 595209,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 77790,
+              "denominator": 595209,
+              "rate": 0.13069358830259623,
+              "value": "shanpon"
+            },
+            {
+              "count": 49739,
+              "denominator": 595209,
+              "rate": 0.08356560468675708,
+              "value": "tanki"
+            },
+            {
+              "count": 0,
+              "denominator": 595209,
+              "rate": 0.0,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 0,
+              "denominator": 595209,
+              "rate": 0.0,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 347504,
+              "denominator": 595209,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.5838352578674045
+            },
+            {
+              "count": 24546,
+              "denominator": 595209,
+              "members": [
+                "ryanmen",
+                "kanchan"
+              ],
+              "rate": 0.04123929577677757
+            },
+            {
+              "count": 5,
+              "denominator": 595209,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 8.400410612070718e-06
+            },
+            {
+              "count": 72,
+              "denominator": 595209,
+              "members": [
+                "ryanmen",
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.00012096591281381834
+            },
+            {
+              "count": 4059,
+              "denominator": 595209,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.006819453334879009
+            },
+            {
+              "count": 36,
+              "denominator": 595209,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 6.048295640690917e-05
+            },
+            {
+              "count": 9333,
+              "denominator": 595209,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.0156802064484912
+            },
+            {
+              "count": 95666,
+              "denominator": 595209,
+              "members": [
+                "kanchan"
+              ],
+              "rate": 0.16072673632287146
+            },
+            {
+              "count": 533,
+              "denominator": 595209,
+              "members": [
+                "kanchan",
+                "shanpon"
+              ],
+              "rate": 0.0008954837712467385
+            },
+            {
+              "count": 678,
+              "denominator": 595209,
+              "members": [
+                "kanchan",
+                "tanki"
+              ],
+              "rate": 0.0011390956789967893
+            },
+            {
+              "count": 73157,
+              "denominator": 595209,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.1229097678294515
+            },
+            {
+              "count": 39620,
+              "denominator": 595209,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.06656485369004837
+            }
+          ],
+          "tile": "8s",
+          "tile_frequency": {
+            "count": 595209,
+            "denominator": 19412469,
+            "share": 0.030661169375209307
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 39262,
+            "denominator": 595209,
+            "rate": 0.06596338429022411
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 345096,
+              "denominator": 451273,
+              "rate": 0.7647167014202046,
+              "value": "ryanmen"
+            },
+            {
+              "count": 0,
+              "denominator": 451273,
+              "rate": 0.0,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 451273,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 76003,
+              "denominator": 451273,
+              "rate": 0.16841911658796338,
+              "value": "shanpon"
+            },
+            {
+              "count": 41807,
+              "denominator": 451273,
+              "rate": 0.09264236947479686,
+              "value": "tanki"
+            },
+            {
+              "count": 25,
+              "denominator": 451273,
+              "rate": 5.539883839715649e-05,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 11,
+              "denominator": 451273,
+              "rate": 2.4375488894748855e-05,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 333441,
+              "denominator": 451273,
+              "members": [
+                "ryanmen"
+              ],
+              "rate": 0.7388897629594503
+            },
+            {
+              "count": 3265,
+              "denominator": 451273,
+              "members": [
+                "ryanmen",
+                "shanpon"
+              ],
+              "rate": 0.007235088294668637
+            },
+            {
+              "count": 14,
+              "denominator": 451273,
+              "members": [
+                "ryanmen",
+                "shanpon",
+                "tanki"
+              ],
+              "rate": 3.102334950240763e-05
+            },
+            {
+              "count": 8376,
+              "denominator": 451273,
+              "members": [
+                "ryanmen",
+                "tanki"
+              ],
+              "rate": 0.01856082681658331
+            },
+            {
+              "count": 72724,
+              "denominator": 451273,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.16115300494379234
+            },
+            {
+              "count": 33417,
+              "denominator": 451273,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.07405051930871114
+            },
+            {
+              "count": 25,
+              "denominator": 451273,
+              "members": [
+                "kokushi_single"
+              ],
+              "rate": 5.539883839715649e-05
+            },
+            {
+              "count": 11,
+              "denominator": 451273,
+              "members": [
+                "kokushi_13men"
+              ],
+              "rate": 2.4375488894748855e-05
+            }
+          ],
+          "tile": "9s",
+          "tile_frequency": {
+            "count": 451273,
+            "denominator": 19412469,
+            "share": 0.023246553542467987
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 11655,
+            "denominator": 451273,
+            "rate": 0.025826938460754355
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 0,
+              "denominator": 118232,
+              "rate": 0.0,
+              "value": "ryanmen"
+            },
+            {
+              "count": 0,
+              "denominator": 118232,
+              "rate": 0.0,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 118232,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 83222,
+              "denominator": 118232,
+              "rate": 0.7038872724812234,
+              "value": "shanpon"
+            },
+            {
+              "count": 34973,
+              "denominator": 118232,
+              "rate": 0.29579978347655456,
+              "value": "tanki"
+            },
+            {
+              "count": 26,
+              "denominator": 118232,
+              "rate": 0.00021990662426415861,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 11,
+              "denominator": 118232,
+              "rate": 9.303741795791326e-05,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 83222,
+              "denominator": 118232,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.7038872724812234
+            },
+            {
+              "count": 34973,
+              "denominator": 118232,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.29579978347655456
+            },
+            {
+              "count": 26,
+              "denominator": 118232,
+              "members": [
+                "kokushi_single"
+              ],
+              "rate": 0.00021990662426415861
+            },
+            {
+              "count": 11,
+              "denominator": 118232,
+              "members": [
+                "kokushi_13men"
+              ],
+              "rate": 9.303741795791326e-05
+            }
+          ],
+          "tile": "E",
+          "tile_frequency": {
+            "count": 118232,
+            "denominator": 19412469,
+            "share": 0.006090518418857488
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 0,
+            "denominator": 118232,
+            "rate": 0.0
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 0,
+              "denominator": 103084,
+              "rate": 0.0,
+              "value": "ryanmen"
+            },
+            {
+              "count": 0,
+              "denominator": 103084,
+              "rate": 0.0,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 103084,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 70149,
+              "denominator": 103084,
+              "rate": 0.6805032788793606,
+              "value": "shanpon"
+            },
+            {
+              "count": 32894,
+              "denominator": 103084,
+              "rate": 0.31909898723371233,
+              "value": "tanki"
+            },
+            {
+              "count": 30,
+              "denominator": 103084,
+              "rate": 0.0002910247953125606,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 11,
+              "denominator": 103084,
+              "rate": 0.00010670909161460556,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 70149,
+              "denominator": 103084,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.6805032788793606
+            },
+            {
+              "count": 32894,
+              "denominator": 103084,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.31909898723371233
+            },
+            {
+              "count": 30,
+              "denominator": 103084,
+              "members": [
+                "kokushi_single"
+              ],
+              "rate": 0.0002910247953125606
+            },
+            {
+              "count": 11,
+              "denominator": 103084,
+              "members": [
+                "kokushi_13men"
+              ],
+              "rate": 0.00010670909161460556
+            }
+          ],
+          "tile": "S",
+          "tile_frequency": {
+            "count": 103084,
+            "denominator": 19412469,
+            "share": 0.005310195215250569
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 0,
+            "denominator": 103084,
+            "rate": 0.0
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 0,
+              "denominator": 102737,
+              "rate": 0.0,
+              "value": "ryanmen"
+            },
+            {
+              "count": 0,
+              "denominator": 102737,
+              "rate": 0.0,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 102737,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 69168,
+              "denominator": 102737,
+              "rate": 0.6732530636479555,
+              "value": "shanpon"
+            },
+            {
+              "count": 33525,
+              "denominator": 102737,
+              "rate": 0.3263186583217341,
+              "value": "tanki"
+            },
+            {
+              "count": 33,
+              "denominator": 102737,
+              "rate": 0.0003212085227328032,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 11,
+              "denominator": 102737,
+              "rate": 0.00010706950757760106,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 69168,
+              "denominator": 102737,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.6732530636479555
+            },
+            {
+              "count": 33525,
+              "denominator": 102737,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.3263186583217341
+            },
+            {
+              "count": 33,
+              "denominator": 102737,
+              "members": [
+                "kokushi_single"
+              ],
+              "rate": 0.0003212085227328032
+            },
+            {
+              "count": 11,
+              "denominator": 102737,
+              "members": [
+                "kokushi_13men"
+              ],
+              "rate": 0.00010706950757760106
+            }
+          ],
+          "tile": "W",
+          "tile_frequency": {
+            "count": 102737,
+            "denominator": 19412469,
+            "share": 0.005292320106216267
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 0,
+            "denominator": 102737,
+            "rate": 0.0
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 0,
+              "denominator": 102711,
+              "rate": 0.0,
+              "value": "ryanmen"
+            },
+            {
+              "count": 0,
+              "denominator": 102711,
+              "rate": 0.0,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 102711,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 69547,
+              "denominator": 102711,
+              "rate": 0.677113454255143,
+              "value": "shanpon"
+            },
+            {
+              "count": 33120,
+              "denominator": 102711,
+              "rate": 0.32245815930134064,
+              "value": "tanki"
+            },
+            {
+              "count": 33,
+              "denominator": 102711,
+              "rate": 0.0003212898326372054,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 11,
+              "denominator": 102711,
+              "rate": 0.00010709661087906846,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 69547,
+              "denominator": 102711,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.677113454255143
+            },
+            {
+              "count": 33120,
+              "denominator": 102711,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.32245815930134064
+            },
+            {
+              "count": 33,
+              "denominator": 102711,
+              "members": [
+                "kokushi_single"
+              ],
+              "rate": 0.0003212898326372054
+            },
+            {
+              "count": 11,
+              "denominator": 102711,
+              "members": [
+                "kokushi_13men"
+              ],
+              "rate": 0.00010709661087906846
+            }
+          ],
+          "tile": "N",
+          "tile_frequency": {
+            "count": 102711,
+            "denominator": 19412469,
+            "share": 0.005290980760870758
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 0,
+            "denominator": 102711,
+            "rate": 0.0
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 0,
+              "denominator": 121358,
+              "rate": 0.0,
+              "value": "ryanmen"
+            },
+            {
+              "count": 0,
+              "denominator": 121358,
+              "rate": 0.0,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 121358,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 81488,
+              "denominator": 121358,
+              "rate": 0.671467888396315,
+              "value": "shanpon"
+            },
+            {
+              "count": 39823,
+              "denominator": 121358,
+              "rate": 0.3281448276998632,
+              "value": "tanki"
+            },
+            {
+              "count": 36,
+              "denominator": 121358,
+              "rate": 0.00029664299016134084,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 11,
+              "denominator": 121358,
+              "rate": 9.06409136604097e-05,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 81488,
+              "denominator": 121358,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.671467888396315
+            },
+            {
+              "count": 39823,
+              "denominator": 121358,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.3281448276998632
+            },
+            {
+              "count": 36,
+              "denominator": 121358,
+              "members": [
+                "kokushi_single"
+              ],
+              "rate": 0.00029664299016134084
+            },
+            {
+              "count": 11,
+              "denominator": 121358,
+              "members": [
+                "kokushi_13men"
+              ],
+              "rate": 9.06409136604097e-05
+            }
+          ],
+          "tile": "P",
+          "tile_frequency": {
+            "count": 121358,
+            "denominator": 19412469,
+            "share": 0.006251548940013761
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 0,
+            "denominator": 121358,
+            "rate": 0.0
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 0,
+              "denominator": 119870,
+              "rate": 0.0,
+              "value": "ryanmen"
+            },
+            {
+              "count": 0,
+              "denominator": 119870,
+              "rate": 0.0,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 119870,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 80967,
+              "denominator": 119870,
+              "rate": 0.6754567448068741,
+              "value": "shanpon"
+            },
+            {
+              "count": 38862,
+              "denominator": 119870,
+              "rate": 0.32420121798615165,
+              "value": "tanki"
+            },
+            {
+              "count": 30,
+              "denominator": 119870,
+              "rate": 0.00025027112705430885,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 11,
+              "denominator": 119870,
+              "rate": 9.176607991991325e-05,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 80967,
+              "denominator": 119870,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.6754567448068741
+            },
+            {
+              "count": 38862,
+              "denominator": 119870,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.32420121798615165
+            },
+            {
+              "count": 30,
+              "denominator": 119870,
+              "members": [
+                "kokushi_single"
+              ],
+              "rate": 0.00025027112705430885
+            },
+            {
+              "count": 11,
+              "denominator": 119870,
+              "members": [
+                "kokushi_13men"
+              ],
+              "rate": 9.176607991991325e-05
+            }
+          ],
+          "tile": "F",
+          "tile_frequency": {
+            "count": 119870,
+            "denominator": 19412469,
+            "share": 0.006174897175624595
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 0,
+            "denominator": 119870,
+            "rate": 0.0
+          }
+        },
+        {
+          "shape_membership": [
+            {
+              "count": 0,
+              "denominator": 120950,
+              "rate": 0.0,
+              "value": "ryanmen"
+            },
+            {
+              "count": 0,
+              "denominator": 120950,
+              "rate": 0.0,
+              "value": "kanchan"
+            },
+            {
+              "count": 0,
+              "denominator": 120950,
+              "rate": 0.0,
+              "value": "penchan"
+            },
+            {
+              "count": 81545,
+              "denominator": 120950,
+              "rate": 0.6742042166184373,
+              "value": "shanpon"
+            },
+            {
+              "count": 39367,
+              "denominator": 120950,
+              "rate": 0.32548160396858206,
+              "value": "tanki"
+            },
+            {
+              "count": 27,
+              "denominator": 120950,
+              "rate": 0.00022323274080198428,
+              "value": "kokushi_single"
+            },
+            {
+              "count": 11,
+              "denominator": 120950,
+              "rate": 9.09466721785862e-05,
+              "value": "kokushi_13men"
+            }
+          ],
+          "shape_set_distribution": [
+            {
+              "count": 81545,
+              "denominator": 120950,
+              "members": [
+                "shanpon"
+              ],
+              "rate": 0.6742042166184373
+            },
+            {
+              "count": 39367,
+              "denominator": 120950,
+              "members": [
+                "tanki"
+              ],
+              "rate": 0.32548160396858206
+            },
+            {
+              "count": 27,
+              "denominator": 120950,
+              "members": [
+                "kokushi_single"
+              ],
+              "rate": 0.00022323274080198428
+            },
+            {
+              "count": 11,
+              "denominator": 120950,
+              "members": [
+                "kokushi_13men"
+              ],
+              "rate": 9.09466721785862e-05
+            }
+          ],
+          "tile": "C",
+          "tile_frequency": {
+            "count": 120950,
+            "denominator": 19412469,
+            "share": 0.006230531520745764
+          },
+          "wait_tiles_with_multiple_shapes": {
+            "count": 0,
+            "denominator": 120950,
+            "rate": 0.0
+          }
+        }
+      ],
+      "shape_membership": [
+        {
+          "count": 13388414,
+          "denominator": 19412469,
+          "rate": 0.6896811528713839,
+          "value": "ryanmen"
+        },
+        {
+          "count": 2683041,
+          "denominator": 19412469,
+          "rate": 0.1382122490446733,
+          "value": "kanchan"
+        },
+        {
+          "count": 838341,
+          "denominator": 19412469,
+          "rate": 0.04318569678076498,
+          "value": "penchan"
+        },
+        {
+          "count": 2491369,
+          "denominator": 19412469,
+          "rate": 0.12833859515757629,
+          "value": "shanpon"
+        },
+        {
+          "count": 1600870,
+          "denominator": 19412469,
+          "rate": 0.08246606858715395,
+          "value": "tanki"
+        },
+        {
+          "count": 351,
+          "denominator": 19412469,
+          "rate": 1.8081162164380016e-05,
+          "value": "kokushi_single"
+        },
+        {
+          "count": 143,
+          "denominator": 19412469,
+          "rate": 7.36639940030297e-06,
+          "value": "kokushi_13men"
+        }
+      ],
+      "shape_set_distribution": [
+        {
+          "count": 11873278,
+          "denominator": 19412469,
+          "members": [
+            "ryanmen"
+          ],
+          "rate": 0.6116315240477653
+        },
+        {
+          "count": 734460,
+          "denominator": 19412469,
+          "members": [
+            "ryanmen",
+            "kanchan"
+          ],
+          "rate": 0.03783444547934629
+        },
+        {
+          "count": 2010,
+          "denominator": 19412469,
+          "members": [
+            "ryanmen",
+            "kanchan",
+            "penchan"
+          ],
+          "rate": 0.0001035416978643984
+        },
+        {
+          "count": 101,
+          "denominator": 19412469,
+          "members": [
+            "ryanmen",
+            "kanchan",
+            "shanpon"
+          ],
+          "rate": 5.20284153447972e-06
+        },
+        {
+          "count": 17,
+          "denominator": 19412469,
+          "members": [
+            "ryanmen",
+            "kanchan",
+            "shanpon",
+            "tanki"
+          ],
+          "rate": 8.757258028332202e-07
+        },
+        {
+          "count": 2850,
+          "denominator": 19412469,
+          "members": [
+            "ryanmen",
+            "kanchan",
+            "tanki"
+          ],
+          "rate": 0.0001468128551808634
+        },
+        {
+          "count": 312195,
+          "denominator": 19412469,
+          "members": [
+            "ryanmen",
+            "penchan"
+          ],
+          "rate": 0.016082189236206895
+        },
+        {
+          "count": 1,
+          "denominator": 19412469,
+          "members": [
+            "ryanmen",
+            "penchan",
+            "shanpon"
+          ],
+          "rate": 5.151328251960119e-08
+        },
+        {
+          "count": 7,
+          "denominator": 19412469,
+          "members": [
+            "ryanmen",
+            "penchan",
+            "shanpon",
+            "tanki"
+          ],
+          "rate": 3.6059297763720836e-07
+        },
+        {
+          "count": 1448,
+          "denominator": 19412469,
+          "members": [
+            "ryanmen",
+            "penchan",
+            "tanki"
+          ],
+          "rate": 7.459123308838253e-05
+        },
+        {
+          "count": 144235,
+          "denominator": 19412469,
+          "members": [
+            "ryanmen",
+            "shanpon"
+          ],
+          "rate": 0.007430018304214678
+        },
+        {
+          "count": 1067,
+          "denominator": 19412469,
+          "members": [
+            "ryanmen",
+            "shanpon",
+            "tanki"
+          ],
+          "rate": 5.496467244841447e-05
+        },
+        {
+          "count": 316745,
+          "denominator": 19412469,
+          "members": [
+            "ryanmen",
+            "tanki"
+          ],
+          "rate": 0.01631657467167108
+        },
+        {
+          "count": 1888617,
+          "denominator": 19412469,
+          "members": [
+            "kanchan"
+          ],
+          "rate": 0.09728886109232164
+        },
+        {
+          "count": 16892,
+          "denominator": 19412469,
+          "members": [
+            "kanchan",
+            "penchan"
+          ],
+          "rate": 0.0008701623683211033
+        },
+        {
+          "count": 21,
+          "denominator": 19412469,
+          "members": [
+            "kanchan",
+            "penchan",
+            "shanpon"
+          ],
+          "rate": 1.081778932911625e-06
+        },
+        {
+          "count": 89,
+          "denominator": 19412469,
+          "members": [
+            "kanchan",
+            "penchan",
+            "tanki"
+          ],
+          "rate": 4.584682144244506e-06
+        },
+        {
+          "count": 15405,
+          "denominator": 19412469,
+          "members": [
+            "kanchan",
+            "shanpon"
+          ],
+          "rate": 0.0007935621172144563
+        },
+        {
+          "count": 22579,
+          "denominator": 19412469,
+          "members": [
+            "kanchan",
+            "tanki"
+          ],
+          "rate": 0.0011631184060100753
+        },
+        {
+          "count": 493375,
+          "denominator": 19412469,
+          "members": [
+            "penchan"
+          ],
+          "rate": 0.02541536576310824
+        },
+        {
+          "count": 4262,
+          "denominator": 19412469,
+          "members": [
+            "penchan",
+            "shanpon"
+          ],
+          "rate": 0.00021954961009854027
+        },
+        {
+          "count": 8041,
+          "denominator": 19412469,
+          "members": [
+            "penchan",
+            "tanki"
+          ],
+          "rate": 0.0004142183047401132
+        },
+        {
+          "count": 2326253,
+          "denominator": 19412469,
+          "members": [
+            "shanpon"
+          ],
+          "rate": 0.11983292800106983
+        },
+        {
+          "count": 1248027,
+          "denominator": 19412469,
+          "members": [
+            "tanki"
+          ],
+          "rate": 0.06428996744309032
+        },
+        {
+          "count": 351,
+          "denominator": 19412469,
+          "members": [
+            "kokushi_single"
+          ],
+          "rate": 1.8081162164380016e-05
+        },
+        {
+          "count": 143,
+          "denominator": 19412469,
+          "members": [
+            "kokushi_13men"
+          ],
+          "rate": 7.36639940030297e-06
+        }
+      ],
+      "wait_tile_observation_count": 19412469,
+      "wait_tiles_with_multiple_shapes": {
+        "count": 1582425,
+        "denominator": 19412469,
+        "rate": 0.08151590609107992
+      }
+    }
+  }
+}
