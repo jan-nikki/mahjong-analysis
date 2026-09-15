@@ -34,6 +34,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         type=Path,
         default=PROJECT_ROOT / DEFAULT_OUTPUT_ROOT,
     )
+    parser.add_argument("--workers", type=_positive_int, default=1)
     parser.add_argument("--progress-interval", type=_positive_int, default=100_000)
     return parser.parse_args(argv)
 
@@ -46,6 +47,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         args.dataset_root,
         analysis_git=git_metadata,
         project_root=PROJECT_ROOT,
+        workers=args.workers,
         progress_interval=args.progress_interval,
         progress_callback=_print_progress,
     )

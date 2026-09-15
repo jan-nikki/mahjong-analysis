@@ -560,6 +560,37 @@ record本体や年度全件をlistへ保持しない。処理済みrecordへの�
 進捗表示は一定record数または一定file内行数ごとにyear、processed annual records、
 overall records、elapsedを標準エラーへ出してよいが、出力結果へelapsedを混ぜない。
 
+### 年度単位のprocess並列化
+
+正式CLIは`--workers N`を受け取り、既定値は1とする。`N`は正の整数でなければならない。
+`workers=1`は従来のsingle-process処理を使う。`workers>1`では、Windowsのspawn方式で
+import可能なmodule top-level workerを`ProcessPoolExecutor`から実行し、1 worker taskが
+1 annual gzip fileを最後までstreaming集計する。実process数は対象年度数を超えない。
+
+workerはrecordやraw JSON lineを蓄積せず、年度内のbounded aggregateと処理件数だけを親へ
+返す。親は完了順を集計順に使用せず、manifestの年度順でyear aggregateをmergeする。
+全年度が一度ずつ揃ったこと、年度件数、全体件数、年度・turn partition、formal/adjustedの
+既存不変条件を親で検証する。workerが1件でも失敗した場合はrunを失敗させ、未開始futureを
+可能な範囲でcancelする。
+
+成果物の構築とpublicationは親processだけが行う。workerはgeneration directory、
+`complete.json`、`current.json`を変更しない。worker数は分析semanticsでもprovenanceでもなく、
+同じinput manifestとanalysis commitから得るJSON/Markdown bytesへ含めない。
+したがってworkers=1とworkers>1の集計結果およびcontent-addressed generation IDは同一である。
+
+### benchmark専用経路
+
+正式publicationとは別の`analysis/benchmark_riichi_wait_summary.py`で、既定では2018〜2025の
+8 annual filesから各年度先頭100,000 recordsを同じ集計器で処理し、workers 1、2、4、6を
+比較する。年度集合とrecord limitは全worker設定で共通とし、各runについてrequested/used
+workers、年度、処理件数、elapsed、records/second、年度別elapsedを標準出力へ表示する。
+
+benchmarkはannual artifactのsize/SHA256とrecord DTOを検証するが、年度途中で停止するため
+annual `output_records`およびcanonical total 10,706,714は要求しない。正式成果物を構築・
+publishせず、`current.json`、`complete.json`、generation directoryへ書き込まない。
+filesystem cacheとworker起動時間による実行順序効果があり得るため、結果は同一PC上のworker数
+選定用diagnosticとして扱う。
+
 ## validation方針
 
 ### 人工recordテスト
@@ -637,6 +668,11 @@ hand type集合、主要boolean、distribution、5枚目感度のcountとdenomin
 - 同一generation IDの未完成残骸は安全に再生成し、完成世代は全fileを再検証して再利用する
 - 同一generation IDの完成世代が破損していれば再利用せず、silent successしない
 - 新世代のpublication失敗時も、既存`current.json`が指す旧完成世代を維持する
+- workers=1、2、4で同じfixtureのaggregationと全成果物bytesが一致する
+- worker完了順を変えてもmanifest年度順のmerge結果が一致する
+- parallel workerのJSON、DTO、年度件数エラーを親へ伝播し、旧`current.json`を維持する
+- benchmarkのrecord limitとworker設定間の処理件数一致を検証する
+- benchmark経路がpublication artifactを生成しないことを検証する
 
 ### 本番結果の確認
 

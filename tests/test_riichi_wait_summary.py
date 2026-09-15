@@ -3,6 +3,7 @@ import hashlib
 import json
 import os
 import subprocess
+from concurrent.futures import Future
 from pathlib import Path
 
 import pytest
@@ -30,6 +31,7 @@ from mahjong_analysis.riichi_wait_summary import (
     SummaryAnalysis,
     SummaryProgress,
     aggregate_riichi_wait_records,
+    benchmark_riichi_wait_dataset,
     build_summary_documents,
     collect_analysis_git_metadata,
     load_published_summary_paths,
@@ -1691,6 +1693,101 @@ def _write_fixture_dataset(
     return manifest
 
 
+def _write_multi_year_fixture_dataset(
+    root: Path,
+    records_by_year: dict[int, tuple[RiichiWaitDatasetRecord, ...]],
+    *,
+    output_record_overrides: dict[int, int] | None = None,
+) -> dict[str, object]:
+    root.mkdir(parents=True)
+    year_entries: list[dict[str, object]] = []
+    for year, records in sorted(records_by_year.items()):
+        annual_path = root / f"{year}.jsonl.gz"
+        with gzip.open(annual_path, "wb") as file:
+            for record in records:
+                file.write(serialize_dataset_record(record) + b"\n")
+        annual_bytes = annual_path.read_bytes()
+        count = (
+            len(records)
+            if output_record_overrides is None
+            else output_record_overrides.get(year, len(records))
+        )
+        year_entries.append(
+            {
+                "year": year,
+                "scanned_files": count,
+                "target_games": count,
+                "east_kyokus": count,
+                "established_riichis": count,
+                "output_records": count,
+                "output_filename": f"{year}.jsonl.gz",
+                "compressed_size_bytes": len(annual_bytes),
+                "sha256": hashlib.sha256(annual_bytes).hexdigest(),
+                "elapsed_seconds": 1.0,
+            }
+        )
+    years = tuple(sorted(records_by_year))
+    totals = {
+        field: sum(int(entry[field]) for entry in year_entries)
+        for field in (
+            "scanned_files",
+            "target_games",
+            "east_kyokus",
+            "established_riichis",
+            "output_records",
+        )
+    }
+    manifest = {
+        "schema_version": 1,
+        "dataset_name": DATASET_NAME,
+        "created_at_utc": "2026-09-14T00:00:00Z",
+        "source": {
+            "repository": "NikkeTryHard/tenhou-to-mjai",
+            "release_tag": "v2.0.0",
+            "validation_summary_path": "data/validation/summary.json",
+            "validation_summary_sha256": "1" * 64,
+            "archive_hashes_verified": True,
+        },
+        "scope": {
+            "years": list(years),
+            "rule_code": "00a9",
+            "aka_flag": True,
+            "bakaze": "E",
+            "input_selection": {
+                "ordering": "raw-root-relative POSIX path lexicographic",
+                "max_files_before_target_filtering": None,
+            },
+            "extraction_mode": "full",
+        },
+        "serialization": {
+            "format": "JSON Lines",
+            "encoding": "UTF-8",
+            "json_options": {
+                "ensure_ascii": False,
+                "sort_keys": True,
+                "separators": [",", ":"],
+                "allow_nan": False,
+                "line_terminator": "LF",
+            },
+            "compression": "gzip",
+            "compression_level": 6,
+            "gzip_mtime": 0,
+            "gzip_header_filename": "",
+        },
+        "generator": {
+            "git_commit": "dataset-commit",
+            "worktree_clean": True,
+            "python_version": "3.12.10",
+            "zlib_version": "1.3.1",
+            "invocation": {"years": list(years), "mode": "full", "max_files": None},
+        },
+        "years": year_entries,
+        "totals": totals,
+    }
+    (root / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    return manifest
+
+
 def test_streaming_dataset_path_validates_and_aggregates_once(tmp_path: Path) -> None:
     dataset_root = tmp_path / "data" / "processed" / "riichi-waits-v1"
     manifest = _write_fixture_dataset(dataset_root, (_summary_r17(), _summary_r19()))
@@ -1803,6 +1900,224 @@ def test_streaming_dataset_rejects_sha_mismatch_before_aggregation(
             project_root=tmp_path,
             require_canonical=False,
         )
+
+
+def test_parallel_workers_match_serial_documents_and_cap_process_count(
+    tmp_path: Path,
+) -> None:
+    dataset_root = tmp_path / "data" / "processed" / "riichi-waits-v1"
+    _write_multi_year_fixture_dataset(
+        dataset_root,
+        {
+            2023: (_summary_r17(year=2023, turn=1),),
+            2024: (_summary_r18(year=2024, turn=2),),
+            2025: (_summary_r19(year=2025, turn=3),),
+        },
+    )
+    analyses = tuple(
+        summarize_riichi_wait_dataset(
+            dataset_root,
+            analysis_git=AnalysisGitMetadata("analysis-commit", True),
+            project_root=tmp_path,
+            workers=workers,
+            require_canonical=False,
+        )
+        for workers in (1, 2, 4)
+    )
+
+    serial_documents = build_summary_documents(analyses[0])
+    assert build_summary_documents(analyses[1]) == serial_documents
+    assert build_summary_documents(analyses[2]) == serial_documents
+    assert analyses[0].aggregation == analyses[1].aggregation
+    assert analyses[0].aggregation == analyses[2].aggregation
+
+
+def test_parallel_merge_uses_manifest_order_not_completion_order(
+    tmp_path: Path,
+) -> None:
+    dataset_root = tmp_path / "dataset"
+    manifest = _write_multi_year_fixture_dataset(
+        dataset_root,
+        {
+            2023: (_summary_r17(year=2023),),
+            2024: (_summary_r18(year=2024),),
+            2025: (_summary_r19(year=2025),),
+        },
+    )
+    tasks = summary_module._annual_summary_tasks(dataset_root, manifest["years"])
+    annual_results = tuple(
+        summary_module._aggregate_annual_summary_task(task) for task in tasks
+    )
+
+    forward = summary_module._merge_annual_summary_results(
+        annual_results,
+        (2023, 2024, 2025),
+    )
+    reverse = summary_module._merge_annual_summary_results(
+        tuple(reversed(annual_results)),
+        (2023, 2024, 2025),
+    )
+
+    assert reverse == forward
+    assert tuple(reverse.years) == (2023, 2024, 2025)
+    assert tuple(reverse.year_turns) == (2023, 2024, 2025)
+
+
+@pytest.mark.parametrize("workers", (0, -1, True))
+def test_summary_rejects_invalid_worker_count(tmp_path: Path, workers: object) -> None:
+    with pytest.raises(ValueError, match="workers must be a positive integer"):
+        summarize_riichi_wait_dataset(
+            tmp_path / "missing",
+            analysis_git=AnalysisGitMetadata("analysis-commit", True),
+            project_root=tmp_path,
+            workers=workers,  # type: ignore[arg-type]
+            require_canonical=False,
+        )
+
+
+@pytest.mark.parametrize("failure", ("json", "dto", "count", "sha256"))
+def test_parallel_worker_failure_is_propagated_without_publication(
+    tmp_path: Path,
+    failure: str,
+) -> None:
+    dataset_root = tmp_path / "dataset"
+    manifest = _write_multi_year_fixture_dataset(
+        dataset_root,
+        {
+            2024: (_summary_r17(year=2024),),
+            2025: (_summary_r19(year=2025),),
+        },
+    )
+    annual_path = dataset_root / "2024.jsonl.gz"
+    entry = manifest["years"][0]
+    if failure == "json":
+        with gzip.open(annual_path, "wb") as file:
+            file.write(b"{broken}\n")
+    elif failure == "dto":
+        payload = dataset_record_to_dict(_summary_r17(year=2024))
+        payload["waits"]["wait_tile_count"] = 2
+        with gzip.open(annual_path, "wt", encoding="utf-8", newline="\n") as file:
+            file.write(json.dumps(payload, separators=(",", ":")) + "\n")
+    elif failure == "count":
+        entry["established_riichis"] = 2
+        entry["output_records"] = 2
+        manifest["totals"]["established_riichis"] = 3
+        manifest["totals"]["output_records"] = 3
+    else:
+        entry["sha256"] = "0" * 64
+    if failure in {"json", "dto"}:
+        annual_bytes = annual_path.read_bytes()
+        entry["compressed_size_bytes"] = len(annual_bytes)
+        entry["sha256"] = hashlib.sha256(annual_bytes).hexdigest()
+    (dataset_root / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+
+    output_root = tmp_path / "results"
+    old_analysis = SummaryAnalysis(
+        aggregate_riichi_wait_records((_summary_r17(),)),
+        _metadata(),
+    )
+    old_paths = write_summary_outputs(old_analysis, output_root)
+    pointer_before = (output_root / PUBLICATION_POINTER_FILENAME).read_bytes()
+
+    with pytest.raises((TypeError, ValueError)):
+        summarize_riichi_wait_dataset(
+            dataset_root,
+            analysis_git=AnalysisGitMetadata("analysis-commit", True),
+            project_root=tmp_path,
+            workers=2,
+            require_canonical=False,
+        )
+
+    assert (output_root / PUBLICATION_POINTER_FILENAME).read_bytes() == pointer_before
+    assert load_published_summary_paths(output_root) == old_paths
+
+
+def test_arbitrary_parallel_worker_exception_is_propagated_and_cancels_pending(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    executors: list[object] = []
+
+    class FakeExecutor:
+        def __init__(self, *, max_workers: int) -> None:
+            self.max_workers = max_workers
+            self.futures: list[Future[object]] = []
+            self.shutdown_arguments: tuple[bool, bool] | None = None
+            executors.append(self)
+
+        def submit(self, function: object, task: object) -> Future[object]:
+            future: Future[object] = Future()
+            if not self.futures:
+                future.set_exception(
+                    RuntimeError("review injected arbitrary worker exception")
+                )
+            self.futures.append(future)
+            return future
+
+        def shutdown(self, *, wait: bool, cancel_futures: bool) -> None:
+            self.shutdown_arguments = (wait, cancel_futures)
+
+    monkeypatch.setattr(summary_module, "ProcessPoolExecutor", FakeExecutor)
+    tasks = (
+        summary_module._AnnualSummaryTask(2024, "unused-2024", 1),
+        summary_module._AnnualSummaryTask(2025, "unused-2025", 1),
+    )
+    reported_results: list[object] = []
+
+    with pytest.raises(
+        RuntimeError,
+        match="review injected arbitrary worker exception",
+    ):
+        summary_module._run_annual_summary_tasks(
+            tasks,
+            workers=4,
+            result_callback=reported_results.append,
+        )
+
+    assert len(executors) == 1
+    executor = executors[0]
+    assert isinstance(executor, FakeExecutor)
+    assert executor.max_workers == 2
+    assert len(executor.futures) == 2
+    assert executor.futures[0].exception() is not None
+    assert executor.futures[1].cancelled()
+    assert executor.shutdown_arguments == (True, True)
+    assert reported_results == []
+
+
+def test_benchmark_limit_and_worker_counts_share_the_same_aggregation(
+    tmp_path: Path,
+) -> None:
+    dataset_root = tmp_path / "dataset"
+    _write_multi_year_fixture_dataset(
+        dataset_root,
+        {
+            2024: (
+                _summary_r17(year=2024, turn=1),
+                _summary_r18(year=2024, turn=2),
+            ),
+            2025: (
+                _summary_r18(year=2025, turn=2),
+                _summary_r19(year=2025, turn=3),
+            ),
+        },
+    )
+
+    results = benchmark_riichi_wait_dataset(
+        dataset_root,
+        years=(2024, 2025),
+        record_limit_per_year=1,
+        worker_counts=(1, 2, 4),
+    )
+
+    assert [result.workers_requested for result in results] == [1, 2, 4]
+    assert [result.workers_used for result in results] == [1, 2, 2]
+    assert [result.records_processed for result in results] == [2, 2, 2]
+    assert all(
+        [(annual.year, annual.records_processed) for annual in result.year_results]
+        == [(2024, 1), (2025, 1)]
+        for result in results
+    )
+    assert not (tmp_path / "research").exists()
 
 
 def test_formal_run_rejects_dirty_analysis_code_before_reading_input(

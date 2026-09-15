@@ -11,6 +11,7 @@ import tempfile
 import time
 from collections import Counter, defaultdict
 from collections.abc import Callable, Iterable, Mapping
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -72,6 +73,45 @@ class SummaryProgress:
 
 
 ProgressCallback = Callable[[SummaryProgress], None]
+
+
+@dataclass(frozen=True)
+class SummaryBenchmarkYearResult:
+    """One annual worker measurement from a non-publishing benchmark."""
+
+    year: int
+    records_processed: int
+    elapsed_seconds: float
+
+
+@dataclass(frozen=True)
+class SummaryBenchmarkResult:
+    """One worker-count measurement from a non-publishing benchmark."""
+
+    workers_requested: int
+    workers_used: int
+    years: tuple[int, ...]
+    record_limit_per_year: int
+    records_processed: int
+    elapsed_seconds: float
+    records_per_second: float
+    year_results: tuple[SummaryBenchmarkYearResult, ...]
+
+
+@dataclass(frozen=True)
+class _AnnualSummaryTask:
+    year: int
+    annual_path: str
+    expected_output_records: int
+    record_limit: int | None = None
+
+
+@dataclass(frozen=True)
+class _AnnualSummaryResult:
+    year: int
+    aggregation: SummaryAggregation
+    records_processed: int
+    elapsed_seconds: float
 
 
 @dataclass(frozen=True)
@@ -348,6 +388,27 @@ class SummaryAggregation:
     def record_count(self) -> int:
         return self.overall.record_level.formal.record_count
 
+    def merge(self, other: SummaryAggregation) -> None:
+        """Merge a bounded aggregate without retaining any source records."""
+        if not isinstance(other, SummaryAggregation):
+            raise TypeError("other must be a SummaryAggregation")
+        other.validate()
+        overlapping_years = set(self.years).intersection(other.years)
+        if overlapping_years:
+            raise ValueError(
+                f"cannot merge duplicate years: {sorted(overlapping_years)}"
+            )
+        _merge_full_accumulator(self.overall, other.overall)
+        for year in sorted(other.years):
+            self.years[year] = other.years[year]
+            self.year_turns[year] = other.year_turns[year]
+        for turn in sorted(other.turns):
+            target = self.turns.get(turn)
+            if target is None:
+                target = _SliceAccumulator()
+                self.turns[turn] = target
+            _merge_slice_accumulator(target, other.turns[turn])
+
     def validate(self, expected_years: tuple[int, ...] | None = None) -> None:
         self.overall.validate()
         for value in self.years.values():
@@ -409,15 +470,17 @@ def summarize_riichi_wait_dataset(
     *,
     analysis_git: AnalysisGitMetadata,
     project_root: str | Path,
+    workers: int = 1,
     progress_interval: int = 100_000,
     progress_callback: ProgressCallback | None = None,
     require_canonical: bool = True,
 ) -> SummaryAnalysis:
-    """Validate and aggregate manifest-listed annual streams in one decode pass."""
+    """Validate and aggregate manifest-listed annual streams deterministically."""
     if not isinstance(analysis_git, AnalysisGitMetadata):
         raise TypeError("analysis_git must be AnalysisGitMetadata")
     if not analysis_git.worktree_clean:
         raise ValueError("formal summary generation requires a clean worktree")
+    _validate_workers(workers)
     if type(progress_interval) is not int or progress_interval < 1:
         raise ValueError("progress_interval must be a positive integer")
     root = Path(dataset_root)
@@ -437,9 +500,143 @@ def summarize_riichi_wait_dataset(
     if require_canonical:
         _validate_canonical_manifest(manifest, years)
 
-    aggregation = SummaryAggregation()
     started = time.monotonic()
-    for entry in manifest["years"]:
+    if workers == 1:
+        aggregation = _aggregate_manifest_serially(
+            root,
+            manifest["years"],
+            progress_interval=progress_interval,
+            progress_callback=progress_callback,
+            started=started,
+        )
+    else:
+        tasks = _annual_summary_tasks(root, manifest["years"])
+        processed_records = 0
+
+        def report_result(result: _AnnualSummaryResult) -> None:
+            nonlocal processed_records
+            processed_records += result.records_processed
+            if progress_callback is not None:
+                progress_callback(
+                    SummaryProgress(
+                        result.year,
+                        result.records_processed,
+                        processed_records,
+                        time.monotonic() - started,
+                    )
+                )
+
+        annual_results = _run_annual_summary_tasks(
+            tasks,
+            workers=workers,
+            result_callback=report_result,
+        )
+        aggregation = _merge_annual_summary_results(annual_results, years)
+    aggregation.validate(expected_years=years)
+    if aggregation.record_count != manifest["totals"]["output_records"]:
+        raise ValueError("total record count does not match manifest")
+    if aggregation.record_count != manifest["totals"]["established_riichis"]:
+        raise ValueError("total record count does not match established riichis")
+    if require_canonical and aggregation.record_count != CANONICAL_RECORD_COUNT:
+        raise ValueError("canonical record count does not equal 10,706,714")
+
+    metadata = _build_metadata(
+        manifest,
+        manifest_logical_path=manifest_logical_path,
+        manifest_sha256=hashlib.sha256(manifest_bytes).hexdigest(),
+        analysis_git=analysis_git,
+    )
+    return SummaryAnalysis(aggregation=aggregation, metadata=metadata)
+
+
+def benchmark_riichi_wait_dataset(
+    dataset_root: str | Path,
+    *,
+    years: tuple[int, ...] = tuple(range(2018, 2026)),
+    record_limit_per_year: int = 100_000,
+    worker_counts: tuple[int, ...] = (1, 2, 4, 6),
+) -> tuple[SummaryBenchmarkResult, ...]:
+    """Benchmark bounded annual aggregation without publishing any result."""
+    if (
+        not isinstance(years, tuple)
+        or not years
+        or any(type(year) is not int for year in years)
+        or years != tuple(sorted(set(years)))
+    ):
+        raise ValueError("benchmark years must be a non-empty ascending tuple")
+    if type(record_limit_per_year) is not int or record_limit_per_year < 1:
+        raise ValueError("benchmark record limit must be a positive integer")
+    if not isinstance(worker_counts, tuple) or not worker_counts:
+        raise ValueError("benchmark worker counts must be a non-empty tuple")
+    for workers in worker_counts:
+        _validate_workers(workers)
+
+    root = Path(dataset_root)
+    manifest = validate_dataset_integrity(root, expected_mode="full", deep=False)
+    entries_by_year = {entry["year"]: entry for entry in manifest["years"]}
+    if any(year not in entries_by_year for year in years):
+        raise ValueError("benchmark year is absent from the dataset manifest")
+    selected_entries = tuple(entries_by_year[year] for year in years)
+    tasks = _annual_summary_tasks(
+        root,
+        selected_entries,
+        record_limit=record_limit_per_year,
+    )
+
+    benchmark_results: list[SummaryBenchmarkResult] = []
+    expected_aggregation: SummaryAggregation | None = None
+    for workers_requested in worker_counts:
+        started = time.monotonic()
+        annual_results = _run_annual_summary_tasks(
+            tasks,
+            workers=workers_requested,
+        )
+        aggregation = _merge_annual_summary_results(annual_results, years)
+        elapsed = time.monotonic() - started
+        if expected_aggregation is None:
+            expected_aggregation = aggregation
+        elif aggregation != expected_aggregation:
+            raise ValueError("benchmark aggregation changed with worker count")
+        records_processed = aggregation.record_count
+        benchmark_results.append(
+            SummaryBenchmarkResult(
+                workers_requested=workers_requested,
+                workers_used=min(workers_requested, len(tasks)),
+                years=years,
+                record_limit_per_year=record_limit_per_year,
+                records_processed=records_processed,
+                elapsed_seconds=elapsed,
+                records_per_second=(
+                    records_processed / elapsed if elapsed > 0 else float("inf")
+                ),
+                year_results=tuple(
+                    SummaryBenchmarkYearResult(
+                        result.year,
+                        result.records_processed,
+                        result.elapsed_seconds,
+                    )
+                    for result in sorted(annual_results, key=lambda item: item.year)
+                ),
+            )
+        )
+    return tuple(benchmark_results)
+
+
+def _validate_workers(workers: object) -> None:
+    if type(workers) is not int or workers < 1:
+        raise ValueError("workers must be a positive integer")
+
+
+def _aggregate_manifest_serially(
+    root: Path,
+    entries: Iterable[Mapping[str, Any]],
+    *,
+    progress_interval: int,
+    progress_callback: ProgressCallback | None,
+    started: float,
+) -> SummaryAggregation:
+    aggregation = SummaryAggregation()
+    for entry in entries:
         year = entry["year"]
         annual_count = 0
         annual_path = root / entry["output_filename"]
@@ -468,21 +665,117 @@ def summarize_riichi_wait_dataset(
                     time.monotonic() - started,
                 )
             )
-    aggregation.validate(expected_years=years)
-    if aggregation.record_count != manifest["totals"]["output_records"]:
-        raise ValueError("total record count does not match manifest")
-    if aggregation.record_count != manifest["totals"]["established_riichis"]:
-        raise ValueError("total record count does not match established riichis")
-    if require_canonical and aggregation.record_count != CANONICAL_RECORD_COUNT:
-        raise ValueError("canonical record count does not equal 10,706,714")
+    return aggregation
 
-    metadata = _build_metadata(
-        manifest,
-        manifest_logical_path=manifest_logical_path,
-        manifest_sha256=hashlib.sha256(manifest_bytes).hexdigest(),
-        analysis_git=analysis_git,
+
+def _annual_summary_tasks(
+    root: Path,
+    entries: Iterable[Mapping[str, Any]],
+    *,
+    record_limit: int | None = None,
+) -> tuple[_AnnualSummaryTask, ...]:
+    return tuple(
+        _AnnualSummaryTask(
+            year=entry["year"],
+            annual_path=str((root / entry["output_filename"]).resolve()),
+            expected_output_records=entry["output_records"],
+            record_limit=record_limit,
+        )
+        for entry in entries
     )
-    return SummaryAnalysis(aggregation=aggregation, metadata=metadata)
+
+
+def _aggregate_annual_summary_task(task: _AnnualSummaryTask) -> _AnnualSummaryResult:
+    """Process one annual gzip stream; kept top-level for Windows spawn."""
+    started = time.monotonic()
+    aggregation = SummaryAggregation()
+    count = 0
+    annual_path = Path(task.annual_path)
+    for record in iter_dataset_records(annual_path):
+        if record.year != task.year:
+            raise ValueError(f"record year mismatch in {annual_path.name}")
+        aggregation.add(record)
+        count += 1
+        if task.record_limit is not None and count >= task.record_limit:
+            break
+    if task.record_limit is None and count != task.expected_output_records:
+        raise ValueError(f"record count mismatch for year {task.year}")
+    aggregation.validate(expected_years=(task.year,))
+    return _AnnualSummaryResult(
+        year=task.year,
+        aggregation=aggregation,
+        records_processed=count,
+        elapsed_seconds=time.monotonic() - started,
+    )
+
+
+def _run_annual_summary_tasks(
+    tasks: tuple[_AnnualSummaryTask, ...],
+    *,
+    workers: int,
+    result_callback: Callable[[_AnnualSummaryResult], None] | None = None,
+) -> tuple[_AnnualSummaryResult, ...]:
+    _validate_workers(workers)
+    if not tasks:
+        raise ValueError("at least one annual summary task is required")
+    if workers == 1:
+        results = []
+        for task in tasks:
+            result = _aggregate_annual_summary_task(task)
+            results.append(result)
+            if result_callback is not None:
+                result_callback(result)
+        return tuple(results)
+
+    workers_used = min(workers, len(tasks))
+    executor = ProcessPoolExecutor(max_workers=workers_used)
+    futures = {}
+    try:
+        for task in tasks:
+            futures[executor.submit(_aggregate_annual_summary_task, task)] = task.year
+        results_by_year: dict[int, _AnnualSummaryResult] = {}
+        for future in as_completed(futures):
+            expected_year = futures[future]
+            result = future.result()
+            if result.year != expected_year:
+                raise ValueError("annual summary worker returned the wrong year")
+            if result.year in results_by_year:
+                raise ValueError(
+                    f"duplicate annual summary result for year {result.year}"
+                )
+            results_by_year[result.year] = result
+            if result_callback is not None:
+                result_callback(result)
+    except BaseException:
+        for future in futures:
+            future.cancel()
+        raise
+    finally:
+        executor.shutdown(wait=True, cancel_futures=True)
+    if set(results_by_year) != {task.year for task in tasks}:
+        raise ValueError("annual summary results are incomplete")
+    return tuple(results_by_year.values())
+
+
+def _merge_annual_summary_results(
+    results: tuple[_AnnualSummaryResult, ...],
+    expected_years: tuple[int, ...],
+) -> SummaryAggregation:
+    results_by_year: dict[int, _AnnualSummaryResult] = {}
+    for result in results:
+        if result.year in results_by_year:
+            raise ValueError(f"duplicate annual summary result for year {result.year}")
+        results_by_year[result.year] = result
+    if set(results_by_year) != set(expected_years):
+        raise ValueError("annual summary result years do not match the manifest")
+    aggregation = SummaryAggregation()
+    for year in expected_years:
+        result = results_by_year[year]
+        if result.records_processed != result.aggregation.record_count:
+            raise ValueError(f"annual summary count disagrees for year {year}")
+        aggregation.merge(result.aggregation)
+    aggregation.validate(expected_years=expected_years)
+    return aggregation
 
 
 def collect_analysis_git_metadata(project_root: str | Path) -> AnalysisGitMetadata:
@@ -1052,6 +1345,68 @@ def _validate_commit_text(value: object, context: str) -> None:
         raise ValueError(
             f"{context} must be non-empty text without surrounding whitespace"
         )
+
+
+def _merge_record_level_accumulator(
+    target: _RecordLevelAccumulator,
+    source: _RecordLevelAccumulator,
+) -> None:
+    target.record_count += source.record_count
+    target.wait_tile_counts.update(source.wait_tile_counts)
+    target.pure_ryanmen_count += source.pure_ryanmen_count
+    target.contains_ryanmen_count += source.contains_ryanmen_count
+    target.multiwait_count += source.multiwait_count
+    target.shape_membership.update(source.shape_membership)
+    target.shape_sets.update(source.shape_sets)
+    target.hand_type_membership.update(source.hand_type_membership)
+    target.hand_type_sets.update(source.hand_type_sets)
+    target.multiple_shape_count += source.multiple_shape_count
+    target.multiple_hand_type_count += source.multiple_hand_type_count
+
+
+def _merge_slice_accumulator(
+    target: _SliceAccumulator,
+    source: _SliceAccumulator,
+) -> None:
+    _merge_record_level_accumulator(target.formal, source.formal)
+    _merge_record_level_accumulator(target.adjusted, source.adjusted)
+    target.adjusted_zero_wait_count += source.adjusted_zero_wait_count
+
+
+def _merge_wait_tile_accumulator(
+    target: _WaitTileAccumulator,
+    source: _WaitTileAccumulator,
+) -> None:
+    target.observation_count += source.observation_count
+    target.shape_membership.update(source.shape_membership)
+    target.shape_sets.update(source.shape_sets)
+    target.multiple_shape_count += source.multiple_shape_count
+
+
+def _merge_diagnostics_accumulator(
+    target: _DiagnosticsAccumulator,
+    source: _DiagnosticsAccumulator,
+) -> None:
+    _merge_wait_tile_accumulator(target.wait_tiles, source.wait_tiles)
+    for tile in TILE_KINDS:
+        _merge_wait_tile_accumulator(target.by_tile[tile], source.by_tile[tile])
+    target.detail_count += source.detail_count
+    target.detail_cross_table.update(source.detail_cross_table)
+
+
+def _merge_full_accumulator(
+    target: _FullAccumulator,
+    source: _FullAccumulator,
+) -> None:
+    _merge_slice_accumulator(target.record_level, source.record_level)
+    target.riichi_discard_numbers.update(source.riichi_discard_numbers)
+    _merge_diagnostics_accumulator(target.diagnostics, source.diagnostics)
+    target.fifth_tile_record_count += source.fifth_tile_record_count
+    target.fifth_tile_observation_count += source.fifth_tile_observation_count
+    target.fifth_tile_only_record_count += source.fifth_tile_only_record_count
+    target.fifth_tile_with_other_record_count += (
+        source.fifth_tile_with_other_record_count
+    )
 
 
 def _validate_record_level_partition(
