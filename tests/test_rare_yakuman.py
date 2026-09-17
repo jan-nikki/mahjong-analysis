@@ -5,12 +5,15 @@ from pathlib import Path
 
 import pytest
 
+import mahjong_analysis.rare_yakuman as rare_yakuman
 from mahjong_analysis.rare_yakuman import (
+    RareYakumanReplayError,
     analyze_rare_yakuman_game,
     extract_complete_log_id,
     get_detector,
     is_ryuuiisou,
     replay_kyoku_horas,
+    result_to_dict,
     scan_rare_yakuman,
     tenhou_log_url,
 )
@@ -135,6 +138,56 @@ def _game(*kyokus: list[dict[str, object]]) -> list[dict[str, object]]:
         {"type": "start_game", "kyoku_first": 0, "aka_flag": True, "names": []},
         *(event for kyoku in kyokus for event in kyoku),
         {"type": "end_game"},
+    ]
+
+
+def _kakan_raw_anomaly_kyoku() -> list[dict[str, object]]:
+    caller = [
+        "5s",
+        "5s",
+        "1m",
+        "1m",
+        "1m",
+        "2m",
+        "2m",
+        "2m",
+        "3m",
+        "3m",
+        "3m",
+        "4m",
+        "4m",
+    ]
+    discarder = list(_FILLER_HAND)
+    discarder[-1] = "5s"
+    return [
+        _start(
+            [
+                caller,
+                list(_FILLER_HAND),
+                list(_FILLER_HAND),
+                discarder,
+            ]
+        ),
+        {"type": "tsumo", "actor": 3, "pai": "9p"},
+        {"type": "dahai", "actor": 3, "pai": "5s", "tsumogiri": False},
+        {
+            "type": "pon",
+            "actor": 0,
+            "target": 3,
+            "pai": "5s",
+            "consumed": ["5s", "5s"],
+        },
+        {"type": "dahai", "actor": 0, "pai": "4m", "tsumogiri": False},
+        {"type": "tsumo", "actor": 0, "pai": "5sr"},
+        {"type": "dahai", "actor": 0, "pai": "5sr", "tsumogiri": True},
+        {
+            "type": "kakan",
+            "actor": 0,
+            "pai": "5sr",
+            "consumed": ["5s", "5s", "5s"],
+        },
+        {"type": "ryukyoku"},
+        {"type": "end_kyoku"},
     ]
 
 
@@ -458,10 +511,12 @@ def test_double_ron_counts_one_kyoku_and_two_matching_horas(tmp_path: Path) -> N
 
     assert result.total_games == 1
     assert result.total_kyokus == 1
+    assert result.analyzed_kyokus == 1
+    assert result.anomaly_kyokus == 0
     assert result.matching_kyokus == 1
     assert result.matching_hora_events == 2
-    assert result.probability_per_kyoku == 1.0
-    assert result.one_in_n_kyokus == 1.0
+    assert result.probability_per_analyzed_kyoku == 1.0
+    assert result.one_in_n_analyzed_kyokus == 1.0
     assert result.hits[0].matching_hora_event_indices == (3, 4)
 
 
@@ -565,8 +620,8 @@ def test_zero_matches_has_safe_rates(tmp_path: Path) -> None:
 
     assert result.matching_kyokus == 0
     assert result.matching_hora_events == 0
-    assert result.probability_per_kyoku == 0.0
-    assert result.one_in_n_kyokus is None
+    assert result.probability_per_analyzed_kyoku == 0.0
+    assert result.one_in_n_analyzed_kyokus is None
 
 
 def test_complete_log_id_and_tenhou_url_use_the_full_filename_stem() -> None:
@@ -634,6 +689,56 @@ def test_parallel_year_scan_matches_serial_result(tmp_path: Path) -> None:
     assert parallel == serial
 
 
+def test_parallel_continue_mode_merges_anomalies_deterministically(
+    tmp_path: Path,
+) -> None:
+    for year in (2024, 2025):
+        (tmp_path / str(year)).mkdir()
+    _write_game(
+        tmp_path / "2024" / "2024010100gm-00a9-0000-12345678.mjson",
+        _game(_kakan_raw_anomaly_kyoku()),
+        gzip_=True,
+    )
+    _write_game(
+        tmp_path / "2025" / "2025010100gm-00a9-0000-87654321.mjson",
+        _game(
+            _kakan_raw_anomaly_kyoku(),
+            _tsumo_hora_kyoku(_GREEN_WITH_F_WAIT, "F"),
+        ),
+        gzip_=False,
+    )
+
+    serial = scan_rare_yakuman(
+        tmp_path,
+        yaku="緑一色",
+        years=(2025, 2024),
+        workers=1,
+        continue_on_replay_error=True,
+    )
+    parallel = scan_rare_yakuman(
+        tmp_path,
+        yaku="緑一色",
+        years=(2025, 2024),
+        workers=2,
+        continue_on_replay_error=True,
+    )
+
+    assert parallel == serial
+    assert parallel.total_games == 2
+    assert parallel.total_kyokus == 3
+    assert parallel.analyzed_kyokus == 1
+    assert parallel.anomaly_kyokus == 2
+    assert parallel.matching_kyokus == 1
+    assert parallel.matching_hora_events == 1
+    assert [anomaly.source_path for anomaly in parallel.anomalies] == [
+        "2024/2024010100gm-00a9-0000-12345678.mjson",
+        "2025/2025010100gm-00a9-0000-87654321.mjson",
+    ]
+    assert [(hit.source_path, hit.kyoku_index) for hit in parallel.hits] == [
+        ("2025/2025010100gm-00a9-0000-87654321.mjson", 1)
+    ]
+
+
 def test_replay_rejects_missing_discard_tile() -> None:
     kyoku = _kyoku(
         _GREEN_WITH_F_WAIT,
@@ -687,16 +792,202 @@ def test_game_replay_error_includes_source_and_kyoku_context(tmp_path: Path) -> 
     assert caught.value.__cause__ is not None
 
 
+def test_kakan_raw_anomaly_stops_in_strict_mode(tmp_path: Path) -> None:
+    source = tmp_path / "2025" / "2025010100gm-00a9-0000-12345678.mjson"
+    source.parent.mkdir()
+    _write_game(
+        source,
+        _game(
+            _kakan_raw_anomaly_kyoku(),
+            _tsumo_hora_kyoku(_GREEN_WITH_F_WAIT, "F"),
+        ),
+        gzip_=False,
+    )
+
+    with pytest.raises(ValueError, match="kyoku_index=0") as caught:
+        analyze_rare_yakuman_game(source, raw_root=tmp_path, yaku="緑一色")
+
+    assert "concealed hand lacks raw tiles: {'5sr': 1}" in str(caught.value)
+    assert isinstance(caught.value.__cause__, RareYakumanReplayError)
+
+
+def test_continue_mode_collects_anomaly_and_analyzes_following_hit(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "2025" / "2025010100gm-00a9-0000-12345678.mjson"
+    source.parent.mkdir()
+    _write_game(
+        source,
+        _game(
+            _kakan_raw_anomaly_kyoku(),
+            _tsumo_hora_kyoku(_GREEN_WITH_F_WAIT, "F"),
+        ),
+        gzip_=False,
+    )
+
+    result = analyze_rare_yakuman_game(
+        source,
+        raw_root=tmp_path,
+        yaku="緑一色",
+        continue_on_replay_error=True,
+    )
+
+    assert result.total_games == 1
+    assert result.total_kyokus == 2
+    assert result.analyzed_kyokus == 1
+    assert result.anomaly_kyokus == 1
+    assert result.analyzed_kyokus + result.anomaly_kyokus == result.total_kyokus
+    assert result.matching_kyokus == 1
+    assert result.matching_hora_events == 1
+    assert result.probability_per_analyzed_kyoku == 1.0
+    assert result.one_in_n_analyzed_kyokus == 1.0
+    assert [
+        (hit.kyoku_index, hit.matching_hora_event_indices) for hit in result.hits
+    ] == [(1, (2,))]
+    assert len(result.anomalies) == 1
+    anomaly = result.anomalies[0]
+    assert anomaly.source_path == "2025/2025010100gm-00a9-0000-12345678.mjson"
+    assert anomaly.log_id == "2025010100gm-00a9-0000-12345678"
+    assert anomaly.kyoku_index == 0
+    assert "event 7, actor 0" in anomaly.error_message
+    assert "concealed hand lacks raw tiles: {'5sr': 1}" in anomaly.error_message
+    document = result_to_dict(result)
+    assert document["total_kyokus"] == 2
+    assert document["analyzed_kyokus"] == 1
+    assert document["anomaly_kyokus"] == 1
+    assert document["probability_per_analyzed_kyoku"] == 1.0
+    assert document["one_in_n_analyzed_kyokus"] == 1.0
+    assert document["anomalies"] == [
+        {
+            "source_path": "2025/2025010100gm-00a9-0000-12345678.mjson",
+            "log_id": "2025010100gm-00a9-0000-12345678",
+            "kyoku_index": 0,
+            "error_message": anomaly.error_message,
+        }
+    ]
+
+
+def test_continue_mode_discards_partial_hit_before_later_replay_error(
+    tmp_path: Path,
+) -> None:
+    anomalous_kyoku = _tsumo_hora_kyoku(_GREEN_WITH_F_WAIT, "F")
+    anomalous_kyoku.insert(-1, {"type": "hora", "actor": 0, "target": 0})
+    source = tmp_path / "2025" / "2025010100gm-00a9-0000-12345678.mjson"
+    source.parent.mkdir()
+    _write_game(
+        source,
+        _game(
+            anomalous_kyoku,
+            _tsumo_hora_kyoku(_GREEN_WITH_F_WAIT, "F"),
+        ),
+        gzip_=False,
+    )
+
+    result = analyze_rare_yakuman_game(
+        source,
+        raw_root=tmp_path,
+        yaku="緑一色",
+        continue_on_replay_error=True,
+    )
+
+    assert result.total_kyokus == 2
+    assert result.analyzed_kyokus == 1
+    assert result.anomaly_kyokus == 1
+    assert result.analyzed_kyokus + result.anomaly_kyokus == result.total_kyokus
+    assert result.matching_kyokus == 1
+    assert result.matching_hora_events == 1
+    assert [
+        (hit.kyoku_index, hit.matching_hora_event_indices) for hit in result.hits
+    ] == [(1, (2,))]
+    assert [anomaly.kyoku_index for anomaly in result.anomalies] == [0]
+    assert "unconsumed tsumo event" in result.anomalies[0].error_message
+
+
+def test_continue_mode_with_only_anomaly_has_safe_rates(tmp_path: Path) -> None:
+    source = tmp_path / "2025" / "2025010100gm-00a9-0000-12345678.mjson"
+    source.parent.mkdir()
+    _write_game(source, _game(_kakan_raw_anomaly_kyoku()), gzip_=False)
+
+    result = analyze_rare_yakuman_game(
+        source,
+        raw_root=tmp_path,
+        yaku="緑一色",
+        continue_on_replay_error=True,
+    )
+
+    assert result.total_kyokus == 1
+    assert result.analyzed_kyokus == 0
+    assert result.anomaly_kyokus == 1
+    assert result.matching_kyokus == 0
+    assert result.probability_per_analyzed_kyoku is None
+    assert result.one_in_n_analyzed_kyokus is None
+
+
+def test_continue_mode_does_not_collect_unexpected_runtime_error(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    source = tmp_path / "2025" / "2025010100gm-00a9-0000-12345678.mjson"
+    source.parent.mkdir()
+    _write_game(
+        source,
+        _game(_tsumo_hora_kyoku(_GREEN_WITH_F_WAIT, "F")),
+        gzip_=False,
+    )
+    monkeypatch.setattr(
+        rare_yakuman,
+        "replay_kyoku_horas",
+        lambda events: (_ for _ in ()).throw(RuntimeError("injected bug")),
+    )
+
+    with pytest.raises(RuntimeError, match="injected bug"):
+        analyze_rare_yakuman_game(
+            source,
+            raw_root=tmp_path,
+            yaku="緑一色",
+            continue_on_replay_error=True,
+        )
+
+
 def test_game_load_error_includes_source_context(tmp_path: Path) -> None:
     source = tmp_path / "2025" / "2025010100gm-00a9-0000-12345678.mjson"
     source.parent.mkdir()
     source.write_text("not JSON\n", encoding="utf-8")
 
     with pytest.raises(ValueError) as caught:
-        analyze_rare_yakuman_game(source, raw_root=tmp_path, yaku="緑一色")
+        analyze_rare_yakuman_game(
+            source,
+            raw_root=tmp_path,
+            yaku="緑一色",
+            continue_on_replay_error=True,
+        )
 
     assert "2025/2025010100gm-00a9-0000-12345678.mjson" in str(caught.value)
     assert caught.value.__cause__ is not None
+
+
+def test_continue_mode_does_not_collect_game_validation_error(tmp_path: Path) -> None:
+    source = tmp_path / "2025" / "2025010100gm-00a9-0000-12345678.mjson"
+    source.parent.mkdir()
+    _write_game(
+        source,
+        [
+            {"type": "start_game"},
+            {"type": "start_game"},
+            {"type": "end_game"},
+        ],
+        gzip_=False,
+    )
+
+    with pytest.raises(ValueError, match="exactly one start_game") as caught:
+        analyze_rare_yakuman_game(
+            source,
+            raw_root=tmp_path,
+            yaku="緑一色",
+            continue_on_replay_error=True,
+        )
+
+    assert "2025/2025010100gm-00a9-0000-12345678.mjson" in str(caught.value)
 
 
 def test_truncated_gzip_error_includes_source_context(tmp_path: Path) -> None:
@@ -706,7 +997,12 @@ def test_truncated_gzip_error_includes_source_context(tmp_path: Path) -> None:
     source.write_bytes(compressed[:-4])
 
     with pytest.raises(ValueError) as caught:
-        analyze_rare_yakuman_game(source, raw_root=tmp_path, yaku="緑一色")
+        analyze_rare_yakuman_game(
+            source,
+            raw_root=tmp_path,
+            yaku="緑一色",
+            continue_on_replay_error=True,
+        )
 
     message = str(caught.value)
     assert "2025/2025010100gm-00a9-0000-12345678.mjson" in message
@@ -743,7 +1039,12 @@ def test_game_split_error_includes_source_context(tmp_path: Path) -> None:
     _write_game(source, events, gzip_=False)
 
     with pytest.raises(ValueError) as caught:
-        analyze_rare_yakuman_game(source, raw_root=tmp_path, yaku="緑一色")
+        analyze_rare_yakuman_game(
+            source,
+            raw_root=tmp_path,
+            yaku="緑一色",
+            continue_on_replay_error=True,
+        )
 
     message = str(caught.value)
     assert "2025/2025010100gm-00a9-0000-12345678.mjson" in message
@@ -766,6 +1067,7 @@ def test_parallel_scan_propagates_worker_error_with_source_context(
             yaku="緑一色",
             workers=2,
             years=(2024, 2025),
+            continue_on_replay_error=True,
         )
 
     message = str(caught.value)

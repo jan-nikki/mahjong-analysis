@@ -16,6 +16,7 @@ def test_cli_defaults_and_required_yaku() -> None:
     assert args.raw_root == cli.DEFAULT_RAW_ROOT
     assert args.yaku == "緑一色"
     assert args.workers == 1
+    assert args.continue_on_replay_error is False
 
 
 def test_cli_rejects_non_positive_workers() -> None:
@@ -42,11 +43,28 @@ def test_cli_passes_arguments_and_prints_json(
     )
 
     exit_code = cli.main(
-        ["--raw-root", str(tmp_path), "--yaku", "緑一色", "--workers", "3"]
+        [
+            "--raw-root",
+            str(tmp_path),
+            "--yaku",
+            "緑一色",
+            "--workers",
+            "3",
+            "--continue-on-replay-error",
+        ]
     )
 
     assert exit_code == 0
-    assert calls == [(tmp_path, {"yaku": "緑一色", "workers": 3})]
+    assert calls == [
+        (
+            tmp_path,
+            {
+                "yaku": "緑一色",
+                "workers": 3,
+                "continue_on_replay_error": True,
+            },
+        )
+    ]
     assert (
         capsys.readouterr().out == '{\n  "result": "result",\n  "yaku": "緑一色"\n}\n'
     )
@@ -100,4 +118,7 @@ def test_cli_subprocess_stdout_is_utf8_independent_of_windows_locale(
     document = json.loads(decoded)
     assert document["yaku"] == "緑一色"
     assert document["total_games"] == 0
+    assert document["total_kyokus"] == 0
+    assert document["analyzed_kyokus"] == 0
+    assert document["anomaly_kyokus"] == 0
     assert completed.stderr == b""

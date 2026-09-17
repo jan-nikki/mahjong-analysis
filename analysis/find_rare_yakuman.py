@@ -30,6 +30,11 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         help=f"implemented yaku name ({', '.join(DETECTORS)})",
     )
     parser.add_argument("--workers", type=_positive_int, default=1)
+    parser.add_argument(
+        "--continue-on-replay-error",
+        action="store_true",
+        help="record kyoku replay validation errors as anomalies and continue",
+    )
     return parser.parse_args(argv)
 
 
@@ -41,6 +46,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.raw_root,
             yaku=args.yaku,
             workers=args.workers,
+            continue_on_replay_error=args.continue_on_replay_error,
         )
     except ValueError as error:
         raise SystemExit(str(error)) from error
