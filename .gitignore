@@ -224,3 +224,11 @@ data/processed/
 # Generated analysis outputs
 outputs/
 data/archives/
+
+# Local browser automation profiles (may contain session data)
+.edge-cdp-profile/
+.note-playwright-profile/
+
+# Large generated research detail files
+research/results/toitsu-drop-analysis-v1.json
+research/results/kanchan-drop-analysis-v1.json
