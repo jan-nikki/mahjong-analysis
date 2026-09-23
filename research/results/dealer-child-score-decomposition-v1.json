@@ -1,0 +1,135 @@
+{
+  "analysis_name": "dealer-child-score-decomposition-v1",
+  "schema_version": 1,
+  "source": {
+    "summary_logical_path": "outputs/dealer-child-riichi-points/summary-v1.json",
+    "summary_sha256": "c2df6717958a5716558420f6664afd7165cfc019243a002fc4c1a1005da7d77f",
+    "records_logical_path": "outputs/dealer-child-riichi-points/records-v1.jsonl.gz",
+    "records_sha256": "6f318b3ee39c3c053a326d4a136bf29563d87f862176e55b4c18b5023fd41b42",
+    "established_riichis": 10706714,
+    "winning_riichis": 5339620,
+    "converted_wins": 5339620,
+    "unsupported_scores": 0,
+    "ambiguous_scores": 0
+  },
+  "definitions": {
+    "population": "winning established riichis",
+    "counterfactual": "fix the observed tsumo/ron method and canonical score-conversion tier, then exchange only the dealer/nondealer payment rule",
+    "not_full_hand_rescoring": true,
+    "factors": {
+      "R": "dealer/nondealer payment rule",
+      "M": "tsumo/ron composition",
+      "B": "score-tier composition conditional on tsumo/ron"
+    },
+    "decomposition_type": "descriptive three-factor Shapley decomposition, not a causal estimate"
+  },
+  "primary_2020_2025": {
+    "all_riichi": {
+      "dealer_wins": 705854,
+      "nondealer_wins": 1744017,
+      "dealer_mean_points": 9690.3991476991,
+      "nondealer_mean_points": 6652.866686505923,
+      "dealer_to_nondealer_ratio": 1.4565749780247714,
+      "observed_gap_points": 3037.5324611931765,
+      "dealer_tsumo_share_among_wins": 0.5277366140873325,
+      "nondealer_tsumo_share_among_wins": 0.4785452206027808,
+      "direct_one_point_five_comparison": {
+        "nondealer_mean_times_1_5": 9979.300029758884,
+        "nondealer_composition_under_dealer_rule": 9956.581099840196,
+        "after_changing_method_mix_to_dealer": 10088.603327352856,
+        "observed_dealer_mean_after_changing_tier_mix": 9690.3991476991,
+        "total_shortfall_from_1_5": -288.90088205978464,
+        "rounding_component_with_nondealer_composition": -22.71892991868772,
+        "total_composition_component_under_dealer_rule": -266.1819521410962,
+        "method_mix_step": 132.0222275126598,
+        "within_method_tier_mix_step": -398.204179653756
+      },
+      "shapley": {
+        "R_points": 3259.1732148146534,
+        "M_points": 108.69488065453956,
+        "B_points": -330.3356342760164,
+        "R_share_of_gap": 1.0729673695518018,
+        "M_share_of_gap": 0.03578394043296677,
+        "B_share_of_gap": -0.10875130998476865,
+        "efficiency_residual": 0
+      },
+      "rounding_effect_points": {
+        "dealer_score_source": -23.84607865082581,
+        "nondealer_score_source": -22.71892991868772,
+        "pooled_score_source": -23.043682708191575
+      }
+    },
+    "normal_riichi_only": {
+      "dealer_mean_points": 9681.087925157486,
+      "nondealer_mean_points": 6647.164187874029,
+      "dealer_to_nondealer_ratio": 1.4564237698262423,
+      "observed_gap_points": 3033.9237372834573,
+      "shapley": {
+        "R_points": 3256.1941656232943,
+        "M_points": 108.88123075715707,
+        "B_points": -331.15165909699385,
+        "efficiency_residual": 0
+      }
+    }
+  },
+  "long_term_2009_2025": {
+    "all_riichi": {
+      "dealer_mean_points": 9660.518885738822,
+      "nondealer_mean_points": 6646.828460314431,
+      "dealer_to_nondealer_ratio": 1.453402768465884,
+      "observed_gap_points": 3013.690425424392,
+      "shapley": {
+        "R_points": 3252.5488171331435,
+        "M_points": 106.99333133749224,
+        "B_points": -345.85172304624354,
+        "efficiency_residual": 0
+      }
+    },
+    "normal_riichi_only": {
+      "dealer_mean_points": 9650.834651192243,
+      "nondealer_mean_points": 6640.733288247516,
+      "dealer_to_nondealer_ratio": 1.4532784607193718,
+      "observed_gap_points": 3010.1013629447275,
+      "shapley": {
+        "R_points": 3249.4122621927595,
+        "M_points": 107.03037409742463,
+        "B_points": -346.34127334545667,
+        "efficiency_residual": 0
+      }
+    }
+  },
+  "yearly_summary": {
+    "all_17_years_have_positive_R": true,
+    "all_17_years_have_positive_M": true,
+    "all_17_years_have_negative_B": true,
+    "dealer_to_nondealer_ratio_min": {
+      "year": 2009,
+      "value": 1.437026173555882
+    },
+    "dealer_to_nondealer_ratio_max": {
+      "year": 2024,
+      "value": 1.459354863297206
+    },
+    "primary_year_B_range_points": {
+      "minimum": -349.8224763606488,
+      "maximum": -311.33063197446336
+    }
+  },
+  "audit": {
+    "review_model": "astra",
+    "severity_findings": 0,
+    "independent_checks": 9508,
+    "mismatches": 0,
+    "exact_fraction_values_checked": 840,
+    "verified_slice_count": 40,
+    "input_hashes_and_record_counts_verified": true,
+    "tier_distributions_and_shapley_recomputed_independently": true
+  },
+  "interpretation_limits": [
+    "B being negative does not show that dealer status causally makes hands cheaper",
+    "the conversion fixes score tier and win method; it is not complete hand, yaku, han, or fu rescoring",
+    "yearly differences and Shapley contributions have no confidence intervals or significance tests",
+    "the long-term period contains the primary period and is not an independent replication sample",
+    "the rounding effect is not a fourth Shapley factor and must not be added to R, M, and B"
+  ]
+}

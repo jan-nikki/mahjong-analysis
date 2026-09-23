@@ -1,0 +1,625 @@
+{
+  "analysis_name": "dealer-child-riichi-points-v1",
+  "benchmark": {
+    "nondealer_points": 6500,
+    "provenance_status": "external source and definition not yet verified"
+  },
+  "definitions": {
+    "dealer": "riichi actor equals start_kyoku.oya",
+    "hand_points": "sum of negative non-winner hora deltas, less 300 points per honba only for the first (honba-awarded) hora in a multi-ron result",
+    "hand_points_excludes": [
+      "honba",
+      "kyotaku"
+    ],
+    "mean_hand_points_ci95": "game-clustered normal sandwich interval",
+    "nondealer": "riichi actor differs from start_kyoku.oya",
+    "normal_riichi_sensitivity": "same metrics after excluding first-go-around double riichi",
+    "rate_ci95": "Wilson score interval",
+    "settlement_gain": "hora.deltas[winner], including honba and awarded kyotaku, excluding the earlier riichi payment",
+    "tsumo_points": "total paid by all three opponents",
+    "win_method": "tsumo when hora.actor == hora.target; otherwise ron"
+  },
+  "periods": {
+    "long_term_2009_2025": {
+      "comparison": {
+        "dealer_to_nondealer_mean_ratio": 1.453402768465884,
+        "dealer_to_nondealer_ratio_minus_1_5": -0.0465972315341161,
+        "nondealer_benchmark_points": 6500,
+        "nondealer_mean_ci95_contains_6500": false,
+        "nondealer_mean_minus_6500": 146.82846031443114
+      },
+      "dealer": {
+        "draws": 599587,
+        "hand_points": {
+          "haneman_or_higher_rate": 0.1393544290045216,
+          "mangan_or_higher_rate": 0.3807813486192018,
+          "mean": 9660.518885738822,
+          "mean_ci95": [
+            9652.511951292254,
+            9668.52582018539
+          ],
+          "median": 9600.0,
+          "per_established_riichi": 4709.468961014519
+        },
+        "other_wins": 1026088,
+        "riichis": 3172027,
+        "ron_share_among_wins": 0.4688925936656078,
+        "tsumo_share_among_wins": 0.5311074063343921,
+        "win_methods": {
+          "ron": {
+            "mean_hand_points": 8277.356211029786,
+            "probability_per_established_riichi": 0.22858348935869713,
+            "share_among_wins": 0.4688925936656078,
+            "wins": 725073
+          },
+          "tsumo": {
+            "mean_hand_points": 10881.655564065317,
+            "probability_per_established_riichi": 0.2589129915981169,
+            "share_among_wins": 0.5311074063343921,
+            "wins": 821279
+          }
+        },
+        "win_rate": 0.487496480956814,
+        "win_rate_ci95": [
+          0.48694643167312496,
+          0.48804656052504686
+        ],
+        "wins": 1546352
+      },
+      "east_kyokus": 14434809,
+      "established_riichis": 10706714,
+      "nondealer": {
+        "draws": 1184675,
+        "hand_points": {
+          "haneman_or_higher_rate": 0.15029968881713604,
+          "mangan_or_higher_rate": 0.4024919937109637,
+          "mean": 6646.828460314431,
+          "mean_ci95": [
+            6643.4089558054675,
+            6650.247964823395
+          ],
+          "median": 7700.0,
+          "per_established_riichi": 3346.2838867759206
+        },
+        "other_wins": 2556744,
+        "riichis": 7534687,
+        "ron_share_among_wins": 0.517556629270592,
+        "tsumo_share_among_wins": 0.482443370729408,
+        "win_methods": {
+          "ron": {
+            "mean_hand_points": 5785.333412115028,
+            "probability_per_established_riichi": 0.2605590650281823,
+            "share_among_wins": 0.517556629270592,
+            "wins": 1963231
+          },
+          "tsumo": {
+            "mean_hand_points": 7571.024957418894,
+            "probability_per_established_riichi": 0.2428816220235824,
+            "share_among_wins": 0.482443370729408,
+            "wins": 1830037
+          }
+        },
+        "win_rate": 0.5034406870517647,
+        "win_rate_ci95": [
+          0.5030836796439047,
+          0.5037976909512505
+        ],
+        "wins": 3793268
+      },
+      "normal_riichi_only": {
+        "comparison": {
+          "dealer_to_nondealer_mean_ratio": 1.4532784607193718,
+          "dealer_to_nondealer_ratio_minus_1_5": -0.046721539280628166,
+          "nondealer_benchmark_points": 6500,
+          "nondealer_mean_ci95_contains_6500": false,
+          "nondealer_mean_minus_6500": 140.7332882475157
+        },
+        "dealer": {
+          "draws": 597987,
+          "hand_points": {
+            "haneman_or_higher_rate": 0.13895612585200795,
+            "mangan_or_higher_rate": 0.38003240796365634,
+            "mean": 9650.834651192243,
+            "mean_ci95": [
+              9642.812639471316,
+              9658.85666291317
+            ],
+            "median": 9600.0,
+            "per_established_riichi": 4698.567046593198
+          },
+          "other_wins": 1024897,
+          "riichis": 3162629,
+          "ron_share_among_wins": 0.4688860817862698,
+          "tsumo_share_among_wins": 0.5311139182137302,
+          "win_methods": {
+            "ron": {
+              "mean_hand_points": 8267.438449232304,
+              "probability_per_established_riichi": 0.22828001640407394,
+              "share_among_wins": 0.4688860817862698,
+              "wins": 721965
+            },
+            "tsumo": {
+              "mean_hand_points": 10872.145564821834,
+              "probability_per_established_riichi": 0.2585760138163534,
+              "share_among_wins": 0.5311139182137302,
+              "wins": 817780
+            }
+          },
+          "win_rate": 0.4868560302204274,
+          "win_rate_ci95": [
+            0.48630518319620725,
+            0.48740690917501756
+          ],
+          "wins": 1539745
+        },
+        "nondealer": {
+          "draws": 1181505,
+          "hand_points": {
+            "haneman_or_higher_rate": 0.14993445073049885,
+            "mangan_or_higher_rate": 0.40174430725322735,
+            "mean": 6640.733288247516,
+            "mean_ci95": [
+              6637.30564820974,
+              6644.160928285291
+            ],
+            "median": 7700.0,
+            "per_established_riichi": 3338.5259034550504
+          },
+          "other_wins": 2552451,
+          "riichis": 7508979,
+          "ron_share_among_wins": 0.5175658532411591,
+          "tsumo_share_among_wins": 0.48243414675884094,
+          "win_methods": {
+            "ron": {
+              "mean_hand_points": 5779.362408979729,
+              "probability_per_established_riichi": 0.2601982240195371,
+              "share_among_wins": 0.5175658532411591,
+              "wins": 1953823
+            },
+            "tsumo": {
+              "mean_hand_points": 7564.830716011421,
+              "probability_per_established_riichi": 0.24253630220566605,
+              "share_among_wins": 0.48243414675884094,
+              "wins": 1821200
+            }
+          },
+          "win_rate": 0.5027345262252032,
+          "win_rate_ci95": [
+            0.5023769054475962,
+            0.5030921442049427
+          ],
+          "wins": 3775023
+        }
+      },
+      "scanned_files": 2500236,
+      "target_games": 2500235,
+      "years": [
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ]
+    },
+    "primary_2020_2025": {
+      "comparison": {
+        "dealer_to_nondealer_mean_ratio": 1.4565749780247714,
+        "dealer_to_nondealer_ratio_minus_1_5": -0.04342502197522857,
+        "nondealer_benchmark_points": 6500,
+        "nondealer_mean_ci95_contains_6500": false,
+        "nondealer_mean_minus_6500": 152.8666865059231
+      },
+      "dealer": {
+        "draws": 267523,
+        "hand_points": {
+          "haneman_or_higher_rate": 0.14098807968786747,
+          "mangan_or_higher_rate": 0.3828936295607874,
+          "mean": 9690.3991476991,
+          "mean_ci95": [
+            9678.544216761371,
+            9702.254078636828
+          ],
+          "median": 11600.0,
+          "per_established_riichi": 4701.4137906622045
+        },
+        "other_wins": 481506,
+        "riichis": 1454883,
+        "ron_share_among_wins": 0.4722633859126675,
+        "tsumo_share_among_wins": 0.5277366140873325,
+        "win_methods": {
+          "ron": {
+            "mean_hand_points": 8310.919786770022,
+            "probability_per_established_riichi": 0.22912426634994015,
+            "share_among_wins": 0.4722633859126675,
+            "wins": 333349
+          },
+          "tsumo": {
+            "mean_hand_points": 10924.87402853653,
+            "probability_per_established_riichi": 0.25603777073482886,
+            "share_among_wins": 0.5277366140873325,
+            "wins": 372505
+          }
+        },
+        "win_rate": 0.485162037084769,
+        "win_rate_ci95": [
+          0.48434997128843454,
+          0.48597418123692054
+        ],
+        "wins": 705854
+      },
+      "east_kyokus": 6374545,
+      "established_riichis": 4936197,
+      "nondealer": {
+        "draws": 534546,
+        "hand_points": {
+          "haneman_or_higher_rate": 0.15141079473422564,
+          "mangan_or_higher_rate": 0.40297829665651197,
+          "mean": 6652.866686505923,
+          "mean_ci95": [
+            6647.820286521692,
+            6657.9130864901545
+          ],
+          "median": 7700.0,
+          "per_established_riichi": 3332.854376249887
+        },
+        "other_wins": 1202751,
+        "riichis": 3481314,
+        "ron_share_among_wins": 0.5214547793972192,
+        "tsumo_share_among_wins": 0.4785452206027808,
+        "win_methods": {
+          "ron": {
+            "mean_hand_points": 5792.800073892763,
+            "probability_per_established_riichi": 0.2612306732457917,
+            "share_among_wins": 0.5214547793972192,
+            "wins": 909426
+          },
+          "tsumo": {
+            "mean_hand_points": 7590.052612597068,
+            "probability_per_established_riichi": 0.2397344795671979,
+            "share_among_wins": 0.4785452206027808,
+            "wins": 834591
+          }
+        },
+        "win_rate": 0.5009651528129896,
+        "win_rate_ci95": [
+          0.5004399266771276,
+          0.5014903768188566
+        ],
+        "wins": 1744017
+      },
+      "normal_riichi_only": {
+        "comparison": {
+          "dealer_to_nondealer_mean_ratio": 1.4564237698262423,
+          "dealer_to_nondealer_ratio_minus_1_5": -0.04357623017375767,
+          "nondealer_benchmark_points": 6500,
+          "nondealer_mean_ci95_contains_6500": false,
+          "nondealer_mean_minus_6500": 147.16418787402927
+        },
+        "dealer": {
+          "draws": 266813,
+          "hand_points": {
+            "haneman_or_higher_rate": 0.140600014795509,
+            "mangan_or_higher_rate": 0.3821366991219434,
+            "mean": 9681.087925157486,
+            "mean_ci95": [
+              9669.211789319039,
+              9692.964060995933
+            ],
+            "median": 11600.0,
+            "per_established_riichi": 4690.833115047908
+          },
+          "other_wins": 480971,
+          "riichis": 1450700,
+          "ron_share_among_wins": 0.47222854508931367,
+          "tsumo_share_among_wins": 0.5277714549106863,
+          "win_methods": {
+            "ron": {
+              "mean_hand_points": 8301.016759204307,
+              "probability_per_established_riichi": 0.22881160818915006,
+              "share_among_wins": 0.47222854508931367,
+              "wins": 331937
+            },
+            "tsumo": {
+              "mean_hand_points": 10915.91976904353,
+              "probability_per_established_riichi": 0.2557241331770869,
+              "share_among_wins": 0.5277714549106863,
+              "wins": 370979
+            }
+          },
+          "win_rate": 0.484535741366237,
+          "win_rate_ci95": [
+            0.48372253825761197,
+            0.48534902637347005
+          ],
+          "wins": 702916
+        },
+        "nondealer": {
+          "draws": 533037,
+          "hand_points": {
+            "haneman_or_higher_rate": 0.15107952624232932,
+            "mangan_or_higher_rate": 0.4022936728431509,
+            "mean": 6647.164187874029,
+            "mean_ci95": [
+              6642.105950447934,
+              6652.222425300124
+            ],
+            "median": 7700.0,
+            "per_established_riichi": 3325.625177781307
+          },
+          "other_wins": 1200823,
+          "riichis": 3469853,
+          "ron_share_among_wins": 0.5214997986743034,
+          "tsumo_share_among_wins": 0.4785002013256966,
+          "win_methods": {
+            "ron": {
+              "mean_hand_points": 5787.360049485264,
+              "probability_per_established_riichi": 0.2609101884143219,
+              "share_among_wins": 0.5214997986743034,
+              "wins": 905320
+            },
+            "tsumo": {
+              "mean_hand_points": 7584.233145894955,
+              "probability_per_established_riichi": 0.2393971733096474,
+              "share_among_wins": 0.4785002013256966,
+              "wins": 830673
+            }
+          },
+          "win_rate": 0.5003073617239693,
+          "win_rate_ci95": [
+            0.49978126873322487,
+            0.5008334540341568
+          ],
+          "wins": 1735993
+        }
+      },
+      "scanned_files": 1105845,
+      "target_games": 1105844,
+      "years": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope": {
+    "aka_flag": true,
+    "bakaze": "E",
+    "primary_years": [
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "riichi_population": "established",
+    "rule_code": "00a9",
+    "selected_years": [
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ]
+  },
+  "source": {
+    "cohort_manifest_role": "count validation only",
+    "cohort_validation_manifest": "data/processed/riichi-waits-v1/manifest.json",
+    "format": "MJAI JSON Lines",
+    "raw_root_pattern": "data/raw/YYYY/*.mjson",
+    "release_tag": "v2.0.0",
+    "repository": "NikkeTryHard/tenhou-to-mjai"
+  },
+  "validation": {
+    "arithmetic_cohorts_checked": 20,
+    "arithmetic_consistent": true,
+    "audit_sample_categories_checked": 8,
+    "manifest_years_matched": 17,
+    "production_tests_passed": 958,
+    "source_artifacts_sha256": {
+      "records-v1.jsonl.gz": "6f318b3ee39c3c053a326d4a136bf29563d87f862176e55b4c18b5023fd41b42",
+      "summary-v1.json": "c2df6717958a5716558420f6664afd7165cfc019243a002fc4c1a1005da7d77f",
+      "summary-v1.md": "7ce97fb30e6eb251e87604b69d043ced80f6685aaa4384178b924529097dadf6"
+    }
+  },
+  "years": [
+    {
+      "dealer_mean_hand_points": 9432.879425600397,
+      "dealer_to_nondealer_mean_ratio": 1.437026173555882,
+      "dealer_tsumo_share_among_wins": 0.5261203268135677,
+      "established_riichis": 28298,
+      "nondealer_mean_hand_points": 6564.166748792747,
+      "nondealer_mean_minus_6500": 64.16674879274706,
+      "nondealer_tsumo_share_among_wins": 0.4788607470188233,
+      "year": 2009
+    },
+    {
+      "dealer_mean_hand_points": 9516.515364823535,
+      "dealer_to_nondealer_mean_ratio": 1.4468400880994887,
+      "dealer_tsumo_share_among_wins": 0.526991601534055,
+      "established_riichis": 284903,
+      "nondealer_mean_hand_points": 6577.447945421563,
+      "nondealer_mean_minus_6500": 77.44794542156342,
+      "nondealer_tsumo_share_among_wins": 0.4821259563057023,
+      "year": 2010
+    },
+    {
+      "dealer_mean_hand_points": 9500.22521753967,
+      "dealer_to_nondealer_mean_ratio": 1.4439759223981092,
+      "dealer_tsumo_share_among_wins": 0.5378945572427913,
+      "established_riichis": 401355,
+      "nondealer_mean_hand_points": 6579.213039620493,
+      "nondealer_mean_minus_6500": 79.21303962049296,
+      "nondealer_tsumo_share_among_wins": 0.49143104664892096,
+      "year": 2011
+    },
+    {
+      "dealer_mean_hand_points": 9530.907498664134,
+      "dealer_to_nondealer_mean_ratio": 1.4480603955942675,
+      "dealer_tsumo_share_among_wins": 0.544217182212195,
+      "established_riichis": 458210,
+      "nondealer_mean_hand_points": 6581.8439118022825,
+      "nondealer_mean_minus_6500": 81.84391180228249,
+      "nondealer_tsumo_share_among_wins": 0.49576066557856063,
+      "year": 2012
+    },
+    {
+      "dealer_mean_hand_points": 9584.489372323376,
+      "dealer_to_nondealer_mean_ratio": 1.4520850234189189,
+      "dealer_tsumo_share_among_wins": 0.54022490213079,
+      "established_riichis": 520642,
+      "nondealer_mean_hand_points": 6600.50149801614,
+      "nondealer_mean_minus_6500": 100.50149801614043,
+      "nondealer_tsumo_share_among_wins": 0.49408621015412024,
+      "year": 2013
+    },
+    {
+      "dealer_mean_hand_points": 9644.554491061044,
+      "dealer_to_nondealer_mean_ratio": 1.4513967197258868,
+      "dealer_tsumo_share_among_wins": 0.5409297473590811,
+      "established_riichis": 573214,
+      "nondealer_mean_hand_points": 6645.01604556646,
+      "nondealer_mean_minus_6500": 145.01604556645998,
+      "nondealer_tsumo_share_among_wins": 0.4929748431072866,
+      "year": 2014
+    },
+    {
+      "dealer_mean_hand_points": 9611.174381918718,
+      "dealer_to_nondealer_mean_ratio": 1.4505909197728208,
+      "dealer_tsumo_share_among_wins": 0.5353259973396947,
+      "established_riichis": 625442,
+      "nondealer_mean_hand_points": 6625.6959497746875,
+      "nondealer_mean_minus_6500": 125.6959497746875,
+      "nondealer_tsumo_share_among_wins": 0.48771800429937306,
+      "year": 2015
+    },
+    {
+      "dealer_mean_hand_points": 9643.19750112286,
+      "dealer_to_nondealer_mean_ratio": 1.4497955812232954,
+      "dealer_tsumo_share_among_wins": 0.5333591931730023,
+      "established_riichis": 665852,
+      "nondealer_mean_hand_points": 6651.418742072734,
+      "nondealer_mean_minus_6500": 151.41874207273395,
+      "nondealer_tsumo_share_among_wins": 0.4847138972668694,
+      "year": 2016
+    },
+    {
+      "dealer_mean_hand_points": 9729.06034367414,
+      "dealer_to_nondealer_mean_ratio": 1.4539689897056802,
+      "dealer_tsumo_share_among_wins": 0.5320832616549114,
+      "established_riichis": 716305,
+      "nondealer_mean_hand_points": 6691.380911530682,
+      "nondealer_mean_minus_6500": 191.38091153068217,
+      "nondealer_tsumo_share_among_wins": 0.4809540299541165,
+      "year": 2017
+    },
+    {
+      "dealer_mean_hand_points": 9713.899860917942,
+      "dealer_to_nondealer_mean_ratio": 1.453283297484081,
+      "dealer_tsumo_share_among_wins": 0.5281223922114048,
+      "established_riichis": 744797,
+      "nondealer_mean_hand_points": 6684.106173747824,
+      "nondealer_mean_minus_6500": 184.10617374782396,
+      "nondealer_tsumo_share_among_wins": 0.4781800736495993,
+      "year": 2018
+    },
+    {
+      "dealer_mean_hand_points": 9699.871703755665,
+      "dealer_to_nondealer_mean_ratio": 1.4518840686969432,
+      "dealer_tsumo_share_among_wins": 0.5254792649271296,
+      "established_riichis": 751499,
+      "nondealer_mean_hand_points": 6680.885831649933,
+      "nondealer_mean_minus_6500": 180.8858316499327,
+      "nondealer_tsumo_share_among_wins": 0.47830102956526965,
+      "year": 2019
+    },
+    {
+      "dealer_mean_hand_points": 9716.531852875987,
+      "dealer_to_nondealer_mean_ratio": 1.4543343248833607,
+      "dealer_tsumo_share_among_wins": 0.5314537796560644,
+      "established_riichis": 975174,
+      "nondealer_mean_hand_points": 6681.085419375812,
+      "nondealer_mean_minus_6500": 181.0854193758123,
+      "nondealer_tsumo_share_among_wins": 0.47964947519970275,
+      "year": 2020
+    },
+    {
+      "dealer_mean_hand_points": 9681.972800481171,
+      "dealer_to_nondealer_mean_ratio": 1.4543505648908686,
+      "dealer_tsumo_share_among_wins": 0.5313011661710162,
+      "established_riichis": 831676,
+      "nondealer_mean_hand_points": 6657.248282643385,
+      "nondealer_mean_minus_6500": 157.2482826433852,
+      "nondealer_tsumo_share_among_wins": 0.4817580832292769,
+      "year": 2021
+    },
+    {
+      "dealer_mean_hand_points": 9685.370985085792,
+      "dealer_to_nondealer_mean_ratio": 1.4565602052335165,
+      "dealer_tsumo_share_among_wins": 0.5284398522605077,
+      "established_riichis": 751967,
+      "nondealer_mean_hand_points": 6649.482081334928,
+      "nondealer_mean_minus_6500": 149.4820813349279,
+      "nondealer_tsumo_share_among_wins": 0.4799643777617612,
+      "year": 2022
+    },
+    {
+      "dealer_mean_hand_points": 9685.015140430969,
+      "dealer_to_nondealer_mean_ratio": 1.45776527980882,
+      "dealer_tsumo_share_among_wins": 0.5285445739843873,
+      "established_riichis": 756643,
+      "nondealer_mean_hand_points": 6643.741125252427,
+      "nondealer_mean_minus_6500": 143.74112525242708,
+      "nondealer_tsumo_share_among_wins": 0.4782978468316917,
+      "year": 2023
+    },
+    {
+      "dealer_mean_hand_points": 9676.895092055829,
+      "dealer_to_nondealer_mean_ratio": 1.459354863297206,
+      "dealer_tsumo_share_among_wins": 0.5230352073168658,
+      "established_riichis": 825963,
+      "nondealer_mean_hand_points": 6630.940380184332,
+      "nondealer_mean_minus_6500": 130.94038018433184,
+      "nondealer_tsumo_share_among_wins": 0.47480867346938777,
+      "year": 2024
+    },
+    {
+      "dealer_mean_hand_points": 9690.837888193273,
+      "dealer_to_nondealer_mean_ratio": 1.4576369317438853,
+      "dealer_tsumo_share_among_wins": 0.5228125634663441,
+      "established_riichis": 794774,
+      "nondealer_mean_hand_points": 6648.320769836261,
+      "nondealer_mean_minus_6500": 148.3207698362612,
+      "nondealer_tsumo_share_among_wins": 0.4766127488175185,
+      "year": 2025
+    }
+  ]
+}
