@@ -1,5 +1,12 @@
 # コンボ危険度予測・2024 validation前固定仕様
 
+> **Status: superseded（履歴資料）**
+>
+> この文書は2024年validation前に固定した実行条件の記録であり、現在の作業計画ではない。
+> 最終判断は
+> [`combo-nonutility-assessment.md`](../validation/combo-nonutility-assessment.md) を正本とし、
+> 単純コンボ戦術の追加調査は終了している。
+
 ## 状態
 
 この文書は2020〜2023年だけを使う開発仕様である。2024年validationと2025年holdoutは、

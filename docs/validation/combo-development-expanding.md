@@ -1,5 +1,12 @@
 # コンボ危険度予測・固定標本expanding-window検証記録
 
+> **Status: superseded（履歴資料）**
+>
+> この文書は最終評価前の開発解析記録であり、ここに記載した「次段階」は現在の
+> 作業計画ではない。最終判断は
+> [`combo-nonutility-assessment.md`](combo-nonutility-assessment.md) を正本とし、
+> 単純コンボ戦術の追加調査は終了している。
+
 ## 位置づけ
 
 2020〜2023年の固定ランダム標本だけを用い、単純コンボ特徴の年別安定性と、局所未見
