@@ -1,5 +1,12 @@
 # コンボ理論の数理・実戦検証仕様
 
+> **Status: superseded（履歴資料）**
+>
+> この文書は検証開始時の仕様であり、「今後実装」などの記述は現在の作業計画ではない。
+> 最終判断は
+> [`combo-nonutility-assessment.md`](../validation/combo-nonutility-assessment.md) を正本とし、
+> 単純コンボ戦術の追加調査は終了している。
+
 ## 目的
 
 対リーチで切る牌の危険度を、未見牌から作れる局所待ち部品の数で比較する

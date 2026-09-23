@@ -1,5 +1,12 @@
 # コンボ危険度予測・2024年独立validation仕様
 
+> **Status: superseded（履歴資料）**
+>
+> この文書は2024年独立validationの実行条件を固定した履歴であり、現在の作業計画ではない。
+> 最終判断は
+> [`combo-nonutility-assessment.md`](../validation/combo-nonutility-assessment.md) を正本とし、
+> 単純コンボ戦術の追加調査は終了している。
+
 ## 前提
 
 2024年を選択・抽出する前に、`combo-development-primary-r1000-v2`のfreeze bundleが
