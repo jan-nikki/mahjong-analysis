@@ -7,6 +7,9 @@ dependencies = [
     "scipy",
 ]
 
+[project.optional-dependencies]
+figures = ["Pillow>=10"]
+
 [dependency-groups]
 dev = [
     "pytest",
