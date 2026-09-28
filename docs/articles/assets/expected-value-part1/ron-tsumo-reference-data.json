@@ -1,0 +1,49 @@
+{
+  "examples": [
+    {
+      "label": "平和ドラ2",
+      "outcomes": [
+        {
+          "remaining": 8,
+          "ron": 7700,
+          "tsumo_total": 8000
+        }
+      ],
+      "ron_index": 184800,
+      "tsumo_index": 64000,
+      "combined_index": 248800,
+      "tsumo_normalized": 8000.0,
+      "combined_normalized": 7775.0
+    },
+    {
+      "label": "一通・高安あり",
+      "outcomes": [
+        {
+          "remaining": 4,
+          "ron": 8000,
+          "tsumo_total": 12000
+        },
+        {
+          "remaining": 4,
+          "ron": 3900,
+          "tsumo_total": 5200
+        }
+      ],
+      "ron_index": 142800,
+      "tsumo_index": 68800,
+      "combined_index": 211600,
+      "tsumo_normalized": 8600.0,
+      "combined_normalized": 6612.5
+    }
+  ],
+  "assumptions": {
+    "seat": "non-dealer",
+    "remaining_wait_tiles": 8,
+    "ron_channel_weight": 3,
+    "tsumo_channel_weight": 1,
+    "riichi": true,
+    "ura_ippatsu_honba": false,
+    "kiriage": false,
+    "purpose": "Hypothetical comparison index, not measured EV or app reproduction."
+  }
+}
